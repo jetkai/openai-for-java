@@ -8,7 +8,7 @@ import java.nio.file.Path;
 
 public class ConvertImageFormat {
 
-    /**
+    /*
      * Required format for OpenAI
      */
     public static Path convertPngToRGBA(Path inputPath) {

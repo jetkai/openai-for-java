@@ -1,2 +1,2 @@
-rootProject.name = "chatgpt-for-java"
+rootProject.name = "openai-for-java"
 

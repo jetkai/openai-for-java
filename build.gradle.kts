@@ -39,7 +39,6 @@ publishing {
             credentials {
                 username = property("mavenUsername") as String
                 password = property("mavenPassword") as String
-                print(username)
             }
         }
     }

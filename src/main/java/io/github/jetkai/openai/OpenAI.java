@@ -2,6 +2,7 @@ package io.github.jetkai.openai;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.jetkai.openai.api.*;
 import io.github.jetkai.openai.api.data.completion.CompletionData;
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionChoice;
@@ -23,7 +24,6 @@ import io.github.jetkai.openai.api.data.transcription.TranscriptionResponseData;
 import io.github.jetkai.openai.api.data.translation.TranslationData;
 import io.github.jetkai.openai.api.data.translation.TranslationResponseData;
 import io.github.jetkai.openai.net.HttpClientInstance;
-import io.github.jetkai.openai.api.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

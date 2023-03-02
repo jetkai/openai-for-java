@@ -12,7 +12,7 @@ public class HttpClientInstance {
     private final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
             .followRedirects(HttpClient.Redirect.ALWAYS)
-            .connectTimeout(Duration.ofSeconds(15)) //15 seconds timeout
+            .connectTimeout(Duration.ofSeconds(60)) //60 seconds timeout
             .build();
 
     public CompletableFuture<HttpResponse<String>> getResponse(Object data, RequestBuilder requestBuilder) {
