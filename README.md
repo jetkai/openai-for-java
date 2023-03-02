@@ -1,10 +1,12 @@
 # OpenAI For Java
 
-OpenAI library for Java - Requires JDK 11 at minimum.
-
 ###### ⚠️ This library is currently under-development as the API has only been public since the 1st of March.
 
 API Reference -> https://platform.openai.com/docs/api-reference/
+
+## Minimum Requirements
+- JDK 11
+- An OpenAI API Key - **You can get a free API key from** https://platform.openai.com/account/api-keys
 
 ## Available API(s)
 - [GetModel](https://platform.openai.com/docs/api-reference/models/retrieve) -> `https://api.openai.com/v1/models`
