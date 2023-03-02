@@ -12,6 +12,7 @@ import org.gpt.api.data.edit.EditData;
 import org.gpt.api.data.image.ImageData;
 import org.gpt.api.data.image.ImageResponseData;
 import org.gpt.api.data.image.ImageResponses;
+import org.gpt.api.data.image.edit.ImageEditData;
 import org.gpt.api.data.model.ModelData;
 import org.gpt.api.data.model.ModelsData;
 import org.gpt.net.HttpClientInstance;
@@ -280,6 +281,30 @@ public class ChatGPT {
 
     public ImageResponseData createImageResponse(ImageData imageData) {
         CreateImage completion = new CreateImage(this, imageData);
+
+        if(completion.getBody().contains("Incorrect API key")) {
+            System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
+                    "You can find your API key at https://platform.openai");
+            return null;
+        }
+
+        if(completion.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(completion.getBody());
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        ImageResponseData data;
+        try {
+            data = mapper.readValue(completion.getBody(), ImageResponseData.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return data;
+    }
+
+    public ImageResponseData createImageEditResponse(ImageEditData imageData) {
+        CreateImageEdit completion = new CreateImageEdit(this, imageData);
 
         if(completion.getBody().contains("Incorrect API key")) {
             System.err.println("Incorrect API key provided: YOUR_API_KEY. " +

@@ -9,7 +9,8 @@ public enum ChatGPTEndpoints {
     CREATE_COMPLETION_URI(URI.create("https://api.openai.com/v1/completions")),
     CREATE_CHAT_COMPLETION_URI(URI.create("https://api.openai.com/v1/chat/completions")),
     CREATE_EDIT_URI(URI.create("https://api.openai.com/v1/edits")),
-    CREATE_IMAGE_URI(URI.create("https://api.openai.com/v1/images/generations"));
+    CREATE_IMAGE_URI(URI.create("https://api.openai.com/v1/images/generations")),
+    CREATE_IMAGE_EDIT_URI(URI.create("https://api.openai.com/v1/images/edits"));
 
     private final URI uri;
 
