@@ -1,14 +1,14 @@
-import org.gpt.ChatGPT;
-import org.gpt.api.data.completion.chat.ChatCompletionData;
-import org.gpt.api.data.completion.chat.ChatCompletionMessageData;
-import org.gpt.api.data.completion.response.CompletionResponseData;
-import org.gpt.util.ApiKeyFileData;
+import io.github.jetkai.chatgpt.ChatGPT;
+import io.github.jetkai.chatgpt.api.data.completion.chat.ChatCompletionData;
+import io.github.jetkai.chatgpt.api.data.completion.chat.ChatCompletionMessageData;
+import io.github.jetkai.chatgpt.api.data.completion.response.CompletionResponseData;
+import io.github.jetkai.chatgpt.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.gpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
+import static io.github.jetkai.chatgpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CreateChatCompletionTest {

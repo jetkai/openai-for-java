@@ -1,9 +1,10 @@
 plugins {
     id("java")
+    id("maven-publish")
 }
 
-group = "org.gpt"
-version = "1.0-SNAPSHOT"
+group = "io.github.jetkai"
+version = "1.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -23,6 +24,20 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
 
+publishing {
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = property("mavenUsername") as String
+                password = property("mavenPassword") as String
+                print(username)
+            }
+        }
+    }
+}
+
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
@@ -32,7 +47,7 @@ tasks.withType<Jar> {
 
     archiveFileName.set("chatgpt.jar")
     manifest {
-        attributes["Main-Class"] = "org.gpt.Main"
+        attributes["Main-Class"] = "io.github.jetkai.chatgpt.Main"
     }
 
     from(sourceSets.main.get().output)

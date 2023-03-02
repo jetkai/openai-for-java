@@ -1,10 +1,10 @@
-import org.gpt.ChatGPT;
-import org.gpt.api.data.image.ImageData;
-import org.gpt.api.data.image.ImageResponseData;
-import org.gpt.util.ApiKeyFileData;
+import io.github.jetkai.chatgpt.ChatGPT;
+import io.github.jetkai.chatgpt.api.data.image.ImageData;
+import io.github.jetkai.chatgpt.api.data.image.ImageResponseData;
+import io.github.jetkai.chatgpt.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
-import static org.gpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
+import static io.github.jetkai.chatgpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
