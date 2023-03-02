@@ -1,10 +1,10 @@
-import io.github.jetkai.chatgpt.ChatGPT;
-import io.github.jetkai.chatgpt.api.data.image.ImageData;
-import io.github.jetkai.chatgpt.api.data.image.ImageResponseData;
-import io.github.jetkai.chatgpt.util.ApiKeyFileData;
+import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.data.image.ImageData;
+import io.github.jetkai.openai.api.data.image.ImageResponseData;
+import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
-import static io.github.jetkai.chatgpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
+import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -16,15 +16,15 @@ public class CreateImageTest {
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         ImageData image = new ImageData();
         image.setPrompt("A cute baby sea otter");
         image.setN(2);
         image.setSize("1024x1024");
 
-        ImageResponseData data = gpt.createImageResponse(image);
+        ImageResponseData data = openAI.createImageResponse(image);
 
         assertFalse(data.getData().isEmpty());
     }

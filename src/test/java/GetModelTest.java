@@ -1,9 +1,9 @@
-import io.github.jetkai.chatgpt.ChatGPT;
-import io.github.jetkai.chatgpt.api.data.model.ModelData;
-import io.github.jetkai.chatgpt.util.ApiKeyFileData;
+import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.data.model.ModelData;
+import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
-import static io.github.jetkai.chatgpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
+import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -15,10 +15,10 @@ public class GetModelTest {
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
         String modelName = "davinci";
-        ModelData data = gpt.getModel(modelName); //You can view the listed model here
+        ModelData data = openAI.getModel(modelName); //You can view the listed model here
 
         assertEquals(data.getId(), modelName);
     }

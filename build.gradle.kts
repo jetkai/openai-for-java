@@ -25,6 +25,13 @@ dependencies {
 }
 
 publishing {
+
+    publications {
+        create<MavenPublication>("openai") {
+            from(components["java"])
+        }
+    }
+
     repositories {
         maven {
             name = "OSSRH"
@@ -45,9 +52,9 @@ tasks.getByName<Test>("test") {
 tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    archiveFileName.set("chatgpt.jar")
+    archiveFileName.set("openai.jar")
     manifest {
-        attributes["Main-Class"] = "io.github.jetkai.chatgpt.Main"
+        attributes["Main-Class"] = "io.github.jetkai.openai.Main"
     }
 
     from(sourceSets.main.get().output)

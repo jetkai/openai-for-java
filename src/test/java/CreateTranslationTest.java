@@ -1,13 +1,13 @@
-import io.github.jetkai.chatgpt.ChatGPT;
-import io.github.jetkai.chatgpt.api.data.translation.TranslationData;
-import io.github.jetkai.chatgpt.util.ApiKeyFileData;
+import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.data.translation.TranslationData;
+import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 
-import static io.github.jetkai.chatgpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
+import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -19,9 +19,9 @@ public class CreateTranslationTest {
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         TranslationData translation = new TranslationData();
 
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
@@ -40,7 +40,7 @@ public class CreateTranslationTest {
         translation.setModel("whisper-1");
         translation.setLanguage("fr");
 
-        String data = gpt.createTranslation(translation);
+        String data = openAI.createTranslation(translation);
 
         assertNotNull(data);
         assertFalse(data.isEmpty());

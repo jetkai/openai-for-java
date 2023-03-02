@@ -1,14 +1,14 @@
-import io.github.jetkai.chatgpt.ChatGPT;
-import io.github.jetkai.chatgpt.api.data.completion.chat.ChatCompletionData;
-import io.github.jetkai.chatgpt.api.data.completion.chat.ChatCompletionMessageData;
-import io.github.jetkai.chatgpt.api.data.completion.response.CompletionResponseData;
-import io.github.jetkai.chatgpt.util.ApiKeyFileData;
+import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
+import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionMessageData;
+import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
+import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.jetkai.chatgpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
+import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CreateChatCompletionTest {
@@ -19,7 +19,7 @@ public class CreateChatCompletionTest {
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
         //Object of the Message it-self
         ChatCompletionMessageData message = new ChatCompletionMessageData();
@@ -31,12 +31,12 @@ public class CreateChatCompletionTest {
 
         messages.add(message);
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         ChatCompletionData completion = new ChatCompletionData();
         completion.setModel("gpt-3.5-turbo");
         completion.setMessages(messages);
 
-        CompletionResponseData data = gpt.createChatCompletionResponse(completion);
+        CompletionResponseData data = openAI.createChatCompletionResponse(completion);
 
         assertNotNull(data.getModel());
 

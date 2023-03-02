@@ -1,10 +1,10 @@
-import io.github.jetkai.chatgpt.ChatGPT;
-import io.github.jetkai.chatgpt.api.data.completion.CompletionData;
-import io.github.jetkai.chatgpt.api.data.completion.response.CompletionResponseData;
-import io.github.jetkai.chatgpt.util.ApiKeyFileData;
+import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.data.completion.CompletionData;
+import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
+import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
-import static io.github.jetkai.chatgpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
+import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CreateCompletionTest {
@@ -16,7 +16,7 @@ public class CreateCompletionTest {
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
         CompletionData completion = new CompletionData();
         completion.setModel("text-davinci-003");
@@ -29,7 +29,7 @@ public class CreateCompletionTest {
         completion.setLogprobs(null);
         completion.setStop("\n");
 
-        CompletionResponseData data = gpt.createCompletion(completion);  //You can call "data" to see the response
+        CompletionResponseData data = openAI.createCompletion(completion);  //You can call "data" to see the response
 
         assertNotNull(data.getModel());
 

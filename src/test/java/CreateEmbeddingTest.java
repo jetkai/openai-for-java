@@ -1,13 +1,13 @@
-import io.github.jetkai.chatgpt.ChatGPT;
-import io.github.jetkai.chatgpt.api.data.embedding.EmbeddingData;
-import io.github.jetkai.chatgpt.api.data.embedding.EmbeddingResponseData;
-import io.github.jetkai.chatgpt.api.data.embedding.EmbeddingResponseDataBlock;
-import io.github.jetkai.chatgpt.util.ApiKeyFileData;
+import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.data.embedding.EmbeddingData;
+import io.github.jetkai.openai.api.data.embedding.EmbeddingResponseData;
+import io.github.jetkai.openai.api.data.embedding.EmbeddingResponseDataBlock;
+import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static io.github.jetkai.chatgpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
+import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -19,14 +19,14 @@ public class CreateEmbeddingTest {
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         EmbeddingData embed = new EmbeddingData();
         embed.setModel("text-embedding-ada-002");
         embed.setInput("The food was delicious and the waiter...");
 
-        EmbeddingResponseData data = gpt.createEmbeddingResponse(embed);
+        EmbeddingResponseData data = openAI.createEmbeddingResponse(embed);
 
         List<EmbeddingResponseDataBlock> embeddingBlock = data.getData();
 
