@@ -4,6 +4,14 @@ ChatGPT library for Java - Requires JDK 11 at minimum.
 
 ###### ⚠️ This library is currently under-development as the API has only been public since the 1st of March.
 
+API Reference -> https://platform.openai.com/docs/api-reference/
+
+## Available API(s)
+- [GetModel](https://platform.openai.com/docs/api-reference/models/retrieve) -> `https://api.openai.com/v1/models`
+- [GetModels](https://platform.openai.com/docs/api-reference/models/list) -> `https://api.openai.com/v1/models/{model}`
+- [CreateCompletion](https://platform.openai.com/docs/api-reference/completions/create) -> `https://api.openai.com/v1/completions`
+- [CreateChatCompletion](https://platform.openai.com/docs/api-reference/chat/create) -> `https://api.openai.com/v1/chat/completions`
+
 ## Example Usage
 
 Input Data:
