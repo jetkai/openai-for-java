@@ -2,13 +2,11 @@ package org.gpt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.gpt.api.CreateChatCompletion;
-import org.gpt.api.CreateCompletion;
-import org.gpt.api.GetModel;
-import org.gpt.api.GetModels;
+import org.gpt.api.*;
 import org.gpt.api.data.completion.CompletionData;
 import org.gpt.api.data.completion.chat.ChatCompletionData;
 import org.gpt.api.data.completion.response.CompletionResponseData;
+import org.gpt.api.data.edit.EditData;
 import org.gpt.api.data.model.ModelData;
 import org.gpt.api.data.model.ModelsData;
 import org.gpt.net.HttpClientInstance;
@@ -98,6 +96,30 @@ public class ChatGPT {
 
         if(completion.getBody().contains("\"type\": \"invalid_request_error\"")
                 || completion.getBody().contains("\"message\": \"Unrecognized request argument supplied: messages\"")) {
+            System.err.println(completion.getBody());
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        CompletionResponseData data;
+        try {
+            data = mapper.readValue(completion.getBody(), CompletionResponseData.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return data;
+    }
+
+    public CompletionResponseData createEdit(EditData editData) {
+        CreateEdit completion = new CreateEdit(this, editData);
+
+        if(completion.getBody().contains("Incorrect API key")) {
+            System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
+                    "You can find your API key at https://platform.openai");
+            return null;
+        }
+
+        if(completion.getBody().contains("\"type\": \"invalid_request_error\"")) {
             System.err.println(completion.getBody());
             return null;
         }

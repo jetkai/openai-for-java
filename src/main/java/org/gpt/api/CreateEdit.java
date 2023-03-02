@@ -1,7 +1,7 @@
 package org.gpt.api;
 
 import org.gpt.ChatGPT;
-import org.gpt.api.data.completion.chat.ChatCompletionData;
+import org.gpt.api.data.edit.EditData;
 import org.gpt.net.ChatGPTEndpoints;
 import org.gpt.net.RequestBuilder;
 
@@ -9,26 +9,26 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class CreateChatCompletion {
+public class CreateEdit {
 
     private final AtomicReference<HttpResponse<String>> response = new AtomicReference<>();
     private final ChatGPT gpt;
 
-    private final ChatCompletionData completion;
+    private final EditData edit;
 
-    public CreateChatCompletion(ChatGPT gpt, ChatCompletionData completion) {
+    public CreateEdit(ChatGPT gpt, EditData edit) {
         this.gpt = gpt;
-        this.completion = completion;
+        this.edit = edit;
         this.initialize();
     }
 
     public void initialize() {
-        gpt.getHttpClientInstance().getResponse(completion, new RequestBuilder() {
+        gpt.getHttpClientInstance().getResponse(edit, new RequestBuilder() {
                     @Override
                     public HttpRequest request(Object data) {
-                        if(data instanceof ChatCompletionData) {
-                            return post(ChatGPTEndpoints.CREATE_CHAT_COMPLETION_URI.uri(),
-                                    ((ChatCompletionData) data).toJson(),
+                        if(data instanceof EditData) {
+                            return post(ChatGPTEndpoints.CREATE_EDIT_URI.uri(),
+                                    ((EditData) data).toJson(),
                                     gpt.getApiKey(),
                                     gpt.getOrganization()
                             );

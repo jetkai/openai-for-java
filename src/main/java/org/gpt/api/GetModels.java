@@ -1,7 +1,7 @@
 package org.gpt.api;
 
 import org.gpt.ChatGPT;
-import org.gpt.net.ChatGPTURI;
+import org.gpt.net.ChatGPTEndpoints;
 import org.gpt.net.RequestBuilder;
 
 import java.net.http.HttpRequest;
@@ -22,7 +22,7 @@ public class GetModels {
         gpt.getHttpClientInstance().getResponse(null, new RequestBuilder() {
                     @Override
                     public HttpRequest request(Object data) {
-                        return get(ChatGPTURI.GET_MODELS_URI.uri(),
+                        return get(ChatGPTEndpoints.GET_MODELS_URI.uri(),
                                 gpt.getApiKey(),
                                 gpt.getOrganization()
                         );

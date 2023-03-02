@@ -18,7 +18,7 @@ public class HttpClientInstance {
     public CompletableFuture<HttpResponse<String>> getResponse(Object data, RequestBuilder requestBuilder) {
         HttpRequest request = requestBuilder.request(data);
         if(request == null) {
-            System.err.printf("Unable to request data %s%n", data);
+            System.err.println("Unable to request data: " + data);
             return null;
         }
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString(), pushPromiseHandler());

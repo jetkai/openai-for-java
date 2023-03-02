@@ -2,7 +2,7 @@ package org.gpt.api;
 
 import org.gpt.ChatGPT;
 import org.gpt.api.data.completion.CompletionData;
-import org.gpt.net.ChatGPTURI;
+import org.gpt.net.ChatGPTEndpoints;
 import org.gpt.net.RequestBuilder;
 
 import java.net.http.HttpRequest;
@@ -27,7 +27,7 @@ public class CreateCompletion {
                     @Override
                     public HttpRequest request(Object data) {
                         if(data instanceof CompletionData) {
-                            return post(ChatGPTURI.CREATE_COMPLETION_URI.uri(),
+                            return post(ChatGPTEndpoints.CREATE_COMPLETION_URI.uri(),
                                     ((CompletionData) data).toJson(),
                                     gpt.getApiKey(),
                                     gpt.getOrganization()
@@ -38,7 +38,6 @@ public class CreateCompletion {
                 })
                 .thenAccept(this.response::set)
                 .join();
-        System.out.println();
     }
 
     public AtomicReference<HttpResponse<String>> getResponse() {

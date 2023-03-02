@@ -44,7 +44,7 @@ public class Main {
         ApiKeyFileData keyData = getApiKeyFromFile();
 
         if(keyData == null) {
-            return "Error - Could not find API Key within \"resources/org/gpt/util/ChatGPT-API-Key.json";
+            return "Error - Could not find API Key within \"resources/org/gpt/util/ChatGPT-API-Key.json\"";
         }
 
         /*
