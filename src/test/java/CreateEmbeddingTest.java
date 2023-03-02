@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class CreateEmbeddingTest {
 
     @Test
-    void createImageTest() {
+    void createEmbeddingTest() {
         ApiKeyFileData keyData = getApiKeyFromFile();
 
         assertNotNull(keyData);

@@ -2,8 +2,10 @@ package org.gpt.net;
 
 import org.gpt.api.CreateImageEdit;
 import org.gpt.api.CreateImageVariation;
+import org.gpt.api.CreateTranscription;
 import org.gpt.api.data.image.edit.ImageEditData;
 import org.gpt.api.data.image.variation.ImageVariationData;
+import org.gpt.api.data.transcription.TranscriptionData;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -53,9 +55,10 @@ public abstract class RequestBuilder {
         Map<Object, Object> map = new LinkedHashMap<>();
         if(data instanceof ImageEditData) {
             CreateImageEdit.populateMap((ImageEditData) data, map);
-        }
-        if(data instanceof ImageVariationData) {
+        } else if(data instanceof ImageVariationData) {
             CreateImageVariation.populateMap((ImageVariationData) data, map);
+        } else if(data instanceof TranscriptionData) {
+            CreateTranscription.populateMap((TranscriptionData) data, map);
         }
         if(map.isEmpty()) {
             System.err.println("Map for the MultiPartFormData is empty.");

@@ -19,6 +19,8 @@ import org.gpt.api.data.image.edit.ImageEditData;
 import org.gpt.api.data.image.variation.ImageVariationData;
 import org.gpt.api.data.model.ModelData;
 import org.gpt.api.data.model.ModelsData;
+import org.gpt.api.data.transcription.TranscriptionData;
+import org.gpt.api.data.transcription.TranscriptionResponseData;
 import org.gpt.net.HttpClientInstance;
 
 import javax.imageio.ImageIO;
@@ -446,6 +448,31 @@ public class ChatGPT {
             throw new RuntimeException(e);
         }
         return data;
+    }
+
+    public String createTranscription(TranscriptionData transcriptionData) {
+        CreateTranscription embedding = new CreateTranscription(this, transcriptionData);
+
+        if(embedding.getBody().contains("Incorrect API key")) {
+            System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
+                    "You can find your API key at https://platform.openai");
+            return null;
+        }
+
+        if(embedding.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(embedding.getBody());
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        TranscriptionResponseData data;
+        try {
+            data = mapper.readValue(embedding.getBody(), TranscriptionResponseData.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return data.getText();
     }
 
     public HttpClientInstance getHttpClientInstance() {
