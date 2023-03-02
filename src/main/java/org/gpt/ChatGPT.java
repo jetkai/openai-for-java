@@ -9,10 +9,14 @@ import org.gpt.api.data.completion.response.CompletionChoice;
 import org.gpt.api.data.completion.response.CompletionMessage;
 import org.gpt.api.data.completion.response.CompletionResponseData;
 import org.gpt.api.data.edit.EditData;
+import org.gpt.api.data.embedding.EmbeddingData;
+import org.gpt.api.data.embedding.EmbeddingResponseData;
+import org.gpt.api.data.embedding.EmbeddingResponseDataBlock;
 import org.gpt.api.data.image.ImageData;
 import org.gpt.api.data.image.ImageResponseData;
 import org.gpt.api.data.image.ImageResponses;
 import org.gpt.api.data.image.edit.ImageEditData;
+import org.gpt.api.data.image.variation.ImageVariationData;
 import org.gpt.api.data.model.ModelData;
 import org.gpt.api.data.model.ModelsData;
 import org.gpt.net.HttpClientInstance;
@@ -21,6 +25,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class ChatGPT {
 
@@ -168,23 +173,23 @@ public class ChatGPT {
     @SuppressWarnings("unused")
     public String[] createEdit(EditData editData) {
 
-        CreateEdit completion = new CreateEdit(this, editData);
+        CreateEdit edit = new CreateEdit(this, editData);
 
-        if(completion.getBody().contains("Incorrect API key")) {
+        if(edit.getBody().contains("Incorrect API key")) {
             System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
                     "You can find your API key at https://platform.openai");
             return null;
         }
 
-        if(completion.getBody().contains("\"type\": \"invalid_request_error\"")) {
-            System.err.println(completion.getBody());
+        if(edit.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(edit.getBody());
             return null;
         }
 
         ObjectMapper mapper = new ObjectMapper();
         CompletionResponseData data;
         try {
-            data = mapper.readValue(completion.getBody(), CompletionResponseData.class);
+            data = mapper.readValue(edit.getBody(), CompletionResponseData.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -206,23 +211,23 @@ public class ChatGPT {
     }
 
     public CompletionResponseData createEditResponse(EditData editData) {
-        CreateEdit completion = new CreateEdit(this, editData);
+        CreateEdit edit = new CreateEdit(this, editData);
 
-        if(completion.getBody().contains("Incorrect API key")) {
+        if(edit.getBody().contains("Incorrect API key")) {
             System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
                     "You can find your API key at https://platform.openai");
             return null;
         }
 
-        if(completion.getBody().contains("\"type\": \"invalid_request_error\"")) {
-            System.err.println(completion.getBody());
+        if(edit.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(edit.getBody());
             return null;
         }
 
         ObjectMapper mapper = new ObjectMapper();
         CompletionResponseData data;
         try {
-            data = mapper.readValue(completion.getBody(), CompletionResponseData.class);
+            data = mapper.readValue(edit.getBody(), CompletionResponseData.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -230,23 +235,23 @@ public class ChatGPT {
     }
 
     public Image[] createImage(ImageData imageData) {
-        CreateImage completion = new CreateImage(this, imageData);
+        CreateImage image = new CreateImage(this, imageData);
 
-        if(completion.getBody().contains("Incorrect API key")) {
+        if(image.getBody().contains("Incorrect API key")) {
             System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
                     "You can find your API key at https://platform.openai");
             return null;
         }
 
-        if(completion.getBody().contains("\"type\": \"invalid_request_error\"")) {
-            System.err.println(completion.getBody());
+        if(image.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(image.getBody());
             return null;
         }
 
         ObjectMapper mapper = new ObjectMapper();
         ImageResponseData data;
         try {
-            data = mapper.readValue(completion.getBody(), ImageResponseData.class);
+            data = mapper.readValue(image.getBody(), ImageResponseData.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -280,23 +285,23 @@ public class ChatGPT {
     }
 
     public ImageResponseData createImageResponse(ImageData imageData) {
-        CreateImage completion = new CreateImage(this, imageData);
+        CreateImage image = new CreateImage(this, imageData);
 
-        if(completion.getBody().contains("Incorrect API key")) {
+        if(image.getBody().contains("Incorrect API key")) {
             System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
                     "You can find your API key at https://platform.openai");
             return null;
         }
 
-        if(completion.getBody().contains("\"type\": \"invalid_request_error\"")) {
-            System.err.println(completion.getBody());
+        if(image.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(image.getBody());
             return null;
         }
 
         ObjectMapper mapper = new ObjectMapper();
         ImageResponseData data;
         try {
-            data = mapper.readValue(completion.getBody(), ImageResponseData.class);
+            data = mapper.readValue(image.getBody(), ImageResponseData.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -304,23 +309,47 @@ public class ChatGPT {
     }
 
     public ImageResponseData createImageEditResponse(ImageEditData imageData) {
-        CreateImageEdit completion = new CreateImageEdit(this, imageData);
+        CreateImageEdit image = new CreateImageEdit(this, imageData);
 
-        if(completion.getBody().contains("Incorrect API key")) {
+        if(image.getBody().contains("Incorrect API key")) {
             System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
                     "You can find your API key at https://platform.openai");
             return null;
         }
 
-        if(completion.getBody().contains("\"type\": \"invalid_request_error\"")) {
-            System.err.println(completion.getBody());
+        if(image.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(image.getBody());
             return null;
         }
 
         ObjectMapper mapper = new ObjectMapper();
         ImageResponseData data;
         try {
-            data = mapper.readValue(completion.getBody(), ImageResponseData.class);
+            data = mapper.readValue(image.getBody(), ImageResponseData.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return data;
+    }
+
+    public ImageResponseData createImageVariationResponse(ImageVariationData imageData) {
+        CreateImageVariation variation = new CreateImageVariation(this, imageData);
+
+        if(variation.getBody().contains("Incorrect API key")) {
+            System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
+                    "You can find your API key at https://platform.openai");
+            return null;
+        }
+
+        if(variation.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(variation.getBody());
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        ImageResponseData data;
+        try {
+            data = mapper.readValue(variation.getBody(), ImageResponseData.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -328,23 +357,23 @@ public class ChatGPT {
     }
 
     public String[] createImageUrls(ImageData imageData) {
-        CreateImage completion = new CreateImage(this, imageData);
+        CreateImage image = new CreateImage(this, imageData);
 
-        if(completion.getBody().contains("Incorrect API key")) {
+        if(image.getBody().contains("Incorrect API key")) {
             System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
                     "You can find your API key at https://platform.openai");
             return null;
         }
 
-        if(completion.getBody().contains("\"type\": \"invalid_request_error\"")) {
-            System.err.println(completion.getBody());
+        if(image.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(image.getBody());
             return null;
         }
 
         ObjectMapper mapper = new ObjectMapper();
         ImageResponseData data;
         try {
-            data = mapper.readValue(completion.getBody(), ImageResponseData.class);
+            data = mapper.readValue(image.getBody(), ImageResponseData.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -363,6 +392,60 @@ public class ChatGPT {
         }
 
         return imageLinks;
+    }
+
+    public List<Float> createEmbedding(EmbeddingData embeddingData) {
+        CreateEmbedding embedding = new CreateEmbedding(this, embeddingData);
+
+        if(embedding.getBody().contains("Incorrect API key")) {
+            System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
+                    "You can find your API key at https://platform.openai");
+            return null;
+        }
+
+        if(embedding.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(embedding.getBody());
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        EmbeddingResponseData data;
+        try {
+            data = mapper.readValue(embedding.getBody(), EmbeddingResponseData.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        List<EmbeddingResponseDataBlock> dataBlock = data.getData();
+        if(dataBlock != null && !dataBlock.isEmpty()) {
+            return dataBlock.get(0).getEmbedding();
+        }
+
+        System.err.println("Unable to read the embedded data block.");
+        return null;
+    }
+
+    public EmbeddingResponseData createEmbeddingResponse(EmbeddingData embeddingData) {
+        CreateEmbedding embedding = new CreateEmbedding(this, embeddingData);
+
+        if(embedding.getBody().contains("Incorrect API key")) {
+            System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
+                    "You can find your API key at https://platform.openai");
+            return null;
+        }
+
+        if(embedding.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(embedding.getBody());
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        EmbeddingResponseData data;
+        try {
+            data = mapper.readValue(embedding.getBody(), EmbeddingResponseData.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return data;
     }
 
     public HttpClientInstance getHttpClientInstance() {

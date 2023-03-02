@@ -27,7 +27,7 @@ public class CreateImage {
                     @Override
                     public HttpRequest request(Object data) {
                         if(data instanceof ImageData) {
-                            return post(ChatGPTEndpoints.CREATE_IMAGE_URI.uri(),
+                            return post(ChatGPTEndpoints.CREATE_IMAGE.uri(),
                                     ((ImageData) data).toJson(),
                                     gpt.getApiKey(),
                                     gpt.getOrganization()

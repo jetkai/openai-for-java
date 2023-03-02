@@ -22,7 +22,7 @@ public class GetModels {
         gpt.getHttpClientInstance().getResponse(null, new RequestBuilder() {
                     @Override
                     public HttpRequest request(Object data) {
-                        return get(ChatGPTEndpoints.GET_MODELS_URI.uri(),
+                        return get(ChatGPTEndpoints.GET_MODELS.uri(),
                                 gpt.getApiKey(),
                                 gpt.getOrganization()
                         );

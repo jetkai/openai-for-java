@@ -27,7 +27,7 @@ public class CreateEdit {
                     @Override
                     public HttpRequest request(Object data) {
                         if(data instanceof EditData) {
-                            return post(ChatGPTEndpoints.CREATE_EDIT_URI.uri(),
+                            return post(ChatGPTEndpoints.CREATE_EDIT.uri(),
                                     ((EditData) data).toJson(),
                                     gpt.getApiKey(),
                                     gpt.getOrganization()

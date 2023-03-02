@@ -27,7 +27,7 @@ public class CreateCompletion {
                     @Override
                     public HttpRequest request(Object data) {
                         if(data instanceof CompletionData) {
-                            return post(ChatGPTEndpoints.CREATE_COMPLETION_URI.uri(),
+                            return post(ChatGPTEndpoints.CREATE_COMPLETION.uri(),
                                     ((CompletionData) data).toJson(),
                                     gpt.getApiKey(),
                                     gpt.getOrganization()

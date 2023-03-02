@@ -1,7 +1,7 @@
 package org.gpt.api;
 
 import org.gpt.ChatGPT;
-import org.gpt.api.data.image.edit.ImageEditData;
+import org.gpt.api.data.image.variation.ImageVariationData;
 import org.gpt.net.ChatGPTEndpoints;
 import org.gpt.net.RequestBuilder;
 import org.gpt.util.ConvertImageFormat;
@@ -12,14 +12,14 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class CreateImageEdit {
+public class CreateImageVariation {
 
     private final AtomicReference<HttpResponse<String>> response = new AtomicReference<>();
     private final ChatGPT gpt;
 
-    private final ImageEditData image;
+    private final ImageVariationData image;
 
-    public CreateImageEdit(ChatGPT gpt, ImageEditData image) {
+    public CreateImageVariation(ChatGPT gpt, ImageVariationData image) {
         this.gpt = gpt;
         this.image = image;
         this.initialize();
@@ -29,8 +29,8 @@ public class CreateImageEdit {
         gpt.getHttpClientInstance().getResponse(image, new RequestBuilder() {
                     @Override
                     public HttpRequest request(Object data) {
-                        if(data instanceof ImageEditData) {
-                            return postMultiPartFormData(ChatGPTEndpoints.CREATE_IMAGE_EDIT.uri(),
+                        if(data instanceof ImageVariationData) {
+                            return postMultiPartFormData(ChatGPTEndpoints.CREATE_IMAGE_VARIATION.uri(),
                                     data,
                                     gpt.getApiKey(),
                                     gpt.getOrganization()
@@ -43,24 +43,12 @@ public class CreateImageEdit {
                 .join();
     }
 
-    public static void populateMap(ImageEditData data, Map<Object, Object> map) {
+    public static void populateMap(ImageVariationData data, Map<Object, Object> map) {
         Path image = data.getImage();
         if(image != null) {
             Path newImagePath = ConvertImageFormat.convertPngToRGBA(image);
             //Required
             map.put("image", newImagePath);
-        }
-        //Required
-        String prompt = data.getPrompt();
-        if(prompt != null && !prompt.isEmpty()) {
-            map.put("prompt", prompt);
-        }
-
-        //Optional
-        Path mask = data.getMask();
-        if(mask != null) {
-            Path newMaskPath = ConvertImageFormat.convertPngToRGBA(mask);
-            map.put("mask", newMaskPath);
         }
 
         //Optional
