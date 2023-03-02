@@ -50,12 +50,19 @@ Response:
 
 [Source Code - ChatGPT Chat API:](https://github.com/jetkai/chatgpt-for-java/blob/main/src/test/java/CreateChatCompletionTest.java)
 ```java
-    @Test
-    void createChatCompletionTest() {
+    public String sayHelloToChatGPT() {
+
         ApiKeyFileData keyData = getApiKeyFromFile();
 
-        assertNotNull(keyData);
+        if(keyData == null) {
+            return "Error - Could not find API Key within \"resources/org/gpt/util/ChatGPT-API-Key.json\"";
+        }
 
+        /*
+         * You can manually type in the API Key instead of loading from the file:
+         * ChatGPT gpt = new ChatGPT("MY_API_KEY");
+         * ChatGPT gpt = new ChatGPT("MY_API_KEY", "MY_ORGANIZATION");
+         */
         ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
 
         //Object of the Message it-self
@@ -73,9 +80,13 @@ Response:
         completion.setModel("gpt-3.5-turbo");
         completion.setMessages(messages);
 
-        CompletionResponseData data = gpt.createChatCompletion(completion);
+        String[] response = gpt.createChatCompletion(completion);
 
-        assertNotNull(data.getModel());
+        if(response != null && response.length > 0) {
+            return Arrays.toString(response);
+        }
+
+        return "Error - No choice found.";
 
     }
 ```
