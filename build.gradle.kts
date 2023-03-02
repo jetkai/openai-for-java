@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "io.github.jetkai"
-version = "1.0"
+version = "1.0.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
