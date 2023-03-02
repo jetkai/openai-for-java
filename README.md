@@ -1,6 +1,6 @@
-# ChatGPT For Java
+# OpenAI For Java
 
-ChatGPT library for Java - Requires JDK 11 at minimum.
+OpenAI library for Java - Requires JDK 11 at minimum.
 
 ###### ⚠️ This library is currently under-development as the API has only been public since the 1st of March.
 
@@ -30,10 +30,10 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
         String modelName = "davinci";
-        ModelData data = gpt.getModel(modelName); //You can view the listed model here
+        ModelData data = openAI.getModel(modelName); //You can view the listed model here
 
         assertEquals(data.getId(), modelName);
     }
@@ -48,9 +48,9 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        ModelData[] data = gpt.getModels(); //You can view all the listed models here
+        ModelData[] data = openAI.getModels(); //You can view all the listed models here
 
         assertTrue(data.length > 1);
     }
@@ -65,7 +65,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
         CompletionData completion = new CompletionData();
         completion.setModel("text-davinci-003");
@@ -78,7 +78,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
         completion.setLogprobs(null);
         completion.setStop("\n");
 
-        CompletionResponseData data = gpt.createCompletion(completion); //You can call "data" to see the response
+        CompletionResponseData data = openAI.createCompletion(completion); //You can call "data" to see the response
 
         assertNotNull(data.getModel());
     }
@@ -93,7 +93,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
         //Object of the Message it-self
         ChatCompletionMessageData message = new ChatCompletionMessageData();
@@ -105,12 +105,12 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         messages.add(message);
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         ChatCompletionData completion = new ChatCompletionData();
         completion.setModel("gpt-3.5-turbo");
         completion.setMessages(messages);
 
-        CompletionResponseData data = gpt.createChatCompletionResponse(completion); //You can call "data" to see the response
+        CompletionResponseData data = openAI.createChatCompletionResponse(completion); //You can call "data" to see the response
 
         assertNotNull(data.getModel());
     }
@@ -125,15 +125,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         EditData edit = new EditData();
         edit.setModel("text-davinci-edit-001");
         edit.setInput("What day of the wek is it?");
         edit.setInstruction("Fix the spelling mistakes");
 
-        CompletionResponseData data = gpt.createEditResponse(edit); //You can call "data" to see the response
+        CompletionResponseData data = openAI.createEditResponse(edit); //You can call "data" to see the response
 
         assertFalse(data.getChoices().isEmpty());
     }
@@ -147,15 +147,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         ImageData image = new ImageData();
         image.setPrompt("A cute baby sea otter");
         image.setN(2);
         image.setSize("1024x1024");
 
-        ImageResponseData data = gpt.createImageResponse(image); //You can call "data" to see the imagesUrls
+        ImageResponseData data = openAI.createImageResponse(image); //You can call "data" to see the imagesUrls
 
         assertFalse(data.getData().isEmpty());
     }
@@ -169,15 +169,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         ImageData image = new ImageData();
         image.setPrompt("A cute baby sea otter");
         image.setN(2);
         image.setSize("1024x1024");
 
-        Image[] images = gpt.createImage(image);
+        Image[] images = openAI.createImage(image);
         assertNotNull(images);
         assertNotEquals(0, images.length);
     }
@@ -191,15 +191,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         EditData edit = new EditData();
         edit.setModel("text-davinci-edit-001");
         edit.setInput("What day of the wek is it?");
         edit.setInstruction("Fix the spelling mistakes");
 
-        CompletionResponseData data = gpt.createEditResponse(edit); //You can call "data" to see the response
+        CompletionResponseData data = openAI.createEditResponse(edit); //You can call "data" to see the response
 
         assertFalse(data.getChoices().isEmpty());
     }
@@ -213,9 +213,9 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         ImageVariationData image = new ImageVariationData();
 
         Path imagePath = null;
@@ -235,7 +235,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
         image.setN(2);
         image.setSize("1024x1024");
 
-        ImageResponseData data = gpt.createImageVariationResponse(image);
+        ImageResponseData data = openAI.createImageVariationResponse(image);
 
         assertFalse(data.getData().isEmpty());
     }
@@ -249,14 +249,14 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         EmbeddingData embed = new EmbeddingData();
         embed.setModel("text-embedding-ada-002");
         embed.setInput("The food was delicious and the waiter...");
 
-        EmbeddingResponseData data = gpt.createEmbeddingResponse(embed);
+        EmbeddingResponseData data = openAI.createEmbeddingResponse(embed);
 
         List<EmbeddingResponseDataBlock> embeddingBlock = data.getData();
 
@@ -275,9 +275,9 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         TranscriptionData transcript = new TranscriptionData();
 
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
@@ -295,7 +295,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
         transcript.setFile(audioPath);
         transcript.setModel("whisper-1");
 
-        String data = gpt.createTranscription(transcript);
+        String data = openAI.createTranscription(transcript);
 
         assertNotNull(data);
         assertFalse(data.isEmpty());
@@ -311,9 +311,9 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(keyData);
 
-        ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the ChatGPT Api
+        //Completion Data, ready to send to the OpenAI Api
         TranslationData translation = new TranslationData();
 
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
@@ -332,7 +332,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
         translation.setModel("whisper-1");
         translation.setLanguage("fr");
 
-        String data = gpt.createTranslation(translation);
+        String data = openAI.createTranslation(translation);
 
         assertNotNull(data);
         assertFalse(data.isEmpty());
