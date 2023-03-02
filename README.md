@@ -87,7 +87,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ### CreateChatCompletion
 
 ```java
-@Test
+    @Test
     void createChatCompletionTest() {
         ApiKeyFileData keyData = getApiKeyFromFile();
 
@@ -305,7 +305,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
  ### CreateTranslation - (English Audio to French)
  
  ```java
-     @Test
+    @Test
     void createTranslationTest() {
         ApiKeyFileData keyData = getApiKeyFromFile();
 
