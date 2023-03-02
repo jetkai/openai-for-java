@@ -18,7 +18,7 @@ public class GetModelTest {
         ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
 
         String modelName = "davinci";
-        ModelData data = gpt.getModel(modelName);
+        ModelData data = gpt.getModel(modelName); //You can view the listed model here
 
         assertEquals(data.getId(), modelName);
     }

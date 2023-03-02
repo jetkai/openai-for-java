@@ -28,10 +28,10 @@ public class HttpClientInstance {
         return (HttpRequest initiatingRequest, HttpRequest pushPromiseRequest,
                 Function<HttpResponse.BodyHandler<String>, CompletableFuture<HttpResponse<String>>> acceptor) -> {
             acceptor.apply(HttpResponse.BodyHandlers.ofString())
-                    .thenAccept(resp ->
+                    /*.thenAccept(resp ->
                             System.out.println(" Pushed response: " + resp.uri() + ", headers: " + resp.headers()));
             System.out.println("Promise request: " + pushPromiseRequest.uri());
-            System.out.println("Promise request: " + pushPromiseRequest.headers());
+            System.out.println("Promise request: " + pushPromiseRequest.headers())*/;
         };
     }
 

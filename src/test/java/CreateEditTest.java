@@ -24,7 +24,7 @@ public class CreateEditTest {
         edit.setInput("What day of the wek is it?");
         edit.setInstruction("Fix the spelling mistakes");
 
-        CompletionResponseData data = gpt.createEditResponse(edit);
+        CompletionResponseData data = gpt.createEditResponse(edit); //You can call "data" to see the response
 
         assertFalse(data.getChoices().isEmpty());
     }

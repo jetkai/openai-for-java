@@ -17,7 +17,7 @@ public class GetModelsTest {
 
         ChatGPT gpt = new ChatGPT(keyData.getApiKey(), keyData.getOrganization());
 
-        ModelData[] data = gpt.getModels();
+        ModelData[] data = gpt.getModels(); //You can view all the listed models here
 
         assertTrue(data.length > 1);
     }

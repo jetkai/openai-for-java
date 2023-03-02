@@ -29,7 +29,7 @@ public class CreateCompletionTest {
         completion.setLogprobs(null);
         completion.setStop("\n");
 
-        CompletionResponseData data = gpt.createCompletion(completion);
+        CompletionResponseData data = gpt.createCompletion(completion);  //You can call "data" to see the response
 
         assertNotNull(data.getModel());
 
