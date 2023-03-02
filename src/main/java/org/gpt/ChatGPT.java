@@ -7,9 +7,17 @@ import org.gpt.api.data.completion.CompletionData;
 import org.gpt.api.data.completion.chat.ChatCompletionData;
 import org.gpt.api.data.completion.response.CompletionResponseData;
 import org.gpt.api.data.edit.EditData;
+import org.gpt.api.data.image.ImageData;
+import org.gpt.api.data.image.ImageResponseData;
+import org.gpt.api.data.image.ImageResponses;
 import org.gpt.api.data.model.ModelData;
 import org.gpt.api.data.model.ModelsData;
 import org.gpt.net.HttpClientInstance;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
 
 public class ChatGPT {
 
@@ -134,14 +142,90 @@ public class ChatGPT {
         return data;
     }
 
+    public Image[] createImage(ImageData imageData) {
+        CreateImage completion = new CreateImage(this, imageData);
+
+        if(completion.getBody().contains("Incorrect API key")) {
+            System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
+                    "You can find your API key at https://platform.openai");
+            return null;
+        }
+
+        if(completion.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(completion.getBody());
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        ImageResponseData data;
+        try {
+            data = mapper.readValue(completion.getBody(), ImageResponseData.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        if(data == null || data.getData() == null || data.getData().isEmpty()) {
+            System.err.println("Unable to create image.");
+            return null;
+        }
+
+        Image[] images = new Image[data.getData().size()];
+
+        for(int i = 0; i < data.getData().size(); i++) {
+            ImageResponses imageResponse = data.getData().get(i);
+            if(imageResponse == null) {
+                continue;
+            }
+            String imageResponseUrl = imageResponse.getUrl();
+            if(imageResponseUrl == null || imageResponseUrl.isEmpty()) {
+                continue;
+            }
+            URL imageUrl;
+            try {
+                imageUrl = new URL(imageResponseUrl);
+                images[i] = ImageIO.read(imageUrl);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return images;
+    }
+
+    public ImageResponseData createImageAndReturnResponseData(ImageData imageData) {
+        CreateImage completion = new CreateImage(this, imageData);
+
+        if(completion.getBody().contains("Incorrect API key")) {
+            System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
+                    "You can find your API key at https://platform.openai");
+            return null;
+        }
+
+        if(completion.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(completion.getBody());
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        ImageResponseData data;
+        try {
+            data = mapper.readValue(completion.getBody(), ImageResponseData.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return data;
+    }
+
     public HttpClientInstance getHttpClientInstance() {
         return httpClientInstance;
     }
 
+    @SuppressWarnings("unused")
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
     }
 
+    @SuppressWarnings("unused")
     public void setOrganization(String organization) {
         this.organization = organization;
     }
@@ -153,4 +237,5 @@ public class ChatGPT {
     public String getOrganization() {
         return organization;
     }
+
 }
