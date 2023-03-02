@@ -13,7 +13,9 @@ public enum ChatGPTEndpoints {
     CREATE_IMAGE_EDIT(URI.create("https://api.openai.com/v1/images/edits")),
     CREATE_IMAGE_VARIATION(URI.create("https://api.openai.com/v1/images/variations")),
     CREATE_EMBEDDING(URI.create("https://api.openai.com/v1/embeddings")),
-    CREATE_TRANSCRIPTION(URI.create("https://api.openai.com/v1/audio/transcriptions"));
+    CREATE_TRANSCRIPTION(URI.create("https://api.openai.com/v1/audio/transcriptions")),
+
+    CREATE_TRANSLATION(URI.create("https://api.openai.com/v1/audio/transcriptions"));
 
     private final URI uri;
 

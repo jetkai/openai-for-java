@@ -14,16 +14,16 @@ public class CreateEmbedding {
     private final AtomicReference<HttpResponse<String>> response = new AtomicReference<>();
     private final ChatGPT gpt;
 
-    private final EmbeddingData image;
+    private final EmbeddingData embedding;
 
-    public CreateEmbedding(ChatGPT gpt, EmbeddingData image) {
+    public CreateEmbedding(ChatGPT gpt, EmbeddingData embedding) {
         this.gpt = gpt;
-        this.image = image;
+        this.embedding = embedding;
         this.initialize();
     }
 
     public void initialize() {
-        gpt.getHttpClientInstance().getResponse(image, new RequestBuilder() {
+        gpt.getHttpClientInstance().getResponse(embedding, new RequestBuilder() {
                     @Override
                     public HttpRequest request(Object data) {
                         if(data instanceof EmbeddingData) {

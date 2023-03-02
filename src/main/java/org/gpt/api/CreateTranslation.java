@@ -1,7 +1,7 @@
 package org.gpt.api;
 
 import org.gpt.ChatGPT;
-import org.gpt.api.data.transcription.TranscriptionData;
+import org.gpt.api.data.translation.TranslationData;
 import org.gpt.net.ChatGPTEndpoints;
 import org.gpt.net.RequestBuilder;
 
@@ -11,25 +11,25 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class CreateTranscription {
+public class CreateTranslation {
 
     private final AtomicReference<HttpResponse<String>> response = new AtomicReference<>();
     private final ChatGPT gpt;
 
-    private final TranscriptionData transcription;
+    private final TranslationData translation;
 
-    public CreateTranscription(ChatGPT gpt, TranscriptionData transcription) {
+    public CreateTranslation(ChatGPT gpt, TranslationData translation) {
         this.gpt = gpt;
-        this.transcription = transcription;
+        this.translation = translation;
         this.initialize();
     }
 
     public void initialize() {
-        gpt.getHttpClientInstance().getResponse(transcription, new RequestBuilder() {
+        gpt.getHttpClientInstance().getResponse(translation, new RequestBuilder() {
                     @Override
                     public HttpRequest request(Object data) {
-                        if(data instanceof TranscriptionData) {
-                            return postMultiPartFormData(ChatGPTEndpoints.CREATE_TRANSCRIPTION.uri(),
+                        if(data instanceof TranslationData) {
+                            return postMultiPartFormData(ChatGPTEndpoints.CREATE_TRANSLATION.uri(),
                                     data,
                                     gpt.getApiKey(),
                                     gpt.getOrganization()
@@ -42,7 +42,7 @@ public class CreateTranscription {
                 .join();
     }
 
-    public static void populateMap(TranscriptionData data, Map<Object, Object> map) {
+    public static void populateMap(TranslationData data, Map<Object, Object> map) {
         //Required
         Path audioFile = data.getFile();
         if(audioFile != null) {
@@ -66,15 +66,14 @@ public class CreateTranscription {
         map.put("temperature", temperature);
 
         //Optional
-        String language = data.getLanguage();
-        if(language != null && !language.isEmpty()) {
-            map.put("language", language);
-        }
-
-        //Optional
         String responseFormat = data.getResponseFormat();
         if(responseFormat != null && !responseFormat.isEmpty()) {
             map.put("response_format", responseFormat);
+        }
+
+        String language = data.getLanguage();
+        if(language != null && !language.isEmpty()) {
+            map.put("language", language);
         }
 
     }

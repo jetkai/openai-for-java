@@ -1,5 +1,4 @@
-package org.gpt.api.data.transcription;
-
+package org.gpt.api.data.translation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -15,14 +14,14 @@ import java.nio.file.Path;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-public class TranscriptionData {
+public class TranslationData {
 
     /*
      * file
      * string
      * Required
      *
-     * The audio file to transcribe, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+     * The audio file to translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
      */
     private Path file;
 
@@ -41,7 +40,7 @@ public class TranscriptionData {
      * Optional
      *
      * An optional text to guide the model's style or continue a previous audio segment.
-     * The prompt should match the audio language.
+     * The prompt should be in English.
      */
     private String prompt;
 
@@ -68,17 +67,14 @@ public class TranscriptionData {
      */
     private double temperature;
 
-    /*
-     * language
-     * string
-     * Optional
-     *
-     * The language of the input audio. Supplying the input language in ISO-639-1 format
-     * will improve accuracy and latency.
-     */
+    //Not documented, but defaults to English - Can be set to French by setting language as "fr"
     private String language;
 
-    public TranscriptionData() { }
+    public TranslationData() { }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     public void setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
@@ -88,40 +84,36 @@ public class TranscriptionData {
         this.temperature = temperature;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setFile(Path file) {
+        this.file = file;
     }
 
     public void setPrompt(String prompt) {
         this.prompt = prompt;
     }
 
-    public void setFile(Path file) {
-        this.file = file;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public String getResponseFormat() {
-        return responseFormat;
-    }
-
-    public String getPrompt() {
-        return prompt;
+    public void setModel(String model) {
+        this.model = model;
     }
 
     public double getTemperature() {
         return temperature;
     }
 
+    public String getPrompt() {
+        return prompt;
+    }
+
+    public String getResponseFormat() {
+        return responseFormat;
+    }
+
     public Path getFile() {
         return file;
+    }
+
+    public String getModel() {
+        return model;
     }
 
     public String getLanguage() {

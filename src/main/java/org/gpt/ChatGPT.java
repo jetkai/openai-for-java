@@ -21,6 +21,8 @@ import org.gpt.api.data.model.ModelData;
 import org.gpt.api.data.model.ModelsData;
 import org.gpt.api.data.transcription.TranscriptionData;
 import org.gpt.api.data.transcription.TranscriptionResponseData;
+import org.gpt.api.data.translation.TranslationData;
+import org.gpt.api.data.translation.TranslationResponseData;
 import org.gpt.net.HttpClientInstance;
 
 import javax.imageio.ImageIO;
@@ -451,23 +453,48 @@ public class ChatGPT {
     }
 
     public String createTranscription(TranscriptionData transcriptionData) {
-        CreateTranscription embedding = new CreateTranscription(this, transcriptionData);
+        CreateTranscription transcription = new CreateTranscription(this, transcriptionData);
 
-        if(embedding.getBody().contains("Incorrect API key")) {
+        if(transcription.getBody().contains("Incorrect API key")) {
             System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
                     "You can find your API key at https://platform.openai");
             return null;
         }
 
-        if(embedding.getBody().contains("\"type\": \"invalid_request_error\"")) {
-            System.err.println(embedding.getBody());
+        if(transcription.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(transcription.getBody());
             return null;
         }
 
         ObjectMapper mapper = new ObjectMapper();
         TranscriptionResponseData data;
         try {
-            data = mapper.readValue(embedding.getBody(), TranscriptionResponseData.class);
+            data = mapper.readValue(transcription.getBody(), TranscriptionResponseData.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return data.getText();
+    }
+
+    public String createTranslation(TranslationData translationData) {
+        CreateTranslation translation = new CreateTranslation(this, translationData);
+
+        if(translation.getBody().contains("Incorrect API key")) {
+            System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
+                    "You can find your API key at https://platform.openai");
+            return null;
+        }
+
+        if(translation.getBody().contains("\"type\": \"invalid_request_error\"")) {
+            System.err.println(translation.getBody());
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        TranslationResponseData data;
+        try {
+            data = mapper.readValue(translation.getBody(), TranslationResponseData.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
