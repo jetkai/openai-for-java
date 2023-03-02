@@ -149,6 +149,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```
 
 ### CreateImage
+
 ```java
     @Test
     void createImageTest() {
@@ -171,6 +172,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```
 
 ### CreateImage - Return as ImageArray
+
 ```java
     @Test
     void createImageAwtTest() {
@@ -193,6 +195,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```
 
 ### CreateImageEdit
+
 ```java
     @Test
     void createEditTest() {
@@ -214,7 +217,8 @@ API Reference -> https://platform.openai.com/docs/api-reference/
     }
 ```
  
- ### CreateImageVariation
+### CreateImageVariation
+
 ```java
     @Test
     void createImageVariationTest() {
@@ -251,6 +255,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```
 
 ### CreateEmbedding
+
 ```java
     @Test
     void createEmbeddingTest() {
@@ -276,8 +281,9 @@ API Reference -> https://platform.openai.com/docs/api-reference/
     }
  ```
  
- ## CreateTranscription - (English Audio)
- ```java
+### CreateTranscription - (English Audio)
+
+```java
     @Test
     void createTranscriptionTest() {
         ApiKeyFileData keyData = getApiKeyFromFile();
@@ -309,11 +315,11 @@ API Reference -> https://platform.openai.com/docs/api-reference/
         assertNotNull(data);
         assertFalse(data.isEmpty());
     }
- ```
+```
  
- ### CreateTranslation - (English Audio to French)
- 
- ```java
+### CreateTranslation - (English Audio to French)
+
+```java
     @Test
     void createTranslationTest() {
         ApiKeyFileData keyData = getApiKeyFromFile();
