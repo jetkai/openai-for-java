@@ -2,11 +2,10 @@ package org.gpt;
 
 import org.gpt.api.data.completion.chat.ChatCompletionData;
 import org.gpt.api.data.completion.chat.ChatCompletionMessageData;
-import org.gpt.api.data.completion.response.CompletionChoice;
-import org.gpt.api.data.completion.response.CompletionResponseData;
 import org.gpt.util.ApiKeyFileData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.gpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
@@ -69,15 +68,10 @@ public class Main {
         completion.setModel("gpt-3.5-turbo");
         completion.setMessages(messages);
 
-        CompletionResponseData data = gpt.createChatCompletion(completion);
+        String[] response = gpt.createChatCompletion(completion);
 
-        List<CompletionChoice> choices = data.getChoices();
-        if(choices.size() > 0) {
-            CompletionChoice choice = data.getChoices().get(0);
-            if(choice == null || choice.getMessage() == null) {
-                return "Error - Choice is null.";
-            }
-            return choice.getMessage().getContent();
+        if(response != null && response.length > 0) {
+            return Arrays.toString(response);
         }
 
         return "Error - No choice found.";

@@ -3,16 +3,14 @@ import org.gpt.api.data.image.ImageData;
 import org.gpt.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-
 import static org.gpt.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class CreateImageAwtTest {
+public class CreateImageUrlsTest {
 
     @Test
-    void createImageAwtTest() {
+    void createImageUrlsTest() {
         ApiKeyFileData keyData = getApiKeyFromFile();
 
         assertNotNull(keyData);
@@ -25,9 +23,9 @@ public class CreateImageAwtTest {
         image.setN(2);
         image.setSize("1024x1024");
 
-        Image[] images = gpt.createImage(image);
-        assertNotNull(images);
-        assertNotEquals(0, images.length);
+        String[] imageUrls = gpt.createImageUrls(image);
+        assertNotNull(imageUrls);
+        assertNotEquals(0, imageUrls.length);
     }
 
 }

@@ -36,7 +36,7 @@ public class CreateChatCompletionTest {
         completion.setModel("gpt-3.5-turbo");
         completion.setMessages(messages);
 
-        CompletionResponseData data = gpt.createChatCompletion(completion);
+        CompletionResponseData data = gpt.createChatCompletionResponse(completion);
 
         assertNotNull(data.getModel());
 

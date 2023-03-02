@@ -24,7 +24,7 @@ public class CreateImageTest {
         image.setN(2);
         image.setSize("1024x1024");
 
-        ImageResponseData data = gpt.createImageAndReturnResponseData(image);
+        ImageResponseData data = gpt.createImageResponse(image);
 
         assertFalse(data.getData().isEmpty());
     }
