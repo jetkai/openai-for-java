@@ -14,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateImageTests {
 
-    //Create OpenAI instance
-
     @Test
     void createImageTest() {
         //Grab API Key from .json file
