@@ -5,11 +5,10 @@
 API Reference -> https://platform.openai.com/docs/api-reference/
 
 ## Library Download
-
-- [OpenAI For Java (With Dependencies)](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-with-dependencies.jar) - 2.08 MB
+- [OpenAI For Java (With Dependencies)](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-with-dependencies.jar) - 2.09 MB
     - `com.fasterxml.jackson.core:jackson-databind:2.14.2`
 
-- [OpenAI For Java (Without Dependencies)](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-without-dependencies.jar) - 73.2 KB
+- [OpenAI For Java (Without Dependencies)](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-without-dependencies.jar) - 79.5 KB
 
 ## Minimum Requirements
 - JDK 11
