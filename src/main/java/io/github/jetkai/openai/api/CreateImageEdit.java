@@ -8,7 +8,11 @@ import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.net.RequestBuilder;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
@@ -97,6 +101,73 @@ public class CreateImageEdit implements ApiInterface {
                 return buildMultiDataPost(endpoint.uri(), data, openAI.getApiKey(), openAI.getOrganization());
             }
         }).thenAccept(this.response::set).join();
+    }
+
+    /**
+     * asImage
+     * @return as Image
+     */
+    public Image asImage() {
+        if(this.data == null) {
+            ImageResponseData imageResponse = deserialize();
+            if (imageResponse == null) {
+                return null;
+            }
+            this.data = imageResponse;
+        }
+
+        List<ImageResponses> response = data.getData();
+        if(response != null && !response.isEmpty()) {
+            String imageUrlAsString = data.getData().get(0).getUrl();
+            if(imageUrlAsString == null || imageUrlAsString.isEmpty()) {
+                return null;
+            }
+            try {
+                URL imageUrl = new URL(imageUrlAsString);
+                return ImageIO.read(imageUrl);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * asImageArray
+     * @return - Return all the images as Image[]
+     */
+    public Image[] asImageArray() {
+
+        if(this.data == null) {
+            ImageResponseData imageResponse = deserialize();
+            if (imageResponse == null) {
+                return null;
+            }
+            this.data = imageResponse;
+        }
+
+        List<ImageResponses> imageList = data.getData();
+        Image[] images = new Image[imageList.size()];
+
+        for(int i = 0; i < imageList.size(); i++) {
+            ImageResponses imageResponse = imageList.get(i);
+            if(imageResponse == null) {
+                continue;
+            }
+            String imageResponseUrl = imageResponse.getUrl();
+            if(imageResponseUrl == null || imageResponseUrl.isEmpty()) {
+                continue;
+            }
+            URL imageUrl;
+            try {
+                imageUrl = new URL(imageResponseUrl);
+                images[i] = ImageIO.read(imageUrl);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return images;
     }
 
     /**
