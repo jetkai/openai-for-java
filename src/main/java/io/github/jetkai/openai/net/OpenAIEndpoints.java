@@ -2,6 +2,14 @@ package io.github.jetkai.openai.net;
 
 import java.net.URI;
 
+/**
+ * OpenAIEndpoints
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
 public enum OpenAIEndpoints {
 
     GET_MODEL(URI.create("https://api.openai.com/v1/models")),

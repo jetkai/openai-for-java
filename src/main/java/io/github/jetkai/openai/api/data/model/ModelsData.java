@@ -3,10 +3,17 @@ package io.github.jetkai.openai.api.data.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
+/**
+ * ModelsData
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
@@ -17,11 +24,6 @@ public class ModelsData {
     private ModelData[] data;
 
     public ModelsData() { }
-
-    public ModelsData(String object, ModelData[] data) {
-        this.object = object;
-        this.data = data;
-    }
 
     public void setObject(String object) {
         this.object = object;
@@ -41,14 +43,7 @@ public class ModelsData {
 
     @JsonIgnore
     public String toJson() {
-        ObjectMapper mapper = new ObjectMapper();
-        String json;
-        try {
-            json = mapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return json;
+        return JacksonJsonDeserializer.valuesAsString(this);
     }
 
 }

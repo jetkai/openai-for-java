@@ -9,6 +9,14 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * ReadApiKeyFromFile
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
 public class ReadApiKeyFromFile {
 
     public static ApiKeyFileData apiKeyFileData;
@@ -49,13 +57,7 @@ public class ReadApiKeyFromFile {
             throw new RuntimeException(e);
         }
 
-        if(data != null) {
-            apiKeyFileData = data;
-            System.out.println("Loaded the API Key successfully.");
-        }
-
-        return apiKeyFileData;
-
+        return data;
     }
 
 }

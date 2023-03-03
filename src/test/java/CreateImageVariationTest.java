@@ -12,6 +12,14 @@ import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * CreateImageVariationTest
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
 public class CreateImageVariationTest {
 
     @Test
@@ -42,7 +50,7 @@ public class CreateImageVariationTest {
         image.setN(2);
         image.setSize("1024x1024");
 
-        ImageResponseData data = openAI.createImageVariationResponse(image);
+        ImageResponseData data = openAI.createImageVariationResponse(image).asData();
 
         assertFalse(data.getData().isEmpty());
     }

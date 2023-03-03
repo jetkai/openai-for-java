@@ -1,47 +1,175 @@
 package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.data.model.ModelData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.net.RequestBuilder;
+import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class GetModel {
+/**
+ * GetModel
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
+@SuppressWarnings("unused")
+public class GetModel implements ApiInterface {
 
-    private final AtomicReference<HttpResponse<String>> response = new AtomicReference<>();
+    /**
+     * HttpResponse from OpenAI
+     */
+    private final AtomicReference<HttpResponse<String>> response;
+
+    /**
+     * The OpenAI instance
+     */
     private final OpenAI openAI;
+
+    /**
+     * Model that has been specified
+     */
     private final String model;
 
+    /**
+     * The endpoint that handleHttpResponse calls
+     */
+    private final OpenAIEndpoints endpoint;
+
+    /**
+     * Stored object of the data that has been deserialized from the OpenAI response
+     */
+    private ModelData data = null;
+
+    /**
+     * GetModel
+     * @param openAI - The OpenAI instance
+     * @param model - The name of the model you wish to search for
+     */
     public GetModel(OpenAI openAI, String model) {
         this.openAI = openAI;
         this.model = model;
+        this.endpoint = OpenAIEndpoints.GET_MODEL;
+        this.response = new AtomicReference<>();
         this.initialize();
     }
 
-    public void initialize() {
-        openAI.getHttpClientInstance().getResponse(model, new RequestBuilder() {
-                    @Override
-                    public HttpRequest request(Object data) {
-                        URI uri = URI.create(OpenAIEndpoints.GET_MODEL.uri().toString() + "/" + data);
-                        return get(uri,
-                                openAI.getApiKey(),
-                                openAI.getOrganization()
-                        );
-                    }
-                })
-                .thenAccept(this.response::set)
-                .join();
+    /**
+     * Initialize
+     * Sends a HttpRequest & handles the response from OpenAI's API
+     */
+    private void initialize() {
+        HttpResponse<String> httpResponse = response.get();
+        if(httpResponse == null || httpResponse.body() == null || httpResponse.body().isEmpty()) {
+            this.handleHttpResponse();
+        }
     }
 
-    public AtomicReference<HttpResponse<String>> getResponse() {
+    /**
+     * Reinitialize
+     * If the HttpRequest/Response to OpenAI's API needs to be restarted, this will do that
+     * @return GetModel
+     */
+    public GetModel reinitialize() {
+        this.data = null;
+        this.handleHttpResponse();
+        return this;
+    }
+
+    /**
+     * HandleHttpResponse
+     * This method will update the HttpResponse<String> response field with data from OpenAI
+     * response.get().body() can then be called to retrieve the JSON response from OpenAI
+     */
+    private void handleHttpResponse() {
+        openAI.getHttpClientInstance().getResponse(model, new RequestBuilder() {
+            @Override
+            public HttpRequest request(Object data) {
+                URI uri = URI.create(endpoint.uri().toString() + "/" + data);
+                return buildGetRequest(uri, openAI.getApiKey(), openAI.getOrganization());
+            }
+        }).thenAccept(this.response::set).join();
+    }
+
+    /**
+     * asData
+     * @return ModelData
+     */
+    public ModelData asData() {
+        if(this.data == null) {
+            ModelData model = deserialize();
+            if (model == null) {
+                return null;
+            }
+            this.data = model;
+        }
+        return this.data;
+    }
+
+    /**
+     * asJson
+     * @return String (JSON)
+     */
+    @Override
+    public String asJson() {
+        if(this.data == null) {
+            ModelData model = deserialize();
+            if (model == null) {
+                return null;
+            }
+            this.data = model;
+        }
+        return this.data.toJson();
+    }
+
+    /**
+     * deserializes
+     * Parses the JSON response from OpenAI and deserializes the string to the below data structure
+     * @return ModelData
+     */
+    private ModelData deserialize() {
+        if(this.data == null) {
+            ModelData model = JacksonJsonDeserializer.parseData(ModelData.class, this.getRawJsonResponse());
+            if (model == null) {
+                return null;
+            }
+            this.data = model;
+        }
+        return this.data;
+    }
+
+    /**
+     * getResponse
+     * The response from OpenAI
+     * @return AtomicReference<HttpResponse<String>>
+     */
+    @Override
+    public AtomicReference<HttpResponse<String>> getHttpResponse() {
         return response;
     }
 
-    public String getBody() {
+    /**
+     * getBody
+     * @return String (JSON from OpenAI response)
+     */
+    @Override
+    public String getRawJsonResponse() {
         return String.valueOf(response.get().body());
+    }
+
+    /**
+     * getEndpoint
+     * @return OpenAIEndpoints (The endpoint that handleHttpResponse calls)
+     */
+    @Override
+    public OpenAIEndpoints getEndpoint() {
+        return endpoint;
     }
 
 }

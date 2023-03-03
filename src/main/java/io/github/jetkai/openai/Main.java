@@ -11,9 +11,17 @@ import java.util.List;
 import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 
 /**
+ * Main
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ *
+ * <p>
  * Note - This is just a test class, it is recommended to import this project as a library
  * and then call OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
- *
+ * <p>
  * If you would like more examples, check out the tests directory
  *      CreateChatCompletionTest - Sends a chat message to OpenAI and returns a response
  *      CreateCompletionTest - Sends a message to OpenAI and returns a response
@@ -68,7 +76,7 @@ public class Main {
         completion.setModel("openAI-3.5-turbo");
         completion.setMessages(messages);
 
-        String[] response = openAI.createChatCompletion(completion);
+        String[] response = openAI.createChatCompletion(completion).asStringArray();
 
         if(response != null && response.length > 0) {
             return Arrays.toString(response);

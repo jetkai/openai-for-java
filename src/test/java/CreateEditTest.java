@@ -8,6 +8,14 @@ import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * CreateEditTest
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
 public class CreateEditTest {
 
     @Test
@@ -24,7 +32,7 @@ public class CreateEditTest {
         edit.setInput("What day of the wek is it?");
         edit.setInstruction("Fix the spelling mistakes");
 
-        CompletionResponseData data = openAI.createEditResponse(edit); //You can call "data" to see the response
+        CompletionResponseData data = openAI.createEdit(edit).asData(); //You can call "data" to see the response
 
         assertFalse(data.getChoices().isEmpty());
     }

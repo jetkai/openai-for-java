@@ -11,6 +11,14 @@ import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * CreateTranslationTest
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
 public class CreateTranslationTest {
 
     @Test
@@ -40,7 +48,7 @@ public class CreateTranslationTest {
         translation.setModel("whisper-1");
         translation.setLanguage("fr");
 
-        String data = openAI.createTranslation(translation);
+        String data = openAI.createTranslation(translation).asText();
 
         assertNotNull(data);
         assertFalse(data.isEmpty());

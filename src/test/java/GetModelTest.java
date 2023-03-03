@@ -7,6 +7,14 @@ import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * GetModelTest
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
 public class GetModelTest {
 
     @Test
@@ -18,7 +26,8 @@ public class GetModelTest {
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
         String modelName = "davinci";
-        ModelData data = openAI.getModel(modelName); //You can view the listed model here
+        //You can view the listed model here
+        ModelData data = openAI.getModel(modelName).asData();
 
         assertEquals(data.getId(), modelName);
     }

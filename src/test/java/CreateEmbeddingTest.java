@@ -11,6 +11,14 @@ import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * CreateEmbeddingTest
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
 public class CreateEmbeddingTest {
 
     @Test
@@ -26,7 +34,7 @@ public class CreateEmbeddingTest {
         embed.setModel("text-embedding-ada-002");
         embed.setInput("The food was delicious and the waiter...");
 
-        EmbeddingResponseData data = openAI.createEmbeddingResponse(embed);
+        EmbeddingResponseData data = openAI.createEmbedding(embed).asData();
 
         List<EmbeddingResponseDataBlock> embeddingBlock = data.getData();
 

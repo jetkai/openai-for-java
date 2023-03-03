@@ -7,6 +7,14 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
+/**
+ * HttpClientInstance
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.0.0
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
 public class HttpClientInstance {
 
     private final HttpClient httpClient = HttpClient.newBuilder()
@@ -33,6 +41,11 @@ public class HttpClientInstance {
             System.out.println("Promise request: " + pushPromiseRequest.uri());
             System.out.println("Promise request: " + pushPromiseRequest.headers())*/;
         };
+    }
+
+    @SuppressWarnings("unused")
+    public HttpClient getHttpClient() {
+        return httpClient;
     }
 
 }
