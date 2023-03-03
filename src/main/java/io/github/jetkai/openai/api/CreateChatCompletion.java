@@ -100,6 +100,40 @@ public class CreateChatCompletion implements ApiInterface {
         }).thenAccept(this.response::set).join();
     }
 
+    public String asText() {
+
+        if(this.data == null) {
+            CompletionResponseData responseData = deserialize();
+            if (responseData == null) {
+                return null;
+            }
+            this.data = responseData;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        List<CompletionChoiceData> choiceList = data.getChoices();
+        if(choiceList == null || choiceList.isEmpty()) {
+            return null;
+        }
+
+        for (CompletionChoiceData choice : choiceList) {
+            if (choice == null) {
+                continue;
+            }
+            CompletionMessageData message = choice.getMessage();
+            if (message == null) {
+                continue;
+            }
+            String content = message.getContent();
+            if (content == null || content.isEmpty()) {
+                continue;
+            }
+            builder.append(content);
+        }
+
+        return builder.toString();
+    }
+
     /**
      * asStringArray
      * @return - Text response from OpenAI GPT-3.5 as a StringArray
