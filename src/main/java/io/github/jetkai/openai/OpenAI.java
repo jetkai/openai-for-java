@@ -78,7 +78,7 @@ public class OpenAI {
         return model;
     }
 
-    public CreateImageVariation createImageVariationResponse(ImageVariationData imageData) {
+    public CreateImageVariation createImageVariation(ImageVariationData imageData) {
         if(imageVariation == null) {
             imageVariation = new CreateImageVariation(this, imageData);
         }

@@ -104,14 +104,39 @@ public class CreateImage implements ApiInterface {
         }).thenAccept(this.response::set).join();
     }
 
+    public Image asImage() {
+        if(this.data == null) {
+            ImageResponseData imageResponse = deserialize();
+            if (imageResponse == null) {
+                return null;
+            }
+            this.data = imageResponse;
+        }
+
+        List<ImageResponses> response = data.getData();
+        if(response != null && !response.isEmpty()) {
+            String imageUrlAsString = data.getData().get(0).getUrl();
+            if(imageUrlAsString == null || imageUrlAsString.isEmpty()) {
+                return null;
+            }
+            try {
+                URL imageUrl = new URL(imageUrlAsString);
+                return ImageIO.read(imageUrl);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return null;
+    }
+
     public Image[] asImageArray() {
 
         if(this.data == null) {
-            ImageResponseData translation = deserialize();
-            if (translation == null) {
+            ImageResponseData imageResponse = deserialize();
+            if (imageResponse == null) {
                 return null;
             }
-            this.data = translation;
+            this.data = imageResponse;
         }
 
         List<ImageResponses> imageList = data.getData();
@@ -165,11 +190,11 @@ public class CreateImage implements ApiInterface {
     @SuppressWarnings("unused")
     public URI[] asUriArray() {
         if(this.data == null) {
-            ImageResponseData translation = deserialize();
-            if (translation == null) {
+            ImageResponseData imageResponse = deserialize();
+            if (imageResponse == null) {
                 return null;
             }
-            this.data = translation;
+            this.data = imageResponse;
         }
         int dataLength = this.data.getData().size();
         URI[] uris = new URI[dataLength];

@@ -166,7 +166,8 @@ public class CompletionData {
      * Optional
      * Defaults to null
      * <p>
-     * Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
+     * Up to 4 sequences where the API will stop generating further tokens.
+     * The returned text will not contain the stop sequence.
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private List<String> stop;

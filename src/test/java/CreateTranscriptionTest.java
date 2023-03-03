@@ -1,5 +1,7 @@
 import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.CreateTranscription;
 import io.github.jetkai.openai.api.data.transcription.TranscriptionData;
+import io.github.jetkai.openai.api.data.transcription.TranscriptionResponseData;
 import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
@@ -23,15 +25,14 @@ public class CreateTranscriptionTest {
 
     @Test
     void createTranscriptionTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the OpenAI Api
-        TranscriptionData transcript = new TranscriptionData();
-
+        //Example audio file that we are going to upload to OpenAI to have a transcript of
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
         Path audioPath = null;
         try {
@@ -44,14 +45,34 @@ public class CreateTranscriptionTest {
 
         assertNotNull(audioPath);
 
-        transcript.setFile(audioPath);
-        transcript.setModel("whisper-1");
+        //TranscriptionData, ready to send to the OpenAI Api
+        TranscriptionData transcriptionData = new TranscriptionData();
 
-        String data = openAI.createTranscription(transcript).asText();
+        //Set the path for the audio file
+        transcriptionData.setFile(audioPath);
 
-        assertNotNull(data);
-        assertFalse(data.isEmpty());
+        //Use the whisper-1 model for translation
+        transcriptionData.setModel("whisper-1");
 
+        //Option to specify language of the audio file
+        //transcriptionData.setLanguage("en");
+
+        //Call the CreateTranscription API from OpenAI & create instance
+        CreateTranscription createTranscription = openAI.createTranscription(transcriptionData);
+
+        //Transcript as a string (Audio File -> English)
+        String transcript = createTranscription.asText();
+        assertNotNull(transcript);
+        assertFalse(transcript.isEmpty());
+
+        //Get id from data structure example
+        TranscriptionResponseData responseData = createTranscription.asData();
+        assertNotNull(responseData);
+
+        //Json example
+        String json = createTranscription.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
 
 }

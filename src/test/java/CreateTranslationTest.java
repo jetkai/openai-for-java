@@ -1,5 +1,7 @@
 import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.CreateTranslation;
 import io.github.jetkai.openai.api.data.translation.TranslationData;
+import io.github.jetkai.openai.api.data.translation.TranslationResponseData;
 import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
@@ -23,15 +25,14 @@ public class CreateTranslationTest {
 
     @Test
     void createTranslationTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the OpenAI Api
-        TranslationData translation = new TranslationData();
-
+        //Example audio file that we are going to upload to OpenAI to be translated
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
         Path audioPath = null;
         try {
@@ -44,15 +45,34 @@ public class CreateTranslationTest {
 
         assertNotNull(audioPath);
 
-        translation.setFile(audioPath);
-        translation.setModel("whisper-1");
-        translation.setLanguage("fr");
+        //TranslationData, ready to send to the OpenAI API
+        TranslationData translationData = new TranslationData();
 
-        String data = openAI.createTranslation(translation).asText();
+        //Set the path for the audio file
+        translationData.setFile(audioPath);
 
-        assertNotNull(data);
-        assertFalse(data.isEmpty());
+        //Use the whisper-1 model for translation
+        translationData.setModel("whisper-1");
 
+        //Set language to translate (French)
+        translationData.setLanguage("fr");
+
+        //Call the CreateTranslation API from OpenAI & create instance
+        CreateTranslation createTranslation = openAI.createTranslation(translationData);
+
+        //Data structure example
+        TranslationResponseData responseData = createTranslation.asData();
+        assertNotNull(responseData);
+
+        //Translated text as string (English -> French)
+        String translatedText = createTranslation.asText();
+        assertNotNull(translatedText);
+        assertFalse(translatedText.isEmpty());
+
+        //Json example
+        String json = createTranslation.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
 
 }
