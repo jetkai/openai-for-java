@@ -35,16 +35,30 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void getModelTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
+        //Set model to view
         String modelName = "davinci";
-        ModelData data = openAI.getModel(modelName); //You can view the listed model here
 
-        assertEquals(data.getId(), modelName);
+        //Call the GetModel API from OpenAI & create instance
+        GetModel getModel = openAI.getModel(modelName);
+
+        //Data structure example
+        ModelData modelData = getModel.asData();
+        assertNotNull(modelData);
+
+        //Get id from data structure example
+        String id = modelData.getId();
+        assertEquals(id, modelName);
+
+        //Json example
+        String json = getModel.asJson();
+        assertNotNull(json);
     }
 ```
 
@@ -53,15 +67,30 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void getModelsTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        ModelData[] data = openAI.getModels(); //You can view all the listed models here
+        //Call the GetModels API from OpenAI & create instance
+        GetModels getModels = openAI.getModels();
 
-        assertTrue(data.length > 1);
+        //Data structure example
+        ModelData[] modelData = getModels.asDataArray(); //You can view all the listed models here
+        assertNotNull(modelData);
+        assertTrue(modelData.length > 0);
+
+        //Data list example
+        List<ModelData> modelList = getModels.asDataList();
+        assertNotNull(modelList);
+        assertTrue(modelList.size() > 0);
+
+        //Json example
+        String json = getModels.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
 ```
 
@@ -70,26 +99,75 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createCompletionTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
+        //CompletionData, ready to send to the OpenAI API
         CompletionData completion = new CompletionData();
+
+        //ID of the model to use. You can use the List models API to see all of your available models,
+        //or see our Model overview for descriptions of them.
         completion.setModel("text-davinci-003");
+
+        //The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens,
+        //or array of token arrays.
+        //Note that <|endoftext|> is the document separator that the model sees during training, so if a prompt
+        //is not specified the model will generate as if from the beginning of a new document.
         completion.setPrompt("Say this is a test");
+
+        //The maximum number of tokens to generate in the completion.
+        //The token count of your prompt plus max_tokens cannot exceed the model's context length.
+        //Most models have a context length of 2048 tokens (except for the newest models, which support 4096).
         completion.setMaxTokens(7);
+
+        //What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the
+        //output more random, while lower values like 0.2 will make it more focused and deterministic.
+        //We generally recommend altering this or top_p but not both.
         completion.setTemperature(0);
+
+        //An alternative to sampling with temperature, called nucleus sampling, where the model considers
+        //the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the
+        //top 10% probability mass are considered.
+        //We generally recommend altering this or temperature but not both.
         completion.setTopP(1);
+
+        //How many completions to generate for each prompt.
+        //Note: Because this parameter generates many completions, it can quickly consume your token quota.
+        //Use carefully and ensure that you have reasonable settings for max_tokens and stop.
         completion.setN(1);
+
+        //Whether to stream back partial progress. If set, tokens will be sent as data-only server-sent
+        //events as they become available, with the stream terminated by a data: [DONE] message.
         completion.setStream(false);
+
+
+        //Include the log probabilities on the logprobs most likely tokens, as well the chosen tokens.
+        //For example, if logprobs is 5, the API will return a list of the 5 most likely tokens.
+        //The API will always return the logprob of the sampled token, so there may be up to logprobs+1
+        //elements in the response.
+        //The maximum value for logprobs is 5. If you need more than this, please contact us through our
+        //Help center and describe your use case.
         completion.setLogprobs(null);
+
+        //Up to 4 sequences where the API will stop generating further tokens.
+        //The returned text will not contain the stop sequence.
         completion.setStop("\n");
 
-        CompletionResponseData data = openAI.createCompletion(completion); //You can call "data" to see the response
+        //Call the CreateCompletion API from OpenAI & create instance
+        CreateCompletion createCompletion = openAI.createCompletion(completion);
 
-        assertNotNull(data.getModel());
+        //Data structure example
+        CompletionResponseData responseData = createCompletion.asData();
+        assertNotNull(responseData);
+
+        //Json example
+        String json = createCompletion.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
 ```
 
@@ -98,20 +176,24 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createChatCompletionTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Object of the Message it-self
+        //Create message object, this will contain the data we want to send to ChatGPT
         ChatCompletionMessageData message = new ChatCompletionMessageData();
+
         //List of Messages that you would like to send to the Chat Bot
         List<ChatCompletionMessageData> messages = new ArrayList<>();
 
+        //The role of the user
         message.setRole("user");
+        //Message that you would like to send to OpenAI ChatGPT
         message.setContent("Hello!");
-
+        //Add message to the messages list
         messages.add(message);
 
         //Completion Data, ready to send to the OpenAI Api
@@ -119,9 +201,21 @@ API Reference -> https://platform.openai.com/docs/api-reference/
         completion.setModel("gpt-3.5-turbo");
         completion.setMessages(messages);
 
-        CompletionResponseData data = openAI.createChatCompletionResponse(completion); //You can call "data" to see the response
+        //Call the CreateChatCompletion API from OpenAI & create instance
+        CreateChatCompletion createChatCompletion = openAI.createChatCompletion(completion);
 
-        assertNotNull(data.getModel());
+        //Data structure example
+        CompletionResponseData responseData = createChatCompletion.asData();
+        assertNotNull(responseData);
+
+        //StringArray example - contains the response in plaintext from ChatGPT
+        String[] stringArray = createChatCompletion.asStringArray();
+        assertNotNull(stringArray);
+
+        //Json example
+        String json = createChatCompletion.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
 ```
 
@@ -130,21 +224,41 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createEditTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the OpenAI Api
+        //EditData, ready to send to the OpenAI Api
         EditData edit = new EditData();
+
+        //ID of the model to use. You can use the text-davinci-edit-001 or
+        //code-davinci-edit-001 model with this endpoint.
         edit.setModel("text-davinci-edit-001");
+
+        //The input text to use as a starting point for the edit.
         edit.setInput("What day of the wek is it?");
+
+        //The instruction that tells the model how to edit the prompt.
         edit.setInstruction("Fix the spelling mistakes");
 
-        CompletionResponseData data = openAI.createEditResponse(edit); //You can call "data" to see the response
+        //Call the CreateEdit API from OpenAI & create instance
+        CreateEdit createEdit = openAI.createEdit(edit); //You can call "data" to see the response
 
-        assertFalse(data.getChoices().isEmpty());
+        //Data structure example
+        CompletionResponseData responseData = createEdit.asData();
+        assertNotNull(responseData);
+
+        //StringArray example
+        String[] stringArray = createEdit.asStringArray();
+        assertNotNull(stringArray);
+
+        //Json example
+        String json = createEdit.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
 ```
 
@@ -153,67 +267,57 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createImageTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance
+        OpenAI openAI = new OpenAI();
+        //Set the API key (from .json file)
+        openAI.setApiKey(keyData.getApiKey());
+        //Set the organization (from .json file)
+        openAI.setOrganization(keyData.getOrganization());
 
-        //Completion Data, ready to send to the OpenAI Api
-        ImageData image = new ImageData();
-        image.setPrompt("A cute baby sea otter");
-        image.setN(2);
-        image.setSize("1024x1024");
+        //ImageData, ready to send to the OpenAI API
+        ImageData imageData = new ImageData();
 
-        ImageResponseData data = openAI.createImageResponse(image); //You can call "data" to see the imagesUrls
+        //A text description of the desired image(s). The maximum length is 1000 characters
+        imageData.setPrompt("A cute baby sea otter");
 
-        assertFalse(data.getData().isEmpty());
-    }
-```
+        //The number of images to generate. Must be between 1 and 10.
+        imageData.setN(2);
 
-### CreateImage - Return as ImageArray
+        //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024
+        imageData.setSize("1024x1024");
 
-```java
-    @Test
-    void createImageAwtTest() {
-        ApiKeyFileData keyData = getApiKeyFromFile();
+        //Call the CreateImage API from OpenAI & create instance
+        CreateImage createImage = openAI.createImage(imageData);
 
-        assertNotNull(keyData);
+        //Grabs the first image in the array, if your "setN" is higher than 1, then use imageArray
+        Image image = createImage.asImage();
+        assertNotNull(image);
 
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Array of images, size depends on the "setN" value
+        Image[] imageArray = createImage.asImageArray();
+        assertNotNull(imageArray);
+        assertNotEquals(0, imageArray.length);
 
-        //Completion Data, ready to send to the OpenAI Api
-        ImageData image = new ImageData();
-        image.setPrompt("A cute baby sea otter");
-        image.setN(2);
-        image.setSize("1024x1024");
+        //String List example (contains all the image urls)
+        List<String> imageList = createImage.asStringList();
+        assertNotNull(imageList);
 
-        Image[] images = openAI.createImage(image);
-        assertNotNull(images);
-        assertNotEquals(0, images.length);
-    }
-```
+        //URIArray example (contains all the image urls)
+        URI[] uriArray = createImage.asUriArray();
+        assertNotNull(uriArray);
 
-### CreateImageEdit
+        //Data structure example
+        ImageResponseData responseData = createImage.asData();
+        assertNotNull(responseData);
 
-```java
-    @Test
-    void createEditTest() {
-        ApiKeyFileData keyData = getApiKeyFromFile();
-
-        assertNotNull(keyData);
-
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
-
-        //Completion Data, ready to send to the OpenAI Api
-        EditData edit = new EditData();
-        edit.setModel("text-davinci-edit-001");
-        edit.setInput("What day of the wek is it?");
-        edit.setInstruction("Fix the spelling mistakes");
-
-        CompletionResponseData data = openAI.createEditResponse(edit); //You can call "data" to see the response
-
-        assertFalse(data.getChoices().isEmpty());
+        //Json example
+        String json = createImage.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
 ```
  
@@ -222,17 +326,16 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createImageVariationTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the OpenAI Api
-        ImageVariationData image = new ImageVariationData();
-
-        Path imagePath = null;
+        //Example image file that we are going to upload to OpenAI
         URL imageUrl = CreateImageVariationTest.class.getResource("otter.png");
+        Path imagePath = null;
         try {
             if (imageUrl != null) {
                 imagePath = Path.of(imageUrl.toURI());
@@ -243,14 +346,39 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(imagePath);
 
+        //ImageVariationData, ready to send to the OpenAI API
+        ImageVariationData image = new ImageVariationData();
+
+        //Set the path for the image file
         image.setImage(imagePath);
 
+        //Set the number of images to generate. Must be between 1 and 10.
         image.setN(2);
+
+        //Set the size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
         image.setSize("1024x1024");
 
-        ImageResponseData data = openAI.createImageVariationResponse(image);
+        //Call the CreateTranscription API from OpenAI & create instance
+        CreateImageVariation createImageVariation = openAI.createImageVariation(image);
 
-        assertFalse(data.getData().isEmpty());
+        //String List example (contains all the image urls)
+        List<String> stringList = createImageVariation.asStringList();
+        assertNotNull(stringList);
+        assertFalse(stringList.isEmpty());
+
+        //URI array example (contains all the image urls)
+        URI[] uriArray = createImageVariation.asUriArray();
+        assertNotNull(uriArray);
+        assertNotEquals(0, uriArray.length);
+
+        //Data structure example
+        ImageResponseData responseData = createImageVariation.asData();
+        assertNotNull(responseData);
+
+        //Json example
+        String json = createImageVariation.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
 ```
 
@@ -259,25 +387,41 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createEmbeddingTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the OpenAI Api
+        //EmbeddingData, ready to send to the OpenAI API
         EmbeddingData embed = new EmbeddingData();
+
+        //ID of the model to use. You can use the List models API to see all of your available models,
+        //or see our Model overview for descriptions of them.
         embed.setModel("text-embedding-ada-002");
+
+        //Input text to get embeddings for, encoded as a string or array of tokens.
+        //To get embeddings for multiple inputs in a single request, pass an array of strings or array of token arrays.
+        //Each input must not exceed 8192 tokens in length.
         embed.setInput("The food was delicious and the waiter...");
 
-        EmbeddingResponseData data = openAI.createEmbeddingResponse(embed);
+        //Call the CreateEmbedding API from OpenAI & create instance
+        CreateEmbedding createEmbedding = openAI.createEmbedding(embed);
 
-        List<EmbeddingResponseDataBlock> embeddingBlock = data.getData();
-
+        //Data structure example
+        EmbeddingResponseData embeddingBlock = createEmbedding.asData();
         assertNotNull(embeddingBlock);
 
-        assertFalse(embeddingBlock.isEmpty());
-        assertFalse(embeddingBlock.get(0).getEmbedding().isEmpty());
+        //Float List example
+        List<Float> floatList = createEmbedding.asFloatList();
+        assertNotNull(floatList);
+        assertFalse(floatList.isEmpty());
+
+        //Json example
+        String json = createEmbedding.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
  ```
  
@@ -286,15 +430,14 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createTranscriptionTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the OpenAI Api
-        TranscriptionData transcript = new TranscriptionData();
-
+        //Example audio file that we are going to upload to OpenAI to have a transcript of
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
         Path audioPath = null;
         try {
@@ -307,13 +450,34 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(audioPath);
 
-        transcript.setFile(audioPath);
-        transcript.setModel("whisper-1");
+        //TranscriptionData, ready to send to the OpenAI Api
+        TranscriptionData transcriptionData = new TranscriptionData();
 
-        String data = openAI.createTranscription(transcript);
+        //Set the path for the audio file
+        transcriptionData.setFile(audioPath);
 
-        assertNotNull(data);
-        assertFalse(data.isEmpty());
+        //Use the whisper-1 model for translation
+        transcriptionData.setModel("whisper-1");
+
+        //Option to specify language of the audio file
+        //transcriptionData.setLanguage("en");
+
+        //Call the CreateTranscription API from OpenAI & create instance
+        CreateTranscription createTranscription = openAI.createTranscription(transcriptionData);
+
+        //Transcript as a string (Audio File -> English)
+        String transcript = createTranscription.asText();
+        assertNotNull(transcript);
+        assertFalse(transcript.isEmpty());
+
+        //Get id from data structure example
+        TranscriptionResponseData responseData = createTranscription.asData();
+        assertNotNull(responseData);
+
+        //Json example
+        String json = createTranscription.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
 ```
  
@@ -322,15 +486,14 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createTranslationTest() {
+        //Grab API Key from .json file
         ApiKeyFileData keyData = getApiKeyFromFile();
-
         assertNotNull(keyData);
 
+        //Create OpenAI instance using API key loaded from the .json file (example)
         OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
 
-        //Completion Data, ready to send to the OpenAI Api
-        TranslationData translation = new TranslationData();
-
+        //Example audio file that we are going to upload to OpenAI to be translated
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
         Path audioPath = null;
         try {
@@ -343,13 +506,33 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         assertNotNull(audioPath);
 
-        translation.setFile(audioPath);
-        translation.setModel("whisper-1");
-        translation.setLanguage("fr");
+        //TranslationData, ready to send to the OpenAI API
+        TranslationData translationData = new TranslationData();
 
-        String data = openAI.createTranslation(translation);
+        //Set the path for the audio file
+        translationData.setFile(audioPath);
 
-        assertNotNull(data);
-        assertFalse(data.isEmpty());
+        //Use the whisper-1 model for translation
+        translationData.setModel("whisper-1");
+
+        //Set language to translate (French)
+        translationData.setLanguage("fr");
+
+        //Call the CreateTranslation API from OpenAI & create instance
+        CreateTranslation createTranslation = openAI.createTranslation(translationData);
+
+        //Data structure example
+        TranslationResponseData responseData = createTranslation.asData();
+        assertNotNull(responseData);
+
+        //Translated text as string (English -> French)
+        String translatedText = createTranslation.asText();
+        assertNotNull(translatedText);
+        assertFalse(translatedText.isEmpty());
+
+        //Json example
+        String json = createTranslation.asJson();
+        assertNotNull(json);
+        assertFalse(json.isEmpty());
     }
 ```
