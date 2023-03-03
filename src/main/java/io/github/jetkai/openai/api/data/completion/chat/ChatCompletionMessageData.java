@@ -24,11 +24,6 @@ public class ChatCompletionMessageData {
 
     public ChatCompletionMessageData() { }
 
-    public ChatCompletionMessageData(String role, String content) {
-        this.role = role;
-        this.content = content;
-    }
-
     public void setContent(String content) {
         this.content = content;
     }

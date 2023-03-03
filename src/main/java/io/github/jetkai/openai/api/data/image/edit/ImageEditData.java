@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
+import java.net.URI;
 import java.nio.file.Path;
 
 /**
@@ -120,8 +121,16 @@ public class ImageEditData {
         this.user = user;
     }
 
+    public void setImage(String image) {
+        this.image = Path.of(URI.create(image));
+    }
+
     public void setImage(Path image) {
         this.image = image;
+    }
+
+    public void setMask(String mask) {
+        this.mask = Path.of(URI.create(mask));
     }
 
     public void setMask(Path mask) {

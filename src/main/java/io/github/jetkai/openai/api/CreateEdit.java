@@ -1,7 +1,7 @@
 package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.OpenAI;
-import io.github.jetkai.openai.api.data.completion.response.CompletionChoice;
+import io.github.jetkai.openai.api.data.completion.response.CompletionChoiceData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
 import io.github.jetkai.openai.api.data.edit.EditData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
@@ -101,15 +101,15 @@ public class CreateEdit implements ApiInterface {
 
     @SuppressWarnings("unused")
     public String[] asStringArray() {
-        List<CompletionChoice> choiceList = data.getChoices();
+        List<CompletionChoiceData> choiceList = data.getChoices();
         String[] choicesText = new String[choiceList.size()];
 
         for(int i = 0; i < choiceList.size(); i++) {
-            CompletionChoice completionChoice = choiceList.get(i);
-            if(completionChoice == null) {
+            CompletionChoiceData completionChoiceData = choiceList.get(i);
+            if(completionChoiceData == null) {
                 continue;
             }
-            String choiceText = completionChoice.getText();
+            String choiceText = completionChoiceData.getText();
             if(choiceText == null || choiceText.isEmpty()) {
                 continue;
             }

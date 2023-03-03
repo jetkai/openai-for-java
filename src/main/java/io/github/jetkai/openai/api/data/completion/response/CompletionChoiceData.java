@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 /**
- * CompletionChoice
+ * CompletionChoiceData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
@@ -19,30 +19,19 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-public class CompletionChoice {
+public class CompletionChoiceData {
 
     private String id;
     private String object;
     private int created;
-    private CompletionMessage message;
+    private CompletionMessageData message;
     private String text;
     private int index;
     private String logprobs;
     @JsonProperty("finish_reason")
     private String finishReason;
 
-    public CompletionChoice() { }
-
-    public CompletionChoice(String id, String object, int created, String text, int index,
-                            CompletionMessage message, String logprobs, String finishReason) {
-        this.id = id;
-        this.object = object;
-        this.created = created;
-        this.text = text;
-        this.index = index;
-        this.logprobs = logprobs;
-        this.finishReason = finishReason;
-    }
+    public CompletionChoiceData() { }
 
     public void setId(String id) {
         this.id = id;
@@ -56,7 +45,7 @@ public class CompletionChoice {
         this.object = object;
     }
 
-    public void setMessage(CompletionMessage message) {
+    public void setMessage(CompletionMessageData message) {
         this.message = message;
     }
 
@@ -88,7 +77,7 @@ public class CompletionChoice {
         return id;
     }
 
-    public CompletionMessage getMessage() {
+    public CompletionMessageData getMessage() {
         return message;
     }
 

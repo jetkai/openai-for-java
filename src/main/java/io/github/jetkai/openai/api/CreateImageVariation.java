@@ -2,7 +2,7 @@ package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.data.image.ImageResponseData;
-import io.github.jetkai.openai.api.data.image.ImageResponses;
+import io.github.jetkai.openai.api.data.image.ImageResponseUrlData;
 import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.net.RequestBuilder;
@@ -113,7 +113,7 @@ public class CreateImageVariation implements ApiInterface {
             this.data = translation;
         }
         List<String> links = new ArrayList<>();
-        for(ImageResponses response : this.data.getData()) {
+        for(ImageResponseUrlData response : this.data.getData()) {
             links.add(response.getUrl());
         }
         return links;

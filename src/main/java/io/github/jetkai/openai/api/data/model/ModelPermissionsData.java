@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 /**
- * ModelPermissions
+ * ModelPermissionsData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
@@ -19,7 +19,7 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-public class ModelPermissions {
+public class ModelPermissionsData {
 
     private String id;
     private String object;
@@ -40,7 +40,7 @@ public class ModelPermissions {
     private String group;
     private boolean isBlocking;
 
-    public ModelPermissions() { }
+    public ModelPermissionsData() { }
 
     public void setObject(String object) {
         this.object = object;

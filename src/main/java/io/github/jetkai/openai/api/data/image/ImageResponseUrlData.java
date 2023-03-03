@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- * ImageResponses
+ * ImageResponseUrlData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
@@ -16,11 +16,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-public class ImageResponses {
+public class ImageResponseUrlData {
 
     private String url;
 
-    public ImageResponses() { }
+    public ImageResponseUrlData() { }
 
     public void setUrl(String url) {
         this.url = url;

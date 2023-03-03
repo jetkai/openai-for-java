@@ -23,10 +23,10 @@ import java.util.List;
 public class EmbeddingResponseData {
 
     private String object;
-    private List<EmbeddingResponseDataBlock> data;
+    private List<EmbeddingResponseBlockData> data;
 
     private String model;
-    private EmbeddingResponseUsage usage;
+    private EmbeddingResponseUsageData usage;
 
     public EmbeddingResponseData() { }
 
@@ -34,7 +34,7 @@ public class EmbeddingResponseData {
         this.model = model;
     }
 
-    public void setData(List<EmbeddingResponseDataBlock> data) {
+    public void setData(List<EmbeddingResponseBlockData> data) {
         this.data = data;
     }
 
@@ -42,7 +42,7 @@ public class EmbeddingResponseData {
         this.object = object;
     }
 
-    public void setUsage(EmbeddingResponseUsage usage) {
+    public void setUsage(EmbeddingResponseUsageData usage) {
         this.usage = usage;
     }
 
@@ -54,11 +54,11 @@ public class EmbeddingResponseData {
         return object;
     }
 
-    public List<EmbeddingResponseDataBlock> getData() {
+    public List<EmbeddingResponseBlockData> getData() {
         return data;
     }
 
-    public EmbeddingResponseUsage getUsage() {
+    public EmbeddingResponseUsageData getUsage() {
         return usage;
     }
 

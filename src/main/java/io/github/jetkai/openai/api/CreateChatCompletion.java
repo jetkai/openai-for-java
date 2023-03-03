@@ -2,8 +2,8 @@ package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
-import io.github.jetkai.openai.api.data.completion.response.CompletionChoice;
-import io.github.jetkai.openai.api.data.completion.response.CompletionMessage;
+import io.github.jetkai.openai.api.data.completion.response.CompletionChoiceData;
+import io.github.jetkai.openai.api.data.completion.response.CompletionMessageData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.net.RequestBuilder;
@@ -114,15 +114,15 @@ public class CreateChatCompletion implements ApiInterface {
             this.data = responseData;
         }
 
-        List<CompletionChoice> choiceList = data.getChoices();
+        List<CompletionChoiceData> choiceList = data.getChoices();
         String[] response = new String[choiceList.size()];
 
         for(int i = 0; i < choiceList.size(); i++) {
-            CompletionChoice choice = choiceList.get(i);
+            CompletionChoiceData choice = choiceList.get(i);
             if (choice == null) {
                 continue;
             }
-            CompletionMessage message = choice.getMessage();
+            CompletionMessageData message = choice.getMessage();
             if (message == null) {
                 continue;
             }

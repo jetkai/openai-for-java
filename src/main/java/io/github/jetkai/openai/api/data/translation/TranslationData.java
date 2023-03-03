@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
+import java.net.URI;
 import java.nio.file.Path;
 
 /**
@@ -89,6 +90,10 @@ public class TranslationData {
 
     public void setTemperature(double temperature) {
         this.temperature = temperature;
+    }
+
+    public void setFile(String file) {
+        this.file = Path.of(URI.create(file));
     }
 
     public void setFile(Path file) {

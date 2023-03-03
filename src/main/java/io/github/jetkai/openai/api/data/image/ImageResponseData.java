@@ -23,11 +23,11 @@ import java.util.List;
 public class ImageResponseData {
 
     private int created;
-    private List<ImageResponses> data;
+    private List<ImageResponseUrlData> data;
 
     public ImageResponseData() { }
 
-    public void setData(List<ImageResponses> data) {
+    public void setData(List<ImageResponseUrlData> data) {
         this.data = data;
     }
 
@@ -39,7 +39,7 @@ public class ImageResponseData {
         return created;
     }
 
-    public List<ImageResponses> getData() {
+    public List<ImageResponseUrlData> getData() {
         return data;
     }
 

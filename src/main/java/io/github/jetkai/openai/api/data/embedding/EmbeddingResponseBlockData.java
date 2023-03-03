@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.List;
 
 /**
- * EmbeddingResponseDataBlock
+ * EmbeddingResponseBlockData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
@@ -18,13 +18,13 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-public class EmbeddingResponseDataBlock {
+public class EmbeddingResponseBlockData {
 
     private String object;
     private List<Float> embedding;
     private int index;
 
-    public EmbeddingResponseDataBlock() { }
+    public EmbeddingResponseBlockData() { }
 
     public void setObject(String object) {
         this.object = object;

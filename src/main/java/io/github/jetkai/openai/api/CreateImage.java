@@ -3,7 +3,7 @@ package io.github.jetkai.openai.api;
 import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.data.image.ImageData;
 import io.github.jetkai.openai.api.data.image.ImageResponseData;
-import io.github.jetkai.openai.api.data.image.ImageResponses;
+import io.github.jetkai.openai.api.data.image.ImageResponseUrlData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.net.RequestBuilder;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
@@ -113,7 +113,7 @@ public class CreateImage implements ApiInterface {
             this.data = imageResponse;
         }
 
-        List<ImageResponses> response = data.getData();
+        List<ImageResponseUrlData> response = data.getData();
         if(response != null && !response.isEmpty()) {
             String imageUrlAsString = data.getData().get(0).getUrl();
             if(imageUrlAsString == null || imageUrlAsString.isEmpty()) {
@@ -139,11 +139,11 @@ public class CreateImage implements ApiInterface {
             this.data = imageResponse;
         }
 
-        List<ImageResponses> imageList = data.getData();
+        List<ImageResponseUrlData> imageList = data.getData();
         Image[] images = new Image[imageList.size()];
 
         for(int i = 0; i < imageList.size(); i++) {
-            ImageResponses imageResponse = imageList.get(i);
+            ImageResponseUrlData imageResponse = imageList.get(i);
             if(imageResponse == null) {
                 continue;
             }
@@ -177,7 +177,7 @@ public class CreateImage implements ApiInterface {
             this.data = translation;
         }
         List<String> links = new ArrayList<>();
-        for(ImageResponses response : this.data.getData()) {
+        for(ImageResponseUrlData response : this.data.getData()) {
             links.add(response.getUrl());
         }
         return links;

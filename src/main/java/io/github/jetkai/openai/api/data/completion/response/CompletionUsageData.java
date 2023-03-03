@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 /**
- * CompletionUsage
+ * CompletionUsageData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
@@ -19,7 +19,7 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-class CompletionUsage {
+class CompletionUsageData {
 
     @JsonProperty("prompt_tokens")
     private int promptTokens;
@@ -28,13 +28,7 @@ class CompletionUsage {
     @JsonProperty("total_tokens")
     private int totalTokens;
 
-    public CompletionUsage() { }
-
-    public CompletionUsage(int promptTokens, int completionTokens, int totalTokens) {
-        this.promptTokens = promptTokens;
-        this.completionTokens = completionTokens;
-        this.totalTokens = totalTokens;
-    }
+    public CompletionUsageData() { }
 
     public void setCompletionTokens(int completionTokens) {
         this.completionTokens = completionTokens;

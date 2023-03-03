@@ -186,11 +186,6 @@ public class ChatCompletionData {
 
     public ChatCompletionData() { }
 
-    public ChatCompletionData(String model, List<ChatCompletionMessageData> messages) {
-        this.model = model;
-        this.messages = messages;
-    }
-
     public void setModel(String model) {
         this.model = model;
     }

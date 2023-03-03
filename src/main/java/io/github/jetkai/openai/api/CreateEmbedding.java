@@ -2,8 +2,8 @@ package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.data.embedding.EmbeddingData;
+import io.github.jetkai.openai.api.data.embedding.EmbeddingResponseBlockData;
 import io.github.jetkai.openai.api.data.embedding.EmbeddingResponseData;
-import io.github.jetkai.openai.api.data.embedding.EmbeddingResponseDataBlock;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.net.RequestBuilder;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
@@ -113,7 +113,7 @@ public class CreateEmbedding implements ApiInterface {
             }
             this.data = embedding;
         }
-        List<EmbeddingResponseDataBlock> block = this.data.getData();
+        List<EmbeddingResponseBlockData> block = this.data.getData();
         List<Float> embeddingFloat = null;
         if(block != null && !block.isEmpty()) {
             embeddingFloat = block.get(0).getEmbedding();

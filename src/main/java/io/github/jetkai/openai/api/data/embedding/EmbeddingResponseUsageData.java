@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- * EmbeddingResponseUsage
+ * EmbeddingResponseUsageData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
@@ -17,14 +17,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-class EmbeddingResponseUsage {
+class EmbeddingResponseUsageData {
 
     @JsonProperty("prompt_tokens")
     private int promptTokens;
     @JsonProperty("total_tokens")
     private int totalTokens;
 
-    public EmbeddingResponseUsage() { }
+    public EmbeddingResponseUsageData() { }
 
     public void setTotalTokens(int totalTokens) {
         this.totalTokens = totalTokens;

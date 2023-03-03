@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
+import java.net.URI;
 import java.nio.file.Path;
 
 /**
@@ -101,6 +102,10 @@ public class TranscriptionData {
 
     public void setPrompt(String prompt) {
         this.prompt = prompt;
+    }
+
+    public void setFile(String file) {
+        this.file = Path.of(URI.create(file));
     }
 
     public void setFile(Path file) {

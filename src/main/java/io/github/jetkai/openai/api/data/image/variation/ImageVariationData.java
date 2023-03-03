@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.net.URI;
 import java.nio.file.Path;
 
 /**
@@ -79,6 +80,10 @@ public class ImageVariationData {
 
     public void setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
+    }
+
+    public void setImage(String image) {
+        this.image = Path.of(URI.create(image));
     }
 
     public void setImage(Path image) {

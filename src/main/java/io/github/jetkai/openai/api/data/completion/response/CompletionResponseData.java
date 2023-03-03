@@ -25,18 +25,10 @@ public class CompletionResponseData {
     private String id;
     private String object;
     private String model;
-    private List<CompletionChoice> choices;
-    private CompletionUsage usage;
+    private List<CompletionChoiceData> choices;
+    private CompletionUsageData usage;
 
     public CompletionResponseData() { }
-
-    public CompletionResponseData(String id, String object, String model,
-                                  List<CompletionChoice> choices, CompletionUsage usage) {
-        this.id = id;
-        this.object = object;
-        this.choices = choices;
-        this.usage = usage;
-    }
 
     public void setModel(String model) {
         this.model = model;
@@ -50,11 +42,11 @@ public class CompletionResponseData {
         this.id = id;
     }
 
-    public void setChoices(List<CompletionChoice> choices) {
+    public void setChoices(List<CompletionChoiceData> choices) {
         this.choices = choices;
     }
 
-    public void setUsage(CompletionUsage usage) {
+    public void setUsage(CompletionUsageData usage) {
         this.usage = usage;
     }
 
@@ -70,11 +62,11 @@ public class CompletionResponseData {
         return id;
     }
 
-    public List<CompletionChoice> getChoices() {
+    public List<CompletionChoiceData> getChoices() {
         return choices;
     }
 
-    public CompletionUsage getUsage() {
+    public CompletionUsageData getUsage() {
         return usage;
     }
 

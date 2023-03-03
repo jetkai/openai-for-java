@@ -30,7 +30,7 @@ public class ModelData {
     private String ownedBy; //openai
     private String root; //text-babbage:001
     private String parent; //null
-    private List<ModelPermissions> permission;
+    private List<ModelPermissionsData> permission;
 
     public ModelData() { }
 
@@ -58,7 +58,7 @@ public class ModelData {
         this.root = root;
     }
 
-    public void setPermission(List<ModelPermissions> permission) {
+    public void setPermission(List<ModelPermissionsData> permission) {
         this.permission = permission;
     }
 
@@ -86,7 +86,7 @@ public class ModelData {
         return root;
     }
 
-    public List<ModelPermissions> getPermission() {
+    public List<ModelPermissionsData> getPermission() {
         return permission;
     }
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 /**
- * CompletionMessage
+ * CompletionMessageData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
@@ -18,17 +18,12 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-public class CompletionMessage {
+public class CompletionMessageData {
 
     private String role;
     private String content;
 
-    public CompletionMessage() { }
-
-    public CompletionMessage(String role, String content) {
-        this.role = role;
-        this.content = content;
-    }
+    public CompletionMessageData() { }
 
     public void setContent(String content) {
         this.content = content;
