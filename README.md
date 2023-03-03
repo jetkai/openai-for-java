@@ -190,14 +190,20 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         //The role of the user
         message.setRole("user");
+        
         //Message that you would like to send to OpenAI ChatGPT
         message.setContent("Hello!");
+        
         //Add message to the messages list
         messages.add(message);
 
         //Completion Data, ready to send to the OpenAI Api
         ChatCompletionData completion = new ChatCompletionData();
+        
+        //ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are supported.
         completion.setModel("gpt-3.5-turbo");
+        
+        //The messages to generate chat completions for, in the chat format.
         completion.setMessages(messages);
 
         //Call the CreateChatCompletion API from OpenAI & create instance
