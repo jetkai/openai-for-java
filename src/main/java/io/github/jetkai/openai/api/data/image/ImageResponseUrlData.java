@@ -22,8 +22,9 @@ public class ImageResponseUrlData {
 
     public ImageResponseUrlData() { }
 
-    public void setUrl(String url) {
+    public ImageResponseUrlData setUrl(String url) {
         this.url = url;
+        return this;
     }
 
     public String getUrl() {

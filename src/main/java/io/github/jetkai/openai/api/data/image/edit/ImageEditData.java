@@ -101,40 +101,49 @@ public class ImageEditData {
 
     public ImageEditData() { }
 
-    public void setResponseFormat(String responseFormat) {
+    public ImageEditData setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
+        return this;
     }
 
-    public void setSize(String size) {
+    public ImageEditData setSize(String size) {
         this.size = size;
+        return this;
     }
 
-    public void setPrompt(String prompt) {
+    public ImageEditData setPrompt(String prompt) {
         this.prompt = prompt;
+        return this;
     }
 
-    public void setN(int n) {
+    public ImageEditData setN(int n) {
         this.n = n;
+        return this;
     }
 
-    public void setUser(String user) {
+    public ImageEditData setUser(String user) {
         this.user = user;
+        return this;
     }
 
-    public void setImage(String image) {
+    public ImageEditData setImage(String image) {
         this.image = Path.of(URI.create(image));
+        return this;
     }
 
-    public void setImage(Path image) {
+    public ImageEditData setImage(Path image) {
         this.image = image;
+        return this;
     }
 
-    public void setMask(String mask) {
+    public ImageEditData setMask(String mask) {
         this.mask = Path.of(URI.create(mask));
+        return this;
     }
 
-    public void setMask(Path mask) {
+    public ImageEditData setMask(Path mask) {
         this.mask = mask;
+        return this;
     }
 
     public String getResponseFormat() {

@@ -57,20 +57,24 @@ public class EmbeddingData {
 
     public EmbeddingData() { }
 
-    public void setUser(String user) {
+    public EmbeddingData setUser(String user) {
         this.user = user;
+        return this;
     }
 
-    public void setInput(String input) {
+    public EmbeddingData setInput(String input) {
         this.input = new ArrayList<>(List.of(input));
+        return this;
     }
 
-    public void setInput(List<String> input) {
+    public EmbeddingData setInput(List<String> input) {
         this.input = input;
+        return this;
     }
 
-    public void setModel(String model) {
+    public EmbeddingData setModel(String model) {
         this.model = model;
+        return this;
     }
 
     public String getUser() {

@@ -42,52 +42,64 @@ public class ModelPermissionsData {
 
     public ModelPermissionsData() { }
 
-    public void setObject(String object) {
+    public ModelPermissionsData setObject(String object) {
         this.object = object;
+        return this;
     }
 
-    public void setId(String id) {
+    public ModelPermissionsData setId(String id) {
         this.id = id;
+        return this;
     }
 
-    public void setCreated(int created) {
+    public ModelPermissionsData setCreated(int created) {
         this.created = created;
+        return this;
     }
 
-    public void setAllowCreateEngine(boolean allowCreateEngine) {
+    public ModelPermissionsData setAllowCreateEngine(boolean allowCreateEngine) {
         this.allowCreateEngine = allowCreateEngine;
+        return this;
     }
 
-    public void setAllowFineTuning(boolean allowFineTuning) {
+    public ModelPermissionsData setAllowFineTuning(boolean allowFineTuning) {
         this.allowFineTuning = allowFineTuning;
+        return this;
     }
 
-    public void setAllowLogprobs(boolean allowLogprobs) {
+    public ModelPermissionsData setAllowLogprobs(boolean allowLogprobs) {
         this.allowLogprobs = allowLogprobs;
+        return this;
     }
 
-    public void setAllowSampling(boolean allowSampling) {
+    public ModelPermissionsData setAllowSampling(boolean allowSampling) {
         this.allowSampling = allowSampling;
+        return this;
     }
 
-    public void setAllowSearchIndices(boolean allowSearchIndices) {
+    public ModelPermissionsData setAllowSearchIndices(boolean allowSearchIndices) {
         this.allowSearchIndices = allowSearchIndices;
+        return this;
     }
 
-    public void setAllowView(boolean allowView) {
+    public ModelPermissionsData setAllowView(boolean allowView) {
         this.allowView = allowView;
+        return this;
     }
 
-    public void setBlocking(boolean blocking) {
+    public ModelPermissionsData setBlocking(boolean blocking) {
         isBlocking = blocking;
+        return this;
     }
 
-    public void setGroup(String group) {
+    public ModelPermissionsData setGroup(String group) {
         this.group = group;
+        return this;
     }
 
-    public void setOrganization(String organization) {
+    public ModelPermissionsData setOrganization(String organization) {
         this.organization = organization;
+        return this;
     }
 
     public String getObject() {

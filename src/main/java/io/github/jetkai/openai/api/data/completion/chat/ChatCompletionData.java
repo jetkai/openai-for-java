@@ -186,56 +186,69 @@ public class ChatCompletionData {
 
     public ChatCompletionData() { }
 
-    public void setModel(String model) {
+    public ChatCompletionData setModel(String model) {
         this.model = model;
+        return this;
     }
 
-    public void setMessages(List<ChatCompletionMessageData> messages) {
+    public ChatCompletionData setMessages(List<ChatCompletionMessageData> messages) {
         this.messages = messages;
+        return this;
     }
 
-    public void setTemperature(double temperature) {
+    public ChatCompletionData setTemperature(double temperature) {
         this.temperature = temperature;
+        return this;
     }
 
-    public void setUser(String user) {
+    public ChatCompletionData setUser(String user) {
         this.user = user;
+        return this;
     }
 
-    public void setN(int n) {
+    public ChatCompletionData setN(int n) {
         this.n = n;
+        return this;
     }
 
-    public void setLogitBias(Map<Object, Object> logitBias) {
+    public ChatCompletionData setLogitBias(Map<Object, Object> logitBias) {
         this.logitBias = logitBias;
+        return this;
     }
 
-    public void setFrequencyPenalty(int frequencyPenalty) {
+    public ChatCompletionData setFrequencyPenalty(int frequencyPenalty) {
         this.frequencyPenalty = frequencyPenalty;
+        return this;
     }
 
-    public void setTopP(int topP) {
+    public ChatCompletionData setTopP(int topP) {
         this.topP = topP;
+        return this;
     }
 
-    public void setStream(boolean stream) {
+    public ChatCompletionData setStream(boolean stream) {
         this.stream = stream;
+        return this;
     }
 
-    public void setStop(String stop) {
+    public ChatCompletionData setStop(String stop) {
         this.stop = new ArrayList<>(List.of(stop));
+        return this;
     }
 
-    public void setStop(List<String> stop) {
+    public ChatCompletionData setStop(List<String> stop) {
         this.stop = stop;
+        return this;
     }
 
-    public void setMaxTokens(int maxTokens) {
+    public ChatCompletionData setMaxTokens(int maxTokens) {
         this.maxTokens = maxTokens;
+        return this;
     }
 
-    public void setPresensePenalty(int presensePenalty) {
+    public ChatCompletionData setPresensePenalty(int presensePenalty) {
         this.presensePenalty = presensePenalty;
+        return this;
     }
 
     public double getTemperature() {

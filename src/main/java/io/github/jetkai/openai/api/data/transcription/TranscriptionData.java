@@ -88,32 +88,39 @@ public class TranscriptionData {
 
     public TranscriptionData() { }
 
-    public void setResponseFormat(String responseFormat) {
+    public TranscriptionData setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
+        return this;
     }
 
-    public void setTemperature(double temperature) {
+    public TranscriptionData setTemperature(double temperature) {
         this.temperature = temperature;
+        return this;
     }
 
-    public void setModel(String model) {
+    public TranscriptionData setModel(String model) {
         this.model = model;
+        return this;
     }
 
-    public void setPrompt(String prompt) {
+    public TranscriptionData setPrompt(String prompt) {
         this.prompt = prompt;
+        return this;
     }
 
-    public void setFile(String file) {
+    public TranscriptionData setFile(String file) {
         this.file = Path.of(URI.create(file));
+        return this;
     }
 
-    public void setFile(Path file) {
+    public TranscriptionData setFile(Path file) {
         this.file = file;
+        return this;
     }
 
-    public void setLanguage(String language) {
+    public TranscriptionData setLanguage(String language) {
         this.language = language;
+        return this;
     }
 
     public String getModel() {

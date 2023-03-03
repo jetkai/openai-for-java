@@ -33,36 +33,44 @@ public class CompletionChoiceData {
 
     public CompletionChoiceData() { }
 
-    public void setId(String id) {
+    public CompletionChoiceData setId(String id) {
         this.id = id;
+        return this;
     }
 
-    public void setCreated(int created) {
+    public CompletionChoiceData setCreated(int created) {
         this.created = created;
+        return this;
     }
 
-    public void setObject(String object) {
+    public CompletionChoiceData setObject(String object) {
         this.object = object;
+        return this;
     }
 
-    public void setMessage(CompletionMessageData message) {
+    public CompletionChoiceData setMessage(CompletionMessageData message) {
         this.message = message;
+        return this;
     }
 
-    public void setLogprobs(String logprobs) {
+    public CompletionChoiceData setLogprobs(String logprobs) {
         this.logprobs = logprobs;
+        return this;
     }
 
-    public void setFinishReason(String finishReason) {
+    public CompletionChoiceData setFinishReason(String finishReason) {
         this.finishReason = finishReason;
+        return this;
     }
 
-    public void setIndex(int index) {
+    public CompletionChoiceData setIndex(int index) {
         this.index = index;
+        return this;
     }
 
-    public void setText(String text) {
+    public CompletionChoiceData setText(String text) {
         this.text = text;
+        return this;
     }
 
     public String getObject() {

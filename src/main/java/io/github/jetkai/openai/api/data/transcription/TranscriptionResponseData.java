@@ -25,8 +25,9 @@ public class TranscriptionResponseData {
 
     public TranscriptionResponseData() { }
 
-    public void setText(String text) {
+    public TranscriptionResponseData setText(String text) {
         this.text = text;
+        return this;
     }
 
     public String getText() {

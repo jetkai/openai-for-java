@@ -30,20 +30,24 @@ public class EmbeddingResponseData {
 
     public EmbeddingResponseData() { }
 
-    public void setModel(String model) {
+    public EmbeddingResponseData setModel(String model) {
         this.model = model;
+        return this;
     }
 
-    public void setData(List<EmbeddingResponseBlockData> data) {
+    public EmbeddingResponseData setData(List<EmbeddingResponseBlockData> data) {
         this.data = data;
+        return this;
     }
 
-    public void setObject(String object) {
+    public EmbeddingResponseData setObject(String object) {
         this.object = object;
+        return this;
     }
 
-    public void setUsage(EmbeddingResponseUsageData usage) {
+    public EmbeddingResponseData setUsage(EmbeddingResponseUsageData usage) {
         this.usage = usage;
+        return this;
     }
 
     public String getModel() {

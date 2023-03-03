@@ -27,12 +27,14 @@ public class ImageResponseData {
 
     public ImageResponseData() { }
 
-    public void setData(List<ImageResponseUrlData> data) {
+    public ImageResponseData setData(List<ImageResponseUrlData> data) {
         this.data = data;
+        return this;
     }
 
-    public void setCreated(int created) {
+    public ImageResponseData setCreated(int created) {
         this.created = created;
+        return this;
     }
 
     public int getCreated() {

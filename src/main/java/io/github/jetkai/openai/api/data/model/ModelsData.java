@@ -25,12 +25,14 @@ public class ModelsData {
 
     public ModelsData() { }
 
-    public void setObject(String object) {
+    public ModelsData setObject(String object) {
         this.object = object;
+        return this;
     }
 
-    public void setData(ModelData[] data) {
+    public ModelsData setData(ModelData[] data) {
         this.data = data;
+        return this;
     }
 
     public String getObject() {

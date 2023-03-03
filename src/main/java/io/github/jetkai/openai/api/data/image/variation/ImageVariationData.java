@@ -78,28 +78,34 @@ public class ImageVariationData {
 
     public ImageVariationData() { }
 
-    public void setResponseFormat(String responseFormat) {
+    public ImageVariationData setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
+        return this;
     }
 
-    public void setImage(String image) {
+    public ImageVariationData setImage(String image) {
         this.image = Path.of(URI.create(image));
+        return this;
     }
 
-    public void setImage(Path image) {
+    public ImageVariationData setImage(Path image) {
         this.image = image;
+        return this;
     }
 
-    public void setN(int n) {
+    public ImageVariationData setN(int n) {
         this.n = n;
+        return this;
     }
 
-    public void setUser(String user) {
+    public ImageVariationData setUser(String user) {
         this.user = user;
+        return this;
     }
 
-    public void setSize(String size) {
+    public ImageVariationData setSize(String size) {
         this.size = size;
+        return this;
     }
 
     public String getResponseFormat() {

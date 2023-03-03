@@ -26,16 +26,19 @@ public class EmbeddingResponseBlockData {
 
     public EmbeddingResponseBlockData() { }
 
-    public void setObject(String object) {
+    public EmbeddingResponseBlockData setObject(String object) {
         this.object = object;
+        return this;
     }
 
-    public void setIndex(int index) {
+    public EmbeddingResponseBlockData setIndex(int index) {
         this.index = index;
+        return this;
     }
 
-    public void setEmbedding(List<Float> embedding) {
+    public EmbeddingResponseBlockData setEmbedding(List<Float> embedding) {
         this.embedding = embedding;
+        return this;
     }
 
     public String getObject() {

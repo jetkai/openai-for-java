@@ -25,12 +25,14 @@ public class CompletionMessageData {
 
     public CompletionMessageData() { }
 
-    public void setContent(String content) {
+    public CompletionMessageData setContent(String content) {
         this.content = content;
+        return this;
     }
 
-    public void setRole(String role) {
+    public CompletionMessageData setRole(String role) {
         this.role = role;
+        return this;
     }
 
     public String getContent() {

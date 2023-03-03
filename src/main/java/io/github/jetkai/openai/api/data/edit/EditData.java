@@ -94,28 +94,34 @@ public class EditData {
 
     public EditData() { }
 
-    public void setModel(String model) {
+    public EditData setModel(String model) {
         this.model = model;
+        return this;
     }
 
-    public void setTopP(double topP) {
+    public EditData setTopP(double topP) {
         this.topP = topP;
+        return this;
     }
 
-    public void setTemperature(double temperature) {
+    public EditData setTemperature(double temperature) {
         this.temperature = temperature;
+        return this;
     }
 
-    public void setN(int n) {
+    public EditData setN(int n) {
         this.n = n;
+        return this;
     }
 
-    public void setInput(String input) {
+    public EditData setInput(String input) {
         this.input = input;
+        return this;
     }
 
-    public void setInstruction(String instruction) {
+    public EditData setInstruction(String instruction) {
         this.instruction = instruction;
+        return this;
     }
 
     public String getModel() {

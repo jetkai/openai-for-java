@@ -80,32 +80,39 @@ public class TranslationData {
 
     public TranslationData() { }
 
-    public void setLanguage(String language) {
+    public TranslationData setLanguage(String language) {
         this.language = language;
+        return this;
     }
 
-    public void setResponseFormat(String responseFormat) {
+    public TranslationData setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
+        return this;
     }
 
-    public void setTemperature(double temperature) {
+    public TranslationData setTemperature(double temperature) {
         this.temperature = temperature;
+        return this;
     }
 
-    public void setFile(String file) {
+    public TranslationData setFile(String file) {
         this.file = Path.of(URI.create(file));
+        return this;
     }
 
-    public void setFile(Path file) {
+    public TranslationData setFile(Path file) {
         this.file = file;
+        return this;
     }
 
-    public void setPrompt(String prompt) {
+    public TranslationData setPrompt(String prompt) {
         this.prompt = prompt;
+        return this;
     }
 
-    public void setModel(String model) {
+    public TranslationData setModel(String model) {
         this.model = model;
+        return this;
     }
 
     public double getTemperature() {

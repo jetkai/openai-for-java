@@ -24,12 +24,14 @@ public class ChatCompletionMessageData {
 
     public ChatCompletionMessageData() { }
 
-    public void setContent(String content) {
+    public ChatCompletionMessageData setContent(String content) {
         this.content = content;
+        return this;
     }
 
-    public void setRole(String role) {
+    public ChatCompletionMessageData setRole(String role) {
         this.role = role;
+        return this;
     }
 
     public String getRole() {

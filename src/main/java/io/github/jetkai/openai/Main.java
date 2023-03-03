@@ -31,6 +31,7 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
+
         String response = main.sayHelloToChatGPT();
 
         if(response.contains("Error")) {
@@ -42,8 +43,8 @@ public class Main {
     }
 
     /**
-     * Example - Say Hello To OpenAI
-     * @return - message response from OpenAI
+     * Example - Say "Hello" to OpenAI
+     * @return - ChatGPT-3.5 response from OpenAI
      */
     public String sayHelloToChatGPT() {
         //Grab API Key from .json file

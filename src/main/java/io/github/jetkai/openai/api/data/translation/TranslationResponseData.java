@@ -24,8 +24,9 @@ public class TranslationResponseData {
 
     public TranslationResponseData() { }
 
-    public void setText(String text) {
+    public TranslationResponseData setText(String text) {
         this.text = text;
+        return this;
     }
 
     public String getText() {

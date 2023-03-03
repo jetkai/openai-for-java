@@ -26,12 +26,14 @@ class EmbeddingResponseUsageData {
 
     public EmbeddingResponseUsageData() { }
 
-    public void setTotalTokens(int totalTokens) {
+    public EmbeddingResponseUsageData setTotalTokens(int totalTokens) {
         this.totalTokens = totalTokens;
+        return this;
     }
 
-    public void setPromptTokens(int promptTokens) {
+    public EmbeddingResponseUsageData setPromptTokens(int promptTokens) {
         this.promptTokens = promptTokens;
+        return this;
     }
 
     public int getTotalTokens() {

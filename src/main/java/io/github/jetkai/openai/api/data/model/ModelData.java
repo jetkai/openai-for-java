@@ -34,32 +34,39 @@ public class ModelData {
 
     public ModelData() { }
 
-    public void setId(String id) {
+    public ModelData setId(String id) {
         this.id = id;
+        return this;
     }
 
-    public void setCreated(int created) {
+    public ModelData setCreated(int created) {
         this.created = created;
+        return this;
     }
 
-    public void setObject(String object) {
+    public ModelData setObject(String object) {
         this.object = object;
+        return this;
     }
 
-    public void setParent(String parent) {
+    public ModelData setParent(String parent) {
         this.parent = parent;
+        return this;
     }
 
-    public void setOwnedBy(String ownedBy) {
+    public ModelData setOwnedBy(String ownedBy) {
         this.ownedBy = ownedBy;
+        return this;
     }
 
-    public void setRoot(String root) {
+    public ModelData setRoot(String root) {
         this.root = root;
+        return this;
     }
 
-    public void setPermission(List<ModelPermissionsData> permission) {
+    public ModelData setPermission(List<ModelPermissionsData> permission) {
         this.permission = permission;
+        return this;
     }
 
     public String getId() {

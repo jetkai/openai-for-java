@@ -30,24 +30,29 @@ public class CompletionResponseData {
 
     public CompletionResponseData() { }
 
-    public void setModel(String model) {
+    public CompletionResponseData setModel(String model) {
         this.model = model;
+        return this;
     }
 
-    public void setObject(String object) {
+    public CompletionResponseData setObject(String object) {
         this.object = object;
+        return this;
     }
 
-    public void setId(String id) {
+    public CompletionResponseData setId(String id) {
         this.id = id;
+        return this;
     }
 
-    public void setChoices(List<CompletionChoiceData> choices) {
+    public CompletionResponseData setChoices(List<CompletionChoiceData> choices) {
         this.choices = choices;
+        return this;
     }
 
-    public void setUsage(CompletionUsageData usage) {
+    public CompletionResponseData setUsage(CompletionUsageData usage) {
         this.usage = usage;
+        return this;
     }
 
     public String getModel() {

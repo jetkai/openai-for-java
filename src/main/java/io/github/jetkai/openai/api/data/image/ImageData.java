@@ -77,24 +77,29 @@ public class ImageData {
 
     public ImageData() { }
 
-    public void setUser(String user) {
+    public ImageData setUser(String user) {
         this.user = user;
+        return this;
     }
 
-    public void setN(int n) {
+    public ImageData setN(int n) {
         this.n = n;
+        return this;
     }
 
-    public void setPrompt(String prompt) {
+    public ImageData setPrompt(String prompt) {
         this.prompt = prompt;
+        return this;
     }
 
-    public void setResponseFormat(String responseFormat) {
+    public ImageData setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
+        return this;
     }
 
-    public void setSize(String size) {
+    public ImageData setSize(String size) {
         this.size = size;
+        return this;
     }
 
     public String getUser() {

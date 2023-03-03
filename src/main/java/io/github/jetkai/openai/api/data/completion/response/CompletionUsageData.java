@@ -30,16 +30,19 @@ class CompletionUsageData {
 
     public CompletionUsageData() { }
 
-    public void setCompletionTokens(int completionTokens) {
+    public CompletionUsageData setCompletionTokens(int completionTokens) {
         this.completionTokens = completionTokens;
+        return this;
     }
 
-    public void setPromptTokens(int promptTokens) {
+    public CompletionUsageData setPromptTokens(int promptTokens) {
         this.promptTokens = promptTokens;
+        return this;
     }
 
-    public void setTotalTokens(int totalTokens) {
+    public CompletionUsageData setTotalTokens(int totalTokens) {
         this.totalTokens = totalTokens;
+        return this;
     }
 
     public int getCompletionTokens() {
