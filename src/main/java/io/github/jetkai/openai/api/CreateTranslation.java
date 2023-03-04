@@ -187,4 +187,9 @@ public class CreateTranslation implements ApiInterface {
         return endpoint;
     }
 
+    @Override
+    public TranslationData getRequestData() {
+        return requestData;
+    }
+
 }

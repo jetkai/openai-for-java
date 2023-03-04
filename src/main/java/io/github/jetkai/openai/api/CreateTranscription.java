@@ -187,4 +187,9 @@ public class CreateTranscription implements ApiInterface {
         return endpoint;
     }
 
+    @Override
+    public TranscriptionData getRequestData() {
+        return transcription;
+    }
+
 }

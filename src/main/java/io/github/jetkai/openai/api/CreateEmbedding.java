@@ -201,4 +201,9 @@ public class CreateEmbedding implements ApiInterface {
         return endpoint;
     }
 
+    @Override
+    public EmbeddingData getRequestData() {
+        return embedding;
+    }
+
 }

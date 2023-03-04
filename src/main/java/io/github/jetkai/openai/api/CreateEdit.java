@@ -197,4 +197,9 @@ public class CreateEdit implements ApiInterface {
         return endpoint;
     }
 
+    @Override
+    public EditData getRequestData() {
+        return edit;
+    }
+
 }

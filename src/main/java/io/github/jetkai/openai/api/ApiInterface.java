@@ -24,14 +24,18 @@ public interface ApiInterface {
 
     OpenAIEndpoints endpoint = null;
 
+    @SuppressWarnings("unused")
     private void initialize() { }
 
     Object reinitialize();
 
+    @SuppressWarnings("unused")
     private void handleHttpResponse() { }
 
+    @SuppressWarnings("unused")
     private void parseData() { }
 
+    @SuppressWarnings("unused")
     private void deserialize() { }
 
     String asJson();
@@ -41,5 +45,7 @@ public interface ApiInterface {
     AtomicReference<HttpResponse<String>> getHttpResponse();
 
     String getRawJsonResponse();
+
+    Object getRequestData();
 
 }

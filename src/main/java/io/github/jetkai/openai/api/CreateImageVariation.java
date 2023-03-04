@@ -218,4 +218,9 @@ public class CreateImageVariation implements ApiInterface {
         return endpoint;
     }
 
+    @Override
+    public ImageVariationData getRequestData() {
+        return image;
+    }
+
 }

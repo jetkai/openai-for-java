@@ -23,6 +23,7 @@ import io.github.jetkai.openai.net.HttpClientInstance;
 public class OpenAI {
 
     public final HttpClientInstance httpClientInstance = new HttpClientInstance();
+    private boolean alwaysNewInstance = true;
     private String apiKey;
     private String organization;
 
@@ -69,49 +70,49 @@ public class OpenAI {
     }
 
     public GetModels getModels() {
-        if(models == null) {
+        if(models == null || alwaysNewInstance) {
             models = new GetModels(this);
         }
         return models;
     }
 
     public GetModel getModel(String modelName) {
-        if(model == null) {
+        if(model == null || alwaysNewInstance) {
             model = new GetModel(this, modelName);
         }
         return model;
     }
 
     public CreateImageVariation createImageVariation(ImageVariationData imageData) {
-        if(imageVariation == null) {
+        if(imageVariation == null || alwaysNewInstance) {
             imageVariation = new CreateImageVariation(this, imageData);
         }
         return imageVariation;
     }
 
     public CreateTranscription createTranscription(TranscriptionData transcriptionData) {
-        if(transcription == null) {
+        if(transcription == null || alwaysNewInstance) {
             transcription = new CreateTranscription(this, transcriptionData);
         }
         return transcription;
     }
 
     public CreateTranslation createTranslation(TranslationData translationData) {
-        if(translation == null) {
+        if(translation == null || alwaysNewInstance) {
             translation = new CreateTranslation(this, translationData);
         }
         return translation;
     }
 
     public CreateCompletion createCompletion(CompletionData completionData) {
-        if(completion == null) {
+        if(completion == null || alwaysNewInstance) {
             completion = new CreateCompletion(this, completionData);
         }
         return completion;
     }
 
     public CreateChatCompletion createChatCompletion(ChatCompletionData completionData) {
-        if(chatCompletion == null) {
+        if(chatCompletion == null || alwaysNewInstance) {
             chatCompletion = new CreateChatCompletion(this, completionData);
         }
         return chatCompletion;
@@ -119,28 +120,28 @@ public class OpenAI {
 
     @SuppressWarnings("unused")
     public CreateEdit createEdit(EditData editData) {
-        if(edit == null) {
+        if(edit == null || alwaysNewInstance) {
             edit = new CreateEdit(this, editData);
         }
         return edit;
     }
 
     public CreateImage createImage(ImageData imageData) {
-        if(image == null) {
+        if(image == null || alwaysNewInstance) {
             image = new CreateImage(this, imageData);
         }
         return image;
     }
 
     public CreateImageEdit createImageEdit(ImageEditData imageData) {
-        if(imageEdit == null) {
+        if(imageEdit == null || alwaysNewInstance) {
             imageEdit = new CreateImageEdit(this, imageData);
         }
         return imageEdit;
     }
 
     public CreateEmbedding createEmbedding(EmbeddingData embeddingData) {
-        if(embedding == null) {
+        if(embedding == null || alwaysNewInstance) {
             embedding = new CreateEmbedding(this, embeddingData);
         }
         return embedding;
@@ -148,6 +149,15 @@ public class OpenAI {
 
     public HttpClientInstance getHttpClientInstance() {
         return httpClientInstance;
+    }
+
+    public void setAlwaysNewInstance(boolean alwaysNewInstance) {
+        this.alwaysNewInstance = alwaysNewInstance;
+    }
+
+    @SuppressWarnings("unused")
+    public boolean isAlwaysNewInstance() {
+        return alwaysNewInstance;
     }
 
     @SuppressWarnings({"unused", "UnusedReturnValue"})

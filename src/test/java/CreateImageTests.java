@@ -22,8 +22,13 @@ public class CreateImageTests {
 
         //Create OpenAI instance
         OpenAI openAI = new OpenAI();
+
+        //Keep the same instance for openAI.createImage(imageData);
+        openAI.setAlwaysNewInstance(false);
+
         //Set the API key (from .json file)
         openAI.setApiKey(keyData.getApiKey());
+
         //Set the organization (from .json file)
         openAI.setOrganization(keyData.getOrganization());
 

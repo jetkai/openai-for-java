@@ -174,5 +174,9 @@ public class CreateCompletion implements ApiInterface {
         return endpoint;
     }
 
+    @Override
+    public CompletionData getRequestData() {
+        return completion;
+    }
 
 }

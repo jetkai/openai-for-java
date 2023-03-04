@@ -248,4 +248,9 @@ public class CreateChatCompletion implements ApiInterface {
         return endpoint;
     }
 
+    @Override
+    public ChatCompletionData getRequestData() {
+        return completion;
+    }
+
 }

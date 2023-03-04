@@ -172,4 +172,9 @@ public class GetModel implements ApiInterface {
         return endpoint;
     }
 
+    @Override
+    public String getRequestData() {
+        return model;
+    }
+
 }

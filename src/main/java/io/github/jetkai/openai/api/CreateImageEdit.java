@@ -289,5 +289,9 @@ public class CreateImageEdit implements ApiInterface {
         return endpoint;
     }
 
+    @Override
+    public ImageEditData getRequestData() {
+        return image;
+    }
 
 }

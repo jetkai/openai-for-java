@@ -282,4 +282,9 @@ public class CreateImage implements ApiInterface {
         return endpoint;
     }
 
+    @Override
+    public ImageData getRequestData() {
+        return image;
+    }
+
 }
