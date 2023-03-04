@@ -16,8 +16,9 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
- * @created 02/03/2023
- * @last-update 03/03/2023
+ * {@code - 03/03/2023}
+ * @since 1.0.0
+ * {@code - 02/03/2023}
  */
 @SuppressWarnings("unused")
 public class GetModel implements ApiInterface {
@@ -147,7 +148,7 @@ public class GetModel implements ApiInterface {
     /**
      * getResponse
      * The response from OpenAI
-     * @return AtomicReference<HttpResponse<String>>
+     * @return {@code AtomicReference<HttpResponse<String>>}
      */
     @Override
     public AtomicReference<HttpResponse<String>> getHttpResponse() {

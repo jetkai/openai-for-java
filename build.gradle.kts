@@ -7,6 +7,8 @@ group = "io.github.jetkai"
 version = "1.0.0"
 
 java {
+    withSourcesJar()
+    withJavadocJar()
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }

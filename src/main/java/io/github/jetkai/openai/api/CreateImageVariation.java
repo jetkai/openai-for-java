@@ -20,8 +20,9 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
- * @created 02/03/2023
- * @last-update 03/03/2023
+ * {@code - 03/03/2023}
+ * @since 1.0.0
+ * {@code - 02/03/2023}
  */
 public class CreateImageVariation implements ApiInterface {
 
@@ -101,7 +102,7 @@ public class CreateImageVariation implements ApiInterface {
 
     /**
      * asLinks
-     * @return List<String> of URLs
+     * @return {@code List<String>} of URLs
      */
     @SuppressWarnings("unused")
     public List<String> asStringList() {
@@ -121,7 +122,7 @@ public class CreateImageVariation implements ApiInterface {
 
     /**
      * asUriArray
-     * @return List<String> of URLs
+     * @return {@code List<String>} of URLs
      */
     @SuppressWarnings("unused")
     public URI[] asUriArray() {
@@ -193,7 +194,7 @@ public class CreateImageVariation implements ApiInterface {
     /**
      * getResponse
      * The response from OpenAI
-     * @return AtomicReference<HttpResponse<String>>
+     * @return {@code AtomicReference<HttpResponse<String>>}
      */
     @Override
     public AtomicReference<HttpResponse<String>> getHttpResponse() {

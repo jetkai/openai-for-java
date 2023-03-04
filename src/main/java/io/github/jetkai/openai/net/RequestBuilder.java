@@ -24,8 +24,9 @@ import java.util.Random;
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
- * @created 02/03/2023
- * @last-update 03/03/2023
+ * {@code - 03/03/2023}
+ * @since 1.0.0
+ * {@code - 02/03/2023}
  */
 public abstract class RequestBuilder {
 

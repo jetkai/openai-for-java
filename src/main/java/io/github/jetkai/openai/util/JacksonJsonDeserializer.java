@@ -8,15 +8,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
- * @created 02/03/2023
- * @last-update 03/03/2023
+ * {@code - 03/03/2023}
+ * @since 1.0.0
+ * {@code - 02/03/2023}
  */
 public class JacksonJsonDeserializer {
 
     /**
      * parseData
      * Parses the JSON response from OpenAI and deserializes the string to the below data structure
-     * @return Class T data structure
+     * @param clazz - The class file to parse as
+     * @param json - The json string to parse
+     * @param <T> - The parsed data structure as class
+     * @return - Deserialized data structure
      */
     public static <T> T parseData(Class<T> clazz, String json) {
         T data = null;
