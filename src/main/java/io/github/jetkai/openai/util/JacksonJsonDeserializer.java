@@ -19,18 +19,20 @@ public class JacksonJsonDeserializer {
      * @return Class T data structure
      */
     public static <T> T parseData(Class<T> clazz, String json) {
-        if(json.contains("Incorrect API key")) {
-            System.err.println("Incorrect API key provided: YOUR_API_KEY. " +
-                    "You can find your API key at https://platform.openai");
-            return null;
-        }
-
-        ObjectMapper mapper = new ObjectMapper();
-        T data;
+        T data = null;
         try {
-            data = mapper.readValue(json, clazz);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            if (json.contains("\"error\":")) {
+                throw new Exception(json);
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                data = mapper.readValue(json, clazz);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return data;
     }
