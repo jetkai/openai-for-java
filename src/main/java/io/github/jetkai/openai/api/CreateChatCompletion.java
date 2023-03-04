@@ -104,6 +104,10 @@ public class CreateChatCompletion implements ApiInterface {
         }).thenAccept(this.response::set).join();
     }
 
+    /**
+     * asChatResponseData
+     * @return ChatCompletionMessageData
+     */
     @SuppressWarnings("unused")
     public ChatCompletionMessageData asChatResponseData() {
         List<ChatCompletionMessageData> chatDataList = asChatResponseDataList();
@@ -113,6 +117,10 @@ public class CreateChatCompletion implements ApiInterface {
         return chatDataList.get(0);
     }
 
+    /**
+     * asChatResponseDataList
+     * @return List<ChatCompletionMessageData>
+     */
     public List<ChatCompletionMessageData> asChatResponseDataList() {
         if(this.data == null) {
             CompletionResponseData responseData = deserialize();
@@ -137,6 +145,46 @@ public class CreateChatCompletion implements ApiInterface {
             chatDataList.add(messageResponse);
         }
         return chatDataList;
+    }
+
+    /**
+     * asParagraph
+     * @param maxCharactersPerLine - maximum length before adding new sentence to list
+     * @return - {@code List<String>} containing sentences
+     */
+    @SuppressWarnings("unused")
+    public List<String> asParagraph(int maxCharactersPerLine) {
+
+        List<String> sentences = new ArrayList<>();
+
+        String normalizedResponse = asNormalizedText();
+        if(normalizedResponse == null) {
+            return null;
+        }
+
+        if(normalizedResponse.contains(" ")) {
+            String[] words = normalizedResponse.split(" ");
+            StringBuilder sentenceBuilder = new StringBuilder();
+
+            for (int i = 0; i < words.length; i++) {
+                String word = words[i];
+                if(i == words.length - 1) {
+                    sentenceBuilder.append(word);
+                    sentences.add(sentenceBuilder.toString());
+                } else if (sentenceBuilder.length() < maxCharactersPerLine) {
+                    sentenceBuilder.append(word).append(" ");
+                } else {
+                    sentences.add(sentenceBuilder.toString());
+                    sentenceBuilder.setLength(0);
+                    sentenceBuilder.append(word).append(" ");
+                }
+            }
+
+        } else {
+            sentences.add(normalizedResponse);
+        }
+
+        return sentences;
     }
 
     @SuppressWarnings("unused")
