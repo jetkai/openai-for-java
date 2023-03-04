@@ -8,7 +8,7 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 - [OpenAI For Java (With Dependencies)](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-with-dependencies.jar) - 2.09 MB
     - `com.fasterxml.jackson.core:jackson-databind:2.14.2`
 
-- [OpenAI For Java (Without Dependencies)](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-without-dependencies.jar) - 79.5 KB
+- [OpenAI For Java (Without Dependencies)](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-without-dependencies.jar) - 80.6 KB
 
 ## Minimum Requirements
 - JDK 11
@@ -32,14 +32,17 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ### GetModel
 
 ```java
-    @Test
+@Test
     void getModelTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Set model to view
         String modelName = "davinci";
@@ -66,12 +69,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void getModelsTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Call the GetModels API from OpenAI & create instance
         GetModels getModels = openAI.getModels();
@@ -98,12 +104,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createCompletionTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //CompletionData, ready to send to the OpenAI API
         CompletionData completion = new CompletionData();
@@ -175,12 +184,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createChatCompletionTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Create message object, this will contain the data we want to send to ChatGPT
         ChatCompletionMessageData message = new ChatCompletionMessageData();
@@ -190,19 +202,19 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         //The role of the user
         message.setRole("user");
-        
+
         //Message that you would like to send to OpenAI ChatGPT
         message.setContent("Hello!");
-        
+
         //Add message to the messages list
         messages.add(message);
 
         //Completion Data, ready to send to the OpenAI Api
         ChatCompletionData completion = new ChatCompletionData();
-        
+
         //ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are supported.
         completion.setModel("gpt-3.5-turbo");
-        
+
         //The messages to generate chat completions for, in the chat format.
         completion.setMessages(messages);
 
@@ -229,12 +241,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createEditTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //EditData, ready to send to the OpenAI Api
         EditData edit = new EditData();
@@ -272,16 +287,24 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createImageTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
         OpenAI openAI = new OpenAI();
+
+        //Keep the same instance for openAI.createImage(imageData);
+        openAI.setAlwaysNewInstance(false);
+
         //Set the API key (from .json file)
-        openAI.setApiKey(keyData.getApiKey());
+        openAI.setApiKey(apiKey);
+
         //Set the organization (from .json file)
-        openAI.setOrganization(keyData.getOrganization());
+        openAI.setOrganization(organization);
 
         //ImageData, ready to send to the OpenAI API
         ImageData imageData = new ImageData();
@@ -331,12 +354,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createImageVariationTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Example image file that we are going to upload to OpenAI
         URL imageUrl = CreateImageVariationTest.class.getResource("otter.png");
@@ -392,12 +418,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createEmbeddingTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //EmbeddingData, ready to send to the OpenAI API
         EmbeddingData embed = new EmbeddingData();
@@ -435,12 +464,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createTranscriptionTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Example audio file that we are going to upload to OpenAI to have a transcript of
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
@@ -491,12 +523,15 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 ```java
     @Test
     void createTranslationTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Example audio file that we are going to upload to OpenAI to be translated
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
