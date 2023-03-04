@@ -29,10 +29,11 @@ public class ChatCompletionData {
      * model
      * string
      * Required
+     * Default:gpt-3.5-turbo
      * <p>
      * ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are supported.
      */
-    private String model;
+    private String model = "gpt-3.5-turbo";
 
     /**
      * messages
