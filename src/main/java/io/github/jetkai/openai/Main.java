@@ -2,12 +2,9 @@ package io.github.jetkai.openai;
 
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionMessageData;
-import io.github.jetkai.openai.util.ApiKeyFileData;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 
 /**
  * Main
@@ -48,9 +45,11 @@ public class Main {
      */
     public String sayHelloToChatGPT() {
         //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        if(keyData == null) {
-            return "Error - Could not find API Key within 'resources/io/github/jetkai/openai/util/OpenAI-API-Key.json'";
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        if(apiKey == null) {
+            return "API_KEY environment variable is missing...\n" +
+                    "You must set this, or manually type in your API key within new OpenAI(\"YOUR_API_KEY\");";
         }
 
         /*
@@ -59,7 +58,7 @@ public class Main {
          * OpenAI openAI = new OpenAI("MY_API_KEY", "MY_ORGANIZATION");
          */
         //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Create message object, this will contain the data we want to send to ChatGPT
         ChatCompletionMessageData message = new ChatCompletionMessageData();

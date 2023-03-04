@@ -2,14 +2,12 @@ import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateTranslation;
 import io.github.jetkai.openai.api.data.translation.TranslationData;
 import io.github.jetkai.openai.api.data.translation.TranslationResponseData;
-import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 
-import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -25,12 +23,15 @@ public class CreateTranslationTest {
 
     @Test
     void createTranslationTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Example audio file that we are going to upload to OpenAI to be translated
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");

@@ -37,8 +37,8 @@ publishing {
             name = "OSSRH"
             url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
-                username = property("mavenUsername") as String
-                password = property("mavenPassword") as String
+                username = property("JIRA_USERNAME") as String
+                password = property("JIRA_PASSWORD") as String
             }
         }
     }
@@ -46,6 +46,19 @@ publishing {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+val apiKey = property("OPEN_AI_API_KEY") as String
+val organization = property("OPEN_AI_ORGANIZATION") as String
+
+tasks.register("setEnvironmentVariable") {
+    doFirst {
+        val env = System.getenv().toMutableMap()
+        env["OPEN_AI_API_KEY"] = apiKey
+        env["OPEN_AI_ORGANIZATION"] = organization
+        val processBuilder = ProcessBuilder()
+        processBuilder.environment().putAll(env)
+    }
 }
 
 tasks.withType<Jar> {

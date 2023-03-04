@@ -2,35 +2,36 @@ import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateImage;
 import io.github.jetkai.openai.api.data.image.ImageData;
 import io.github.jetkai.openai.api.data.image.ImageResponseData;
-import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.net.URI;
 import java.util.List;
 
-import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateImageTests {
 
     @Test
     void createImageTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
         OpenAI openAI = new OpenAI();
 
         //Keep the same instance for openAI.createImage(imageData);
         openAI.setAlwaysNewInstance(false);
 
         //Set the API key (from .json file)
-        openAI.setApiKey(keyData.getApiKey());
+        openAI.setApiKey(apiKey);
 
         //Set the organization (from .json file)
-        openAI.setOrganization(keyData.getOrganization());
+        openAI.setOrganization(organization);
 
         //ImageData, ready to send to the OpenAI API
         ImageData imageData = new ImageData();

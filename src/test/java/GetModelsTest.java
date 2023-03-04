@@ -1,12 +1,10 @@
 import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.GetModels;
 import io.github.jetkai.openai.api.data.model.ModelData;
-import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -21,12 +19,15 @@ public class GetModelsTest {
 
     @Test
     void getModelsTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Call the GetModels API from OpenAI & create instance
         GetModels getModels = openAI.getModels();

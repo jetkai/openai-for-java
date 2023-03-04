@@ -2,7 +2,6 @@ import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateImageVariation;
 import io.github.jetkai.openai.api.data.image.ImageResponseData;
 import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
-import io.github.jetkai.openai.util.ApiKeyFileData;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
@@ -11,7 +10,6 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 
-import static io.github.jetkai.openai.util.ReadApiKeyFromFile.getApiKeyFromFile;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -26,12 +24,15 @@ public class CreateImageVariationTest {
 
     @Test
     void createImageVariationTest() {
-        //Grab API Key from .json file
-        ApiKeyFileData keyData = getApiKeyFromFile();
-        assertNotNull(keyData);
+        //Grab OpenAI API key from system environment variables (gradle.properties)
+        String apiKey = System.getenv("OPEN_AI_API_KEY");
+        String organization = System.getenv("OPEN_AI_ORGANIZATION");
+        assertNotNull(apiKey);
+        assertNotNull(organization);
 
-        //Create OpenAI instance using API key loaded from the .json file (example)
-        OpenAI openAI = new OpenAI(keyData.getApiKey(), keyData.getOrganization());
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Example image file that we are going to upload to OpenAI
         URL imageUrl = CreateImageVariationTest.class.getResource("otter.png");
