@@ -20,10 +20,24 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 @JsonSerialize
 @SuppressWarnings("unused")
 public class ChatCompletionMessageData {
-    private String role;
+
+    private String role = "user";
     private String content;
 
     public ChatCompletionMessageData() { }
+
+    public ChatCompletionMessageData(String role, String content) {
+        this.role = role;
+        this.content = content;
+    }
+
+    public static ChatCompletionMessageData create(String role, String content) {
+        return new ChatCompletionMessageData(role, content);
+    }
+
+    public static ChatCompletionMessageData create(String content) {
+        return new ChatCompletionMessageData("user", content);
+    }
 
     public ChatCompletionMessageData setContent(String content) {
         this.content = content;

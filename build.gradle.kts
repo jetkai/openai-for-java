@@ -66,7 +66,7 @@ tasks.register("setEnvironmentVariable") {
 tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    archiveFileName.set("openai.jar")
+    archiveFileName.set("openai-binary.jar")
     manifest {
         attributes["Main-Class"] = "io.github.jetkai.openai.Main"
     }

@@ -2,6 +2,7 @@ package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
+import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionMessageData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionChoiceData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionMessageData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
@@ -11,6 +12,8 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -99,6 +102,50 @@ public class CreateChatCompletion implements ApiInterface {
                 );
             }
         }).thenAccept(this.response::set).join();
+    }
+
+    @SuppressWarnings("unused")
+    public ChatCompletionMessageData asChatResponseData() {
+        List<ChatCompletionMessageData> chatDataList = asChatResponseDataList();
+        if(chatDataList == null || chatDataList.isEmpty()) {
+            return null;
+        }
+        return chatDataList.get(0);
+    }
+
+    public List<ChatCompletionMessageData> asChatResponseDataList() {
+        if(this.data == null) {
+            CompletionResponseData responseData = deserialize();
+            if (responseData == null) {
+                return null;
+            }
+            this.data = responseData;
+        }
+        List<ChatCompletionMessageData> chatDataList = new ArrayList<>();
+        for(CompletionChoiceData choice : this.data.getChoices()) {
+            //Get the content & role response from ChatGPT
+            CompletionMessageData messageData = choice.getMessage();
+            if(messageData == null) {
+                continue;
+            }
+            //Set the content & role response from ChatGPT as ChatCompletionMessageData
+            ChatCompletionMessageData messageResponse = new ChatCompletionMessageData()
+                    .setRole(messageData.getRole())
+                    .setContent(messageData.getContent());
+
+            //Store the response in an array, so that gpt-3.5 model can keep learning
+            chatDataList.add(messageResponse);
+        }
+        return chatDataList;
+    }
+
+    @SuppressWarnings("unused")
+    public String asNormalizedText() {
+        //Replaces any characters that do not match the regex
+        String normalized = Normalizer.normalize(this.asText(), Normalizer.Form.NFD);
+        return normalized
+                .replaceAll("^[a-zA-Z 0-9\\-_\\\\*&^%$£!?|/:;',#~{}()@\"]+$", "")
+                .replaceAll("\n", "");
     }
 
     public String asText() {

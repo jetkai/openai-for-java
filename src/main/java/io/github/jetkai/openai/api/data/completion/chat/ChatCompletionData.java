@@ -188,6 +188,19 @@ public class ChatCompletionData {
 
     public ChatCompletionData() { }
 
+    public ChatCompletionData(String model, List<ChatCompletionMessageData> messageHistory) {
+        this.model = model;
+        this.messages = messageHistory;
+    }
+
+    public static ChatCompletionData create(String model, List<ChatCompletionMessageData> messageHistory) {
+        return new ChatCompletionData(model, messageHistory);
+    }
+
+    public static ChatCompletionData create(List<ChatCompletionMessageData> messageHistory) {
+        return new ChatCompletionData("gpt-3.5-turbo", messageHistory);
+    }
+
     public ChatCompletionData setModel(String model) {
         this.model = model;
         return this;
