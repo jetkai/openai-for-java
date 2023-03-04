@@ -119,7 +119,7 @@ public class CreateChatCompletion implements ApiInterface {
 
     /**
      * asChatResponseDataList
-     * @return List<ChatCompletionMessageData>
+     * @return {@code List<ChatCompletionMessageData>}
      */
     public List<ChatCompletionMessageData> asChatResponseDataList() {
         if(this.data == null) {
