@@ -38,10 +38,14 @@ public class OpenAI {
     private CreateTranscription transcription;
     private CreateTranslation translation;
 
-    public OpenAI() { }
+    public OpenAI() {
+        this.apiKey = "";
+        this.organization = "";
+    }
 
     public OpenAI(String apiKey) {
         this.apiKey = apiKey;
+        this.organization = "";
     }
 
     public OpenAI(String apiKey, String organization) {
