@@ -13,17 +13,14 @@ import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * RequestBuilder
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
- * {@code - 03/03/2023}
+ * @version 1.0.1
+ * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
@@ -34,7 +31,7 @@ public abstract class RequestBuilder {
 
     public abstract HttpRequest request(Object data);
 
-    public HttpRequest buildGetRequest(URI uri, String apiKey, String organization) {
+    public HttpRequest createGetRequest(URI uri, String apiKey, String organization) {
         return HttpRequest.newBuilder()
                 .headers("Content-Type", "application/json")
                 .uri(uri)
@@ -46,7 +43,8 @@ public abstract class RequestBuilder {
                 .build();
     }
 
-    public HttpRequest buildPostRequest(URI uri, Object data, String apiKey, String organization) {
+    public HttpRequest createPostRequest(URI uri, Object data, String apiKey, String organization) {
+        Object postData = data; postData = postData == null ? "" : data;
         return HttpRequest.newBuilder()
                 .headers("Content-Type", "application/json")
                 .uri(uri)
@@ -54,11 +52,11 @@ public abstract class RequestBuilder {
                 .header("Authorization", "Bearer " + apiKey)
                 .header("OpenAI-Organization", organization)
                 .version(HttpClient.Version.HTTP_2)
-                .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(data)))
+                .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(postData)))
                 .build();
     }
 
-    public HttpRequest buildMultiDataPost(URI uri, Object data, String apiKey, String organization) {
+    public HttpRequest createMultiDataPost(URI uri, Object data, String apiKey, String organization) {
         Map<Object, Object> map = new LinkedHashMap<>();
         populateMap(data, map);
 
@@ -113,28 +111,29 @@ public abstract class RequestBuilder {
          * Handle Transcription
          */
         if(data instanceof AudioData) {
-            Path audioFile = ((AudioData) data).getFile();
-            if (audioFile != null) {
-                map.put("file", audioFile); //Required
-            }
-            String model = ((AudioData) data).getModel();
-            if (model != null) {
-                map.put("model", model); //Required
-            }
-            String prompt = ((AudioData) data).getPrompt();
-            if (prompt != null && !prompt.isEmpty()) {
-               map.put("prompt", prompt); //Optional
-            }
-            double temperature = ((AudioData) data).getTemperature();
-            map.put("temperature", temperature); //Optional
-            String language = ((AudioData) data).getLanguage();
-            if (language != null && !language.isEmpty()) {
-                map.put("language", language); //Optional
-            }
-            String responseFormat = ((AudioData) data).getResponseFormat();
-            if (responseFormat != null && !responseFormat.isEmpty()) {
-                map.put("response_format", responseFormat); //Optional
-            }
+            //Required
+            Optional<Path> audioFile = ((AudioData) data).filePath();
+            audioFile.ifPresent(path -> map.put("file", path));
+
+            //Required
+            Optional<String> model = ((AudioData) data).model();
+            model.ifPresent(s -> map.put("model", s));
+
+            //Optional
+            Optional<List<String>> prompt = ((AudioData) data).prompt();
+            prompt.ifPresent(strings -> map.put("prompt", strings));
+
+            //Optional
+            Optional<Double> temperature = ((AudioData) data).temperature();
+            temperature.ifPresent(aDouble -> map.put("temperature", aDouble));
+
+            //Optional
+            Optional<String> language = ((AudioData) data).language();
+            language.ifPresent(s -> map.put("language", s));
+
+            //Optional
+            Optional<String> responseFormat = ((AudioData) data).responseFormat();
+            responseFormat.ifPresent(s -> map.put("response_format", s));
 
             /*
              * Handle Translation

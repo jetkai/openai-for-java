@@ -60,7 +60,7 @@ public class CreateImageVariationTest {
         image.setSize("1024x1024");
 
         //Call the CreateTranscription API from OpenAI & create instance
-        CreateImageVariation createImageVariation = openAI.createImageVariation(image);
+        CreateImageVariation createImageVariation = openAI.imageVariation(image);
 
         //String List example (contains all the image urls)
         List<String> stringList = createImageVariation.asStringList();

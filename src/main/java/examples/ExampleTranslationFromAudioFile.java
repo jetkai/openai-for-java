@@ -1,6 +1,7 @@
 package examples;
 
 import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.CreateTranscription;
 import io.github.jetkai.openai.api.CreateTranscriptionTranslation;
 import io.github.jetkai.openai.api.data.audio.AudioData;
 
@@ -8,12 +9,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * ExampleTranslationFromAudioFile
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.0.1
  * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 05/03/2023}
@@ -30,7 +32,7 @@ public class ExampleTranslationFromAudioFile {
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY");
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
      */
-    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+    //private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
     public static void main(String[] args) throws URISyntaxException {
         //Initialize ExampleTranslationFromAudioFile class
@@ -64,11 +66,19 @@ public class ExampleTranslationFromAudioFile {
         //Alternatively can use AudioData.create(audioPath, "fr");
         AudioData audioTranslationData = AudioData.create(filePath, language);
 
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
+                .createTranscriptionTranslation(audioTranslationData)
+                .build();
+
+        //Sends the request to OpenAI's endpoint & parses the response data
+        openAI.initialize();
+
         //Call the CreateTranslation API from OpenAI & create instance
-        CreateTranscriptionTranslation createTranslation = openAI.createTranscriptionTranslation(audioTranslationData);
+        Optional<CreateTranscriptionTranslation> createTranslation = openAI.transcriptionTranslation();
 
         //Return as text, do not replace \n or ascii characters
-        return createTranslation.asText();
+        return createTranslation.map(CreateTranscription::asText).orElse(null);
     }
 
 }

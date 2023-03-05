@@ -42,6 +42,9 @@ public class JacksonJsonDeserializer {
     }
 
     public static <T> String valuesAsString(T clazz) {
+        if(clazz == null) {
+            return null;
+        }
         ObjectMapper mapper = new ObjectMapper();
         String json;
         try {

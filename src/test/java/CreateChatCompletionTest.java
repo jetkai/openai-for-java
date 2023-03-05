@@ -58,7 +58,7 @@ public class CreateChatCompletionTest {
         completion.setMessages(messages);
 
         //Call the CreateChatCompletion API from OpenAI & create instance
-        CreateChatCompletion createChatCompletion = openAI.createChatCompletion(completion);
+        CreateChatCompletion createChatCompletion = openAI.chatCompletion(completion);
 
         //Data structure example
         CompletionResponseData responseData = createChatCompletion.asData();

@@ -30,7 +30,7 @@ public class GetModelsTest {
         OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Call the GetModels API from OpenAI & create instance
-        GetModels getModels = openAI.getModels();
+        GetModels getModels = openAI.models();
 
         //Data structure example
         ModelData[] modelData = getModels.asDataArray(); //You can view all the listed models here

@@ -81,7 +81,7 @@ public class CreateImageEditTest {
         imageData.setSize("1024x1024");
 
         //Call the CreateImageEdit API from OpenAI & create instance
-        CreateImageEdit createImageEdit = openAI.createImageEdit(imageData);
+        CreateImageEdit createImageEdit = openAI.imageEdit(imageData);
 
         //Data structure example
         ImageResponseData imageResponse = createImageEdit.asData();

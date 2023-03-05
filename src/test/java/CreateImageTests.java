@@ -46,7 +46,7 @@ public class CreateImageTests {
         imageData.setSize("1024x1024");
 
         //Call the CreateImage API from OpenAI & create instance
-        CreateImage createImage = openAI.createImage(imageData);
+        CreateImage createImage = openAI.image(imageData);
 
         //Grabs the first image in the array, if your "setN" is higher than 1, then use imageArray
         Image image = createImage.asImage();

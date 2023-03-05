@@ -43,7 +43,7 @@ public class CreateEditTest {
         edit.setInstruction("Fix the spelling mistakes");
 
         //Call the CreateEdit API from OpenAI & create instance
-        CreateEdit createEdit = openAI.createEdit(edit); //You can call "data" to see the response
+        CreateEdit createEdit = openAI.edit(edit); //You can call "data" to see the response
 
         //Data structure example
         CompletionResponseData responseData = createEdit.asData();

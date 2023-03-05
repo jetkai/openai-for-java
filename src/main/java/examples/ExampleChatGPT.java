@@ -7,12 +7,13 @@ import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionMessageDat
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * ExampleChatGPT
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.0.1
  * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 05/03/2023}
@@ -29,7 +30,6 @@ public class ExampleChatGPT {
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY");
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
      */
-    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
     //This is a List that will store all our conversation history
     //This includes our chat history and the AI's
@@ -64,8 +64,21 @@ public class ExampleChatGPT {
         //Build the data structure which contains the message history and model information
         ChatCompletionData completionData = ChatCompletionData.create(messageHistory);
 
-        //Send the request to OpenAI and receive the response back
-        CreateChatCompletion response = openAI.createChatCompletion(completionData);
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
+                .createChatCompletion(completionData)
+                .build();
+
+        //Sends the request to OpenAI's endpoint & parses the response data
+        openAI.initialize();
+
+        //Check to see if there is a valid response from OpenAI
+        Optional<CreateChatCompletion> optionalResponse = openAI.chatCompletion();
+        if(optionalResponse.isEmpty()) {
+            return null;
+        }
+        //Get the response
+        CreateChatCompletion response = optionalResponse.get();
 
         //Store chat response from AI, this allows the AI to see the full history of our chat
         //Including both our messages and the AI's messages

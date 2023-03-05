@@ -32,7 +32,7 @@ public class GetModelTest {
         String modelName = "davinci";
 
         //Call the GetModel API from OpenAI & create instance
-        GetModel getModel = openAI.getModel(modelName);
+        GetModel getModel = openAI.model(modelName);
 
         //Data structure example
         ModelData modelData = getModel.asData();

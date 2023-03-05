@@ -3,7 +3,6 @@ package io.github.jetkai.openai.net;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
@@ -11,29 +10,25 @@ import java.util.function.Function;
  * HttpClientInstance
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
- * {@code - 03/03/2023}
+ * @version 1.0.1
+ * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
 public class HttpClientInstance {
 
-    private final HttpClient httpClient = HttpClient.newBuilder()
-            .version(HttpClient.Version.HTTP_2)
-            .followRedirects(HttpClient.Redirect.ALWAYS)
-            .connectTimeout(Duration.ofSeconds(60)) //60 seconds timeout
-            .build();
+    private HttpClient httpClient;
 
-    public CompletableFuture<HttpResponse<String>> getResponse(Object data, RequestBuilder requestBuilder) {
+    public CompletableFuture<HttpResponse<String>> sendAsync(Object data,
+                                                             RequestBuilder requestBuilder) {
         HttpRequest request = requestBuilder.request(data);
-        if(request == null) {
-            System.err.println("Unable to request data: " + data);
+        if(request == null || httpClient == null) {
             return null;
         }
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString(), pushPromiseHandler());
     }
 
-    private static HttpResponse.PushPromiseHandler<String> pushPromiseHandler() {
+    private HttpResponse.PushPromiseHandler<String> pushPromiseHandler() {
         return (HttpRequest initiatingRequest, HttpRequest pushPromiseRequest,
                 Function<HttpResponse.BodyHandler<String>, CompletableFuture<HttpResponse<String>>> acceptor) -> {
             acceptor.apply(HttpResponse.BodyHandlers.ofString())
@@ -42,6 +37,10 @@ public class HttpClientInstance {
             System.out.println("Promise request: " + pushPromiseRequest.uri());
             System.out.println("Promise request: " + pushPromiseRequest.headers())*/;
         };
+    }
+
+    public void setHttpClient(HttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
     @SuppressWarnings("unused")

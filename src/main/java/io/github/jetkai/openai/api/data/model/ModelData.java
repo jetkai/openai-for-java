@@ -1,106 +1,50 @@
 package io.github.jetkai.openai.api.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.github.jetkai.openai.util.JacksonJsonDeserializer;
+import io.github.jetkai.openai.api.impl.model.ModelBuilderImpl;
+import io.github.jetkai.openai.api.impl.model.ModelPermissionsImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * ModelData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
- * {@code - 03/03/2023}
+ * @version 1.0.1
+ * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize
 @SuppressWarnings("unused")
-public class ModelData {
-
-    private String id; //text-babbage:001
-    private String object; //model
-    private int created; //1642018370
-    @JsonProperty("owned_by")
-    private String ownedBy; //openai
-    private String root; //text-babbage:001
-    private String parent; //null
-    private List<ModelPermissionsData> permission;
+public abstract class ModelData {
 
     public ModelData() { }
 
-    public ModelData setId(String id) {
-        this.id = id;
-        return this;
+    public static ModelData newModelData() {
+        return builder().build();
+    }
+    public static ModelData.Builder builder() {
+        return new ModelBuilderImpl();
     }
 
-    public ModelData setCreated(int created) {
-        this.created = created;
-        return this;
+    public interface Builder {
+        Builder setId(String id);
+        Builder setCreated(int created);
+        Builder setObject(String object);
+        Builder setParent(String parent);
+        Builder setOwnedBy(String ownedBy);
+        Builder setRoot(String root);
+        Builder setPermissions(List<ModelPermissionsImpl> permission);
+
+        ModelData build();
     }
 
-    public ModelData setObject(String object) {
-        this.object = object;
-        return this;
-    }
-
-    public ModelData setParent(String parent) {
-        this.parent = parent;
-        return this;
-    }
-
-    public ModelData setOwnedBy(String ownedBy) {
-        this.ownedBy = ownedBy;
-        return this;
-    }
-
-    public ModelData setRoot(String root) {
-        this.root = root;
-        return this;
-    }
-
-    public ModelData setPermission(List<ModelPermissionsData> permission) {
-        this.permission = permission;
-        return this;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getObject() {
-        return object;
-    }
-
-    public String getOwnedBy() {
-        return ownedBy;
-    }
-
-    public int getCreated() {
-        return created;
-    }
-
-    public String getParent() {
-        return parent;
-    }
-
-    public String getRoot() {
-        return root;
-    }
-
-    public List<ModelPermissionsData> getPermission() {
-        return permission;
-    }
-
-    @JsonIgnore
-    public String toJson() {
-        return JacksonJsonDeserializer.valuesAsString(this);
-    }
+    public abstract Optional<String> id();
+    public abstract Optional<Integer> created();
+    public abstract Optional<String> object();
+    public abstract Optional<String> parent();
+    public abstract Optional<String> ownedBy();
+    public abstract Optional<String> root();
+    public abstract Optional<List<ModelPermissionsImpl>> permissions();
 
 }

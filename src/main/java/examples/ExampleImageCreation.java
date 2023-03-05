@@ -7,12 +7,13 @@ import io.github.jetkai.openai.api.data.image.ImageData;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Optional;
 
 /**
  * ExampleImageCreation
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.0.1
  * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 05/03/2023}
@@ -29,7 +30,7 @@ public class ExampleImageCreation {
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY");
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
      */
-    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+    //private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
     public static void main(String[] args) throws IOException {
         //Initialize ExampleImageCreation class
@@ -62,11 +63,19 @@ public class ExampleImageCreation {
                 //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024
                 .setSize(size);
 
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
+                .createImage(imageData)
+                .build();
+
+        //Sends the request to OpenAI's endpoint & parses the response data
+        openAI.initialize();
+
         //Call the CreateImage API from OpenAI & create instance
-        CreateImage createImage = openAI.createImage(imageData);
+        Optional<CreateImage> createImage = openAI.image();
 
         //Gather the URI(s) from the API response
-        return createImage.asUriArray();
+        return createImage.map(CreateImage::asUriArray).orElse(null);
     }
 
 }

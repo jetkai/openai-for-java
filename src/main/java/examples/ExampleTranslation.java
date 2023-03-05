@@ -1,14 +1,17 @@
 package examples;
 
 import io.github.jetkai.openai.OpenAI;
+import io.github.jetkai.openai.api.CreateCompletion;
 import io.github.jetkai.openai.api.CreateTranslation;
-import io.github.jetkai.openai.api.data.translation.TranslationData;
+import io.github.jetkai.openai.api.data.completion.CompletionData;
+
+import java.util.Optional;
 
 /**
  * ExampleTranslation
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.0.1
  * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 05/03/2023}
@@ -25,7 +28,7 @@ public class ExampleTranslation {
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY");
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
      */
-    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+    //private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
     public static void main(String[] args) {
         //Initialize ExampleTranslation class
@@ -46,13 +49,21 @@ public class ExampleTranslation {
 
     private String communicate(String message, String toLanguage) {
         //TranslationData, ready to send to the OpenAI API
-        TranslationData translationData = TranslationData.simplified(message, toLanguage);
+        CompletionData translationData = CompletionData.translation(message, toLanguage);
+
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
+                .createTranslation(translationData)
+                .build();
+
+        //Sends the request to OpenAI's endpoint & parses the response data
+        openAI.initialize();
 
         //Call the CreateTranslation API from OpenAI & create instance
-        CreateTranslation createTranslation = openAI.createTranslation(translationData);
+        Optional<CreateTranslation> createTranslation = openAI.translation();
 
         //Return as text, do not replace \n or ascii characters
-        return createTranslation.asText();
+        return createTranslation.map(CreateCompletion::asText).orElse(null);
     }
 
 }

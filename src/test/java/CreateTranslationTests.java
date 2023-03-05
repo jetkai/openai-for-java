@@ -36,8 +36,8 @@ public class CreateTranslationTests {
 
     @Test
     void createTranslationTest() {
-        assertNotNull(openAI.getApiKey());
-        assertNotNull(openAI.getOrganization());
+        assertNotNull(openAI.apiKey());
+        assertNotNull(openAI.organization());
 
         //AudioTranslationData, ready to send to the OpenAI API
         TranslationData translation = new TranslationData();
@@ -54,7 +54,7 @@ public class CreateTranslationTests {
         translation.setModel("text-davinci-003");
 
         //Call the CreateTranslation API from OpenAI & create instance
-        CreateTranslation createTranslation = openAI.createTranslation(translation);
+        CreateTranslation createTranslation = openAI.translation(translation);
 
         //Data structure example
         CompletionResponseData responseData = createTranslation.asData();
@@ -73,8 +73,8 @@ public class CreateTranslationTests {
 
     @Test
     void createAudioTranslationTest() {
-        assertNotNull(openAI.getApiKey());
-        assertNotNull(openAI.getOrganization());
+        assertNotNull(openAI.apiKey());
+        assertNotNull(openAI.organization());
 
         //Example audio file that we are going to upload to OpenAI to be translated
         URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
@@ -102,7 +102,7 @@ public class CreateTranslationTests {
         audioTranslationData.setLanguage("fr");
 
         //Call the CreateTranslation API from OpenAI & create instance
-        CreateTranscriptionTranslation createTranslation = openAI.createTranscriptionTranslation(audioTranslationData);
+        CreateTranscriptionTranslation createTranslation = openAI.transcriptionTranslation(audioTranslationData);
 
         //Data structure example
         AudioResponseData responseData = createTranslation.asData();

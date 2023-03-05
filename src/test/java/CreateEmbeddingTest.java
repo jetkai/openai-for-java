@@ -5,6 +5,7 @@ import io.github.jetkai.openai.api.data.embedding.EmbeddingResponseData;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -27,10 +28,6 @@ public class CreateEmbeddingTest {
         assertNotNull(apiKey);
         assertNotNull(organization);
 
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
-
         //EmbeddingData, ready to send to the OpenAI API
         EmbeddingData embed = new EmbeddingData();
 
@@ -44,8 +41,19 @@ public class CreateEmbeddingTest {
         embed.setInput("The food was delicious and the waiter...");
 
         //Call the CreateEmbedding API from OpenAI & create instance
-        CreateEmbedding createEmbedding = openAI.createEmbedding(embed);
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(apiKey)
+                .setOrganization(organization)
+                .setAlwaysNewInstance(true)
+                .setProxy(null)
+                .createEmbedding(embed)
+                .build();
 
+        Optional<CreateEmbedding> optionalEmbedding = openAI.embedding();
+        if (optionalEmbedding.isEmpty()) {
+            return;
+        }
+        CreateEmbedding createEmbedding = optionalEmbedding.get();
         //Data structure example
         EmbeddingResponseData embeddingBlock = createEmbedding.asData();
         assertNotNull(embeddingBlock);

@@ -4,11 +4,13 @@ import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateEdit;
 import io.github.jetkai.openai.api.data.edit.EditData;
 
+import java.util.Optional;
+
 /**
  * ExampleSpellingCorrection
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.0.1
  * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 05/03/2023}
@@ -25,7 +27,7 @@ public class ExampleSpellingCorrection {
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY");
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
      */
-    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+    //private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
     public static void main(String[] args) {
         //Initialize ExampleSpellingCorrection class
@@ -48,11 +50,19 @@ public class ExampleSpellingCorrection {
         //EditData.create(model, spellingMistake, instruction);
         EditData editData = EditData.create(spellingMistake, instruction);
 
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
+                .createEdit(editData)
+                .build();
+
+        //Sends the request to OpenAI's endpoint & parses the response data
+        openAI.initialize();
+
         //Call the CreateEdit API from OpenAI & create instance
-        CreateEdit createEdit = openAI.createEdit(editData);
+        Optional<CreateEdit> createEdit = openAI.edit();
 
         //Return model as a JSON string
-        return createEdit.asText();
+        return createEdit.map(CreateEdit::asText).orElse(null);
     }
 
 }

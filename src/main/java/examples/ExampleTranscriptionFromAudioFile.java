@@ -7,12 +7,13 @@ import io.github.jetkai.openai.api.data.audio.AudioData;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Optional;
 
 /**
  * ExampleTranscriptionFromAudioFile
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.0.1
  * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 05/03/2023}
@@ -29,7 +30,7 @@ public class ExampleTranscriptionFromAudioFile {
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY");
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
      */
-    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+    //private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
     public static void main(String[] args) throws URISyntaxException {
         //Initialize ExampleTranslationFromAudioFile class
@@ -53,11 +54,19 @@ public class ExampleTranscriptionFromAudioFile {
         //AudioData, ready to send to the OpenAI API
         AudioData transcriptionData = AudioData.create(filePath);
 
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
+                .createTranscription(transcriptionData)
+                .build();
+
+        //Sends the request to OpenAI's endpoint & parses the response data
+        openAI.initialize();
+
         //Call the CreateTranscription API from OpenAI & create instance
-        CreateTranscription createTranslation = openAI.createTranscription(transcriptionData);
+        Optional<CreateTranscription> createTranscription = openAI.transcription();
 
         //Return as text, do not replace \n or ascii characters
-        return createTranslation.asText();
+        return createTranscription.map(CreateTranscription::asText).orElse(null);
     }
 
 }

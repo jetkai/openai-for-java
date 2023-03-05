@@ -59,7 +59,7 @@ public class CreateTranscriptionTest {
         //audioTranscriptionData.setLanguage("en");
 
         //Call the CreateTranscription API from OpenAI & create instance
-        CreateTranscription createTranscription = openAI.createTranscription(audioTranscriptionData);
+        CreateTranscription createTranscription = openAI.transcription(audioTranscriptionData);
 
         //Transcript as a string (Audio File -> English)
         String transcript = createTranscription.asText();

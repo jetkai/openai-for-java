@@ -3,11 +3,13 @@ package examples;
 import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.GetModel;
 
+import java.util.Optional;
+
 /**
  * ExampleGetModel
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.0.1
  * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 05/03/2023}
@@ -24,7 +26,7 @@ public class ExampleGetModel {
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY");
      * private final OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
      */
-    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+    //private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
     public static void main(String[] args) {
         //Initialize ExampleGetModel class
@@ -40,11 +42,19 @@ public class ExampleGetModel {
     }
 
     private String communicate(String modelName) {
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
+                .getModel(modelName)
+                .build();
+
+        //Sends the request to OpenAI's endpoint & parses the response data
+        openAI.initialize();
+
         //Call the GetModels API from OpenAI & create instance
-        GetModel getModels = openAI.getModel(modelName);
+        Optional<GetModel> getModels = openAI.model();
 
         //Return model as a JSON string
-        return getModels.asJson();
+        return getModels.map(GetModel::asJson).orElse(null);
     }
 
 }

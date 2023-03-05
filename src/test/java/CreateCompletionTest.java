@@ -82,7 +82,7 @@ public class CreateCompletionTest {
         completion.setStop("\n");
 
         //Call the CreateCompletion API from OpenAI & create instance
-        CreateCompletion createCompletion = openAI.createCompletion(completion);
+        CreateCompletion createCompletion = openAI.completion(completion);
 
         //Data structure example
         CompletionResponseData responseData = createCompletion.asData();

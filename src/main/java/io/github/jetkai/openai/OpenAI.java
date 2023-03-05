@@ -9,185 +9,84 @@ import io.github.jetkai.openai.api.data.embedding.EmbeddingData;
 import io.github.jetkai.openai.api.data.image.ImageData;
 import io.github.jetkai.openai.api.data.image.edit.ImageEditData;
 import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
-import io.github.jetkai.openai.api.data.translation.TranslationData;
+import io.github.jetkai.openai.impl.openai.OpenAIBuilderImpl;
 import io.github.jetkai.openai.net.HttpClientInstance;
+
+import java.net.http.HttpClient;
+import java.util.Optional;
 
 /**
  * OpenAI
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
- * {@code - 03/03/2023}
+ * @version 1.0.1
+ * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
-public class OpenAI {
+public abstract class OpenAI {
 
-    public final HttpClientInstance httpClientInstance = new HttpClientInstance();
-    private boolean alwaysNewInstance = true;
-    private String apiKey;
-    private String organization;
+    public OpenAI() { }
 
-    private GetModel model;
-    private GetModels models;
-    private CreateImageVariation imageVariation;
-    private CreateImageEdit imageEdit;
-    private CreateImage image;
-    private CreateEmbedding embedding;
-    private CreateEdit edit;
-    private CreateCompletion completion;
-    private CreateChatCompletion chatCompletion;
-    private CreateTranscription transcription;
-    private CreateTranscriptionTranslation transcriptionTranslation;
-
-    private CreateTranslation translation;
-
-    public OpenAI() {
-        this.apiKey = "";
-        this.organization = "";
+    public static OpenAI newOpenAI() {
+        return builder().build();
     }
 
-    public OpenAI(String apiKey) {
-        this.apiKey = apiKey;
-        this.organization = "";
+    public static Builder builder() {
+        return new OpenAIBuilderImpl();
     }
 
-    public OpenAI(String apiKey, String organization) {
-        this.apiKey = apiKey;
-        this.organization = organization;
+    public interface Builder {
+        Builder getModel(String model);
+        Builder getModels();
+        Builder createEmbedding(EmbeddingData embedding);
+        Builder createImageEdit(ImageEditData imageEdit);
+        Builder createImage(ImageData image);
+        Builder createEdit(EditData edit);
+        Builder createChatCompletion(ChatCompletionData chatCompletion);
+        Builder createCompletion(CompletionData completion);
+        Builder createTranslation(CompletionData translation);
+        Builder createTranscriptionTranslation(AudioData transcriptionTranslation);
+        Builder createTranscription(AudioData transcription);
+        Builder createImageVariation(ImageVariationData imageVariation);
+        Builder setApiKey(String apiKey);
+        Builder setOrganization(String organization);
+        Builder setHttpClient(HttpClient httpClient);
+        OpenAI build();
     }
 
-    @SuppressWarnings("unused")
-    public static OpenAI createInstance() {
-        return new OpenAI();
-    }
+    public abstract void initialize();
 
-    @SuppressWarnings("unused")
-    public static OpenAI createInstance(String apiKey) {
-        return new OpenAI(apiKey);
-    }
+    public abstract Optional<GetModels> models();
 
-    @SuppressWarnings("unused")
-    public static OpenAI createInstance(String apiKey, String organization) {
-        return new OpenAI(apiKey, organization);
-    }
+    public abstract Optional<GetModel> model();
 
-    public GetModels getModels() {
-        if(models == null || alwaysNewInstance) {
-            models = new GetModels(this);
-        }
-        return models;
-    }
+    public abstract Optional<CreateImageVariation> imageVariation();
 
-    public GetModel getModel(String modelName) {
-        if(model == null || alwaysNewInstance) {
-            model = new GetModel(this, modelName);
-        }
-        return model;
-    }
+    public abstract Optional<CreateTranscription> transcription();
 
-    public CreateImageVariation createImageVariation(ImageVariationData imageData) {
-        if(imageVariation == null || alwaysNewInstance) {
-            imageVariation = new CreateImageVariation(this, imageData);
-        }
-        return imageVariation;
-    }
+    public abstract Optional<CreateTranscriptionTranslation> transcriptionTranslation();
 
-    public CreateTranscription createTranscription(AudioData transcriptionData) {
-        if(transcription == null || alwaysNewInstance) {
-            transcription = new CreateTranscription(this, transcriptionData);
-        }
-        return transcription;
-    }
+    public abstract Optional<CreateTranslation> translation();
 
-    public CreateTranscriptionTranslation createTranscriptionTranslation(AudioData translationData) {
-        if(transcriptionTranslation == null || alwaysNewInstance) {
-            transcriptionTranslation = new CreateTranscriptionTranslation(this, translationData);
-        }
-        return transcriptionTranslation;
-    }
+    public abstract Optional<CreateCompletion> completion();
 
-    public CreateTranslation createTranslation(TranslationData translationData) {
-        if(translation == null || alwaysNewInstance) {
-            translation = new CreateTranslation(this, translationData);
-        }
-        return translation;
-    }
+    public abstract Optional<CreateChatCompletion> chatCompletion();
 
-    public CreateCompletion createCompletion(CompletionData completionData) {
-        if(completion == null || alwaysNewInstance) {
-            completion = new CreateCompletion(this, completionData);
-        }
-        return completion;
-    }
+    public abstract Optional<CreateEdit> edit();
 
-    public CreateChatCompletion createChatCompletion(ChatCompletionData completionData) {
-        if(chatCompletion == null || alwaysNewInstance) {
-            chatCompletion = new CreateChatCompletion(this, completionData);
-        }
-        return chatCompletion;
-    }
+    public abstract Optional<CreateImage> image();
 
-    @SuppressWarnings("unused")
-    public CreateEdit createEdit(EditData editData) {
-        if(edit == null || alwaysNewInstance) {
-            edit = new CreateEdit(this, editData);
-        }
-        return edit;
-    }
+    public abstract Optional<CreateImageEdit> imageEdit();
 
-    public CreateImage createImage(ImageData imageData) {
-        if(image == null || alwaysNewInstance) {
-            image = new CreateImage(this, imageData);
-        }
-        return image;
-    }
+    public abstract Optional<CreateEmbedding> embedding();
 
-    public CreateImageEdit createImageEdit(ImageEditData imageData) {
-        if(imageEdit == null || alwaysNewInstance) {
-            imageEdit = new CreateImageEdit(this, imageData);
-        }
-        return imageEdit;
-    }
+    public abstract Optional<HttpClient> httpClient();
 
-    public CreateEmbedding createEmbedding(EmbeddingData embeddingData) {
-        if(embedding == null || alwaysNewInstance) {
-            embedding = new CreateEmbedding(this, embeddingData);
-        }
-        return embedding;
-    }
+    public abstract Optional<HttpClientInstance> httpClientInstance();
 
-    public HttpClientInstance getHttpClientInstance() {
-        return httpClientInstance;
-    }
+    public abstract Optional<String> apiKey();
 
-    public void setAlwaysNewInstance(boolean alwaysNewInstance) {
-        this.alwaysNewInstance = alwaysNewInstance;
-    }
-
-    @SuppressWarnings("unused")
-    public boolean isAlwaysNewInstance() {
-        return alwaysNewInstance;
-    }
-
-    @SuppressWarnings({"unused", "UnusedReturnValue"})
-    public OpenAI setApiKey(String apiKey) {
-        this.apiKey = apiKey;
-        return this;
-    }
-
-    @SuppressWarnings({"unused", "UnusedReturnValue"})
-    public OpenAI setOrganization(String organization) {
-        this.organization = organization;
-        return this;
-    }
-
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    public String getOrganization() {
-        return organization;
-    }
+    public abstract Optional<String> organization();
 
 }

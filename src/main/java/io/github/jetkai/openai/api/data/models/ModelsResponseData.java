@@ -1,13 +1,15 @@
-package io.github.jetkai.openai.api.data.model;
+package io.github.jetkai.openai.api.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.github.jetkai.openai.api.data.model.ModelData;
+import io.github.jetkai.openai.api.impl.model.ModelImpl;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 /**
- * ModelsData
+ * ModelsResponseData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
@@ -19,19 +21,19 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-public class ModelsData {
+public class ModelsResponseData {
 
     private String object;
-    private ModelData[] data;
+    private ModelImpl[] data;
 
-    public ModelsData() { }
+    public ModelsResponseData() { }
 
-    public ModelsData setObject(String object) {
+    public ModelsResponseData setObject(String object) {
         this.object = object;
         return this;
     }
 
-    public ModelsData setData(ModelData[] data) {
+    public ModelsResponseData setData(ModelImpl[] data) {
         this.data = data;
         return this;
     }

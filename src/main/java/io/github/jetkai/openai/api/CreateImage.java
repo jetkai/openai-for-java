@@ -1,122 +1,63 @@
 package io.github.jetkai.openai.api;
 
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.data.image.ImageData;
 import io.github.jetkai.openai.api.data.image.ImageResponseData;
 import io.github.jetkai.openai.api.data.image.ImageResponseUrlData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
-import io.github.jetkai.openai.net.RequestBuilder;
-import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 /**
  * CreateImage
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
- * {@code - 03/03/2023}
+ * @version 1.0.1
+ * {@code - 05/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
-public class CreateImage implements ApiInterface {
-
-    /**
-     * HttpResponse from OpenAI
-     */
-    private final AtomicReference<HttpResponse<String>> response;
-
-    /**
-     * The OpenAI instance
-     */
-    private final OpenAI openAI;
-
-    /**
-     * The endpoint that handleHttpResponse calls
-     */
-    private final OpenAIEndpoints endpoint;
-
-    /**
-     * The data that we are going to be sending through the POST request
-     */
-    private final ImageData image;
-
-    /**
-     * Stored object of the data that has been deserialized from the OpenAI response
-     */
-    private ImageResponseData data;
+public class CreateImage extends OAPI {
 
     /**
      * CreateImage
-     * @param openAI - The OpenAI instance
      * @param image - The image data specified
      */
-    public CreateImage(OpenAI openAI, ImageData image) {
-        this.openAI = openAI;
-        this.image = image;
+    public CreateImage(ImageData image) {
+        this.requestData = image.toJson();
         this.endpoint = OpenAIEndpoints.CREATE_IMAGE;
+        this.requestType = HttpRequestType.POST;
         this.response = new AtomicReference<>();
-        this.initialize();
+    }
+
+    public CreateImage(Object image, OpenAIEndpoints endpoint, HttpRequestType requestType) {
+        this.requestData = image;
+        this.endpoint = endpoint;
+        this.requestType = requestType;
+        this.response = new AtomicReference<>();
     }
 
     /**
-     * Initialize
-     * Sends a HttpRequest & handles the response from OpenAI's API
+     * asImage
+     * @return as Image
      */
-    private void initialize() {
-        HttpResponse<String> httpResponse = response.get();
-        if(httpResponse == null || httpResponse.body() == null || httpResponse.body().isEmpty()) {
-            this.handleHttpResponse();
-        }
-    }
-
-    /**
-     * Reinitialize
-     * If the HttpRequest/Response to OpenAI's API needs to be restarted, this will do that
-     * @return CreateImage
-     */
-    public CreateImage reinitialize() {
-        this.data = null;
-        this.handleHttpResponse();
-        return this;
-    }
-
-    /**
-     * HandleHttpResponse
-     * This method will update the HttpResponse<String> response field with data from OpenAI
-     * response.get().body() can then be called to retrieve the JSON response from OpenAI
-     */
-    private void handleHttpResponse() {
-        openAI.getHttpClientInstance().getResponse(image, new RequestBuilder() {
-            @Override
-            public HttpRequest request(Object data) {
-                return buildPostRequest(endpoint.uri(), ((ImageData) data).toJson(),
-                        openAI.getApiKey(), openAI.getOrganization());
-            }
-        }).thenAccept(this.response::set).join();
-    }
-
     public Image asImage() {
-        if(this.data == null) {
-            ImageResponseData imageResponse = deserialize();
-            if (imageResponse == null) {
-                return null;
-            }
-            this.data = imageResponse;
+        if(this.deserializedData == null) {
+            this.deserializedData = deserialize(ImageResponseData.class);
+        }
+        if (!(this.deserializedData instanceof ImageResponseData)) {
+            return null;
         }
 
-        List<ImageResponseUrlData> response = data.getData();
+        List<ImageResponseUrlData> response = ((ImageResponseData) this.deserializedData).getData();
         if(response != null && !response.isEmpty()) {
-            String imageUrlAsString = data.getData().get(0).getUrl();
+            String imageUrlAsString = response.get(0).getUrl();
             if(imageUrlAsString == null || imageUrlAsString.isEmpty()) {
                 return null;
             }
@@ -130,17 +71,19 @@ public class CreateImage implements ApiInterface {
         return null;
     }
 
+    /**
+     * asImageArray
+     * @return - Return all the images as Image[]
+     */
     public Image[] asImageArray() {
-
-        if(this.data == null) {
-            ImageResponseData imageResponse = deserialize();
-            if (imageResponse == null) {
-                return null;
-            }
-            this.data = imageResponse;
+        if(this.deserializedData == null) {
+            this.deserializedData = deserialize(ImageResponseData.class);
+        }
+        if (!(this.deserializedData instanceof ImageResponseData)) {
+            return null;
         }
 
-        List<ImageResponseUrlData> imageList = data.getData();
+        List<ImageResponseUrlData> imageList = ((ImageResponseData) this.deserializedData).getData();
         Image[] images = new Image[imageList.size()];
 
         for(int i = 0; i < imageList.size(); i++) {
@@ -170,18 +113,16 @@ public class CreateImage implements ApiInterface {
      */
     @SuppressWarnings("unused")
     public List<String> asStringList() {
-        if(this.data == null) {
-            ImageResponseData translation = deserialize();
-            if (translation == null) {
-                return null;
-            }
-            this.data = translation;
+        if(this.deserializedData == null) {
+            this.deserializedData = deserialize(ImageResponseData.class);
         }
-        List<String> links = new ArrayList<>();
-        for(ImageResponseUrlData response : this.data.getData()) {
-            links.add(response.getUrl());
+        if (!(this.deserializedData instanceof ImageResponseData)) {
+            return null;
         }
-        return links;
+        return ((ImageResponseData) this.deserializedData).getData()
+                .stream()
+                .map(ImageResponseUrlData::getUrl)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -190,17 +131,21 @@ public class CreateImage implements ApiInterface {
      */
     @SuppressWarnings("unused")
     public URI[] asUriArray() {
-        if(this.data == null) {
-            ImageResponseData imageResponse = deserialize();
-            if (imageResponse == null) {
-                return null;
-            }
-            this.data = imageResponse;
+        if(this.deserializedData == null) {
+            this.deserializedData = deserialize(ImageResponseData.class);
         }
-        int dataLength = this.data.getData().size();
-        URI[] uris = new URI[dataLength];
-        for(int i = 0; i < dataLength; i++) {
-            uris[i] = URI.create(this.data.getData().get(i).getUrl());
+        if (!(this.deserializedData instanceof ImageResponseData)) {
+            return null;
+        }
+        int length = ((ImageResponseData) this.deserializedData).getData().size();
+
+        URI[] uris = new URI[length];
+        for(int i = 0; i < length; i++) {
+            String url = ((ImageResponseData) this.deserializedData).getData().get(i).getUrl();
+            if(url == null) {
+                continue;
+            }
+            uris[i] = URI.create(url);
         }
         return uris;
     }
@@ -209,16 +154,14 @@ public class CreateImage implements ApiInterface {
      * asData
      * @return ImageResponseData
      */
-    @SuppressWarnings("unused")
     public ImageResponseData asData() {
-        if(this.data == null) {
-            ImageResponseData image = deserialize();
-            if (image == null) {
-                return null;
-            }
-            this.data = image;
+        if(this.deserializedData == null) {
+            this.deserializedData = deserialize(ImageResponseData.class);
         }
-        return this.data;
+        if (!(this.deserializedData instanceof ImageResponseData)) {
+            return null;
+        }
+        return (ImageResponseData) this.deserializedData;
     }
 
     /**
@@ -227,65 +170,13 @@ public class CreateImage implements ApiInterface {
      */
     @Override
     public String asJson() {
-        if(this.data == null) {
-            ImageResponseData image = deserialize();
-            if (image == null) {
-                return null;
-            }
-            this.data = image;
+        if(this.deserializedData == null) {
+            this.deserializedData = deserialize(ImageResponseData.class);
         }
-        return this.data.toJson();
-    }
-
-    /**
-     * deserializes
-     * Parses the JSON response from OpenAI and deserializes the string to the below data structure
-     * @return ImageResponseData
-     */
-    private ImageResponseData deserialize() {
-        if(this.data == null) {
-            ImageResponseData image = JacksonJsonDeserializer.parseData(
-                    ImageResponseData.class, this.getRawJsonResponse()
-            );
-            if (image == null) {
-                return null;
-            }
-            this.data = image;
+        if (!(this.deserializedData instanceof ImageResponseData)) {
+            return null;
         }
-        return this.data;
-    }
-
-    /**
-     * getResponse
-     * The response from OpenAI
-     * @return {@code AtomicReference<HttpResponse<String>>}
-     */
-    @Override
-    public AtomicReference<HttpResponse<String>> getHttpResponse() {
-        return response;
-    }
-
-    /**
-     * getBody
-     * @return String (JSON from OpenAI response)
-     */
-    @Override
-    public String getRawJsonResponse() {
-        return String.valueOf(response.get().body());
-    }
-
-    /**
-     * getEndpoint
-     * @return OpenAIEndpoints (The endpoint that handleHttpResponse calls)
-     */
-    @Override
-    public OpenAIEndpoints getEndpoint() {
-        return endpoint;
-    }
-
-    @Override
-    public ImageData getRequestData() {
-        return image;
+        return ((ImageResponseData) this.deserializedData).toJson();
     }
 
 }
