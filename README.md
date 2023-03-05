@@ -1,20 +1,25 @@
 # OpenAI For Java
 
-###### ⚠️ This library is currently under-development as the API has only been public since the 1st of March.
+    ⚠️ This library is currently under development
+    
+###### OpenAI API Reference -> https://platform.openai.com/docs/api-reference/
+###### OpenAI API Key -> https://platform.openai.com/account/api-keys
 
-API Reference -> https://platform.openai.com/docs/api-reference/
+## Library Download
 
-## Library Downloads
-- [openai-binary.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-binary.jar) - ~2.1 MB `(with dependencies)`
-- [openai-binary.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-no-dependencies-binary.jar) - ~80.0 KB `(no dependencies included)`
-- [openai-javadoc.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-javadoc.jar) - ~400.0 KB
-- [openai-sources.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-sources.jar) - ~50.00 KB
+### Release 1.0.0
+- [openai.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai.jar) - ~2.2 MB `(binary, with dependencies)`
+
+### Other
+- [openai-excldeps.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-excluding-dependencies.jar) - ~130.0 KB `(binary, excluding dependencies)`
+- [openai-sources.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-sources.jar) - ~105.00 KB
+- [openai-javadoc.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-javadoc.jar) - ~430.0 KB
 
 ## Minimum Requirements
 - JDK 11
-- An OpenAI API Key - **You can get a free API key from** https://platform.openai.com/account/api-keys
+- An OpenAI [API Key](https://platform.openai.com/account/api-keys)
 
-## Available API(s)
+## Available API(s) `March 2023`
 - [GetModel](https://platform.openai.com/docs/api-reference/models/retrieve) -> `https://api.openai.com/v1/models`
 - [GetModels](https://platform.openai.com/docs/api-reference/models/list) -> `https://api.openai.com/v1/models/{model}`
 - [CreateCompletion](https://platform.openai.com/docs/api-reference/completions/create) -> `https://api.openai.com/v1/completions`
@@ -27,79 +32,306 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 - [CreateTranscription](https://platform.openai.com/docs/api-reference/audio/create) -> `https://api.openai.com/v1/audio/transcriptions`
 - [CreateTranslation](https://platform.openai.com/docs/api-reference/audio/create) -> `https://api.openai.com/v1/audio/translations`
 
-## Example Usages
+# Source Code (Examples)
 
-### GetModel
-
+## ChatGPT-3.5 Turbo
+    Scenario: Say "Hello" to the AI and ask the AI to respond back with the last thing I said.
 ```java
-@Test
-    void getModelTest() {
-        //Grab OpenAI API key from system environment variables (gradle.properties)
-        String apiKey = System.getenv("OPEN_AI_API_KEY");
-        String organization = System.getenv("OPEN_AI_ORGANIZATION");
-        assertNotNull(apiKey);
-        assertNotNull(organization);
+    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
+    //This is a List that will store all our conversation history
+    //This includes our chat history and the AI's
+    private final List<ChatCompletionMessageData> messageHistory = new ArrayList<>();
 
-        //Set model to view
-        String modelName = "davinci";
+    public static void main(String[] args) {
+        ExampleChatGPT gpt = new ExampleChatGPT();
 
-        //Call the GetModel API from OpenAI & create instance
-        GetModel getModel = openAI.getModel(modelName);
+        //The first message that we want to send
+        String message1 = "Hello ChatGPT!";
+        //The second message that we want to send
+        String message2 = "What was the last thing I just said?";
 
-        //Data structure example
-        ModelData modelData = getModel.asData();
-        assertNotNull(modelData);
+        //Response 1 from ChatGPT
+        String response1 = gpt.communicate(message1);
+        System.out.println("Sent: " + message1);
+        System.out.println("Response: " + response1);
 
-        //Get id from data structure example
-        String id = modelData.getId();
-        assertEquals(id, modelName);
+        //Response 2 from ChatGPT
+        String response2 = gpt.communicate(message2);
+        System.out.println("Sent: " + message2);
+        System.out.println("Response: " + response2);
+    }
 
-        //Json example
-        String json = getModel.asJson();
-        assertNotNull(json);
+    private String communicate(String message) {
+        //Create the Message Data object with the message we wish to send
+        ChatCompletionMessageData messageData = ChatCompletionMessageData.create(message);
+
+        //Store the message that we want to send, to the MessageHistory List
+        messageHistory.add(messageData);
+
+        //Send the request to OpenAI, along with the MessageHistory data
+        ChatCompletionData completionData = ChatCompletionData.create(messageHistory);
+
+        //Send the request to OpenAI, along with the MessageHistory data
+        CreateChatCompletion response = openAI.createChatCompletion(completionData);
+
+        //Store chat response from AI, this allows the AI to see the full history of our chat
+        //Including both our messages and the AI's messages
+        messageHistory.addAll(response.asChatResponseDataList());
+
+        //Replace \n & ascii characters (Šťŕĭńġ -> String)
+        return response.asNormalizedText();
     }
 ```
 
-### GetModels
+## AI Image Creation
+    Scenario: Have an AI create a red panda with glasses, and have this drawn as a cartoon.
+```java
+    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+
+    public static void main(String[] args) throws IOException {
+        //Initialize ExampleImageCreation class
+        ExampleImageCreation imageCreation = new ExampleImageCreation();
+
+        //A text description of the desired image(s). The maximum length is 1000 characters
+        String description = "A picture of a red panda with glasses, drawn as a cartoon.";
+
+        //The number of images to generate. Must be between 1 and 10.
+        int amount = 1;
+
+        //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024
+        String size = "1024x1024";
+
+        URI[] imageLinks = imageCreation.communicate(description, amount, size);
+
+        for(URI imageLink : imageLinks) {
+            System.out.println("Opening URI ["+imageLink+"] in the web browser.");
+            Desktop.getDesktop().browse(imageLink);
+        }
+    }
+
+    private URI[] communicate(String imageDescription, int numberOfImages, String size) {
+        //Alternatively can use ImageData.create(imageDescription, numberOfImages, size);
+        ImageData imageData = ImageData.create()
+                //A text description of the desired image(s). The maximum length is 1000 characters
+                .setPrompt(imageDescription)
+                //The number of images to generate. Must be between 1 and 10.
+                .setN(numberOfImages)
+                //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024
+                .setSize(size);
+
+        //Call the CreateImage API from OpenAI & create instance
+        CreateImage createImage = openAI.createImage(imageData);
+
+        //Gather the URI(s) from the API response
+        return createImage.asUriArray();
+    }
+```
+
+## Spelling Correction
+    Scenario: Correct the spelling within the sentence "Wha dai of the wek is it?".
+```java
+    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+
+    public static void main(String[] args) {
+        //Initialize ExampleSpellingCorrection class
+        ExampleSpellingCorrection getModel = new ExampleSpellingCorrection();
+
+        String spellingMistake = "Wha dai of the wek is it?";
+        String instruction = "Fix the spelling mistakes";
+
+        //Send request to API - response as string
+        String spellingCorrection = getModel.communicate(spellingMistake, instruction);
+
+        //Print out the mistake & correction
+        System.out.println("Mistake: " + spellingMistake);
+        System.out.println("Correction: " + spellingCorrection);
+    }
+
+    private String communicate(String spellingMistake, String instruction) {
+        //Call the GetModels API from OpenAI & create instance
+        //You can also specify the model and use the following:
+        //EditData.create(model, spellingMistake, instruction);
+        EditData editData = EditData.create(spellingMistake, instruction);
+
+        //Call the CreateEdit API from OpenAI & create instance
+        CreateEdit createEdit = openAI.createEdit(editData);
+
+        //Return model as a JSON string
+        return createEdit.asText();
+    }
+```
+
+## Translate Language
+    Scenario: Translate "Hello, how are you today?" from English to French.
+```java
+    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+
+    public static void main(String[] args) {
+        //Initialize ExampleTranslationFromAudioFile class
+        ExampleTranslation translateFromAudioFile = new ExampleTranslation();
+
+        //This is the language we want to translate our audio file to
+        String toLanguage = "French";
+
+        //Example audio file that we are going to upload to OpenAI to be translated
+        String message = "Hello, how are you today?";
+
+        //Response from OpenAI with the translated string
+        String response = translateFromAudioFile.communicate(message, toLanguage);
+
+        //Print the translation to the console
+        System.out.println(response);
+    }
+
+    private String communicate(String message, String toLanguage) {
+        //TranslationData, ready to send to the OpenAI API
+        TranslationData audioTranslationData = TranslationData.simplified(message, toLanguage);
+
+        //Call the CreateTranslation API from OpenAI & create instance
+        CreateTranslation createTranslation = openAI.createTranslation(audioTranslationData);
+
+        //Return as text, do not replace \n or ascii characters
+        return createTranslation.asText();
+    }
+```
+
+## Audio Transcript
+    Scenario: Create a transcript from an audio file.
 
 ```java
-    @Test
-    void getModelsTest() {
-        //Grab OpenAI API key from system environment variables (gradle.properties)
-        String apiKey = System.getenv("OPEN_AI_API_KEY");
-        String organization = System.getenv("OPEN_AI_ORGANIZATION");
-        assertNotNull(apiKey);
-        assertNotNull(organization);
+    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
+    public static void main(String[] args) throws URISyntaxException {
+        //Initialize ExampleTranslationFromAudioFile class
+        ExampleTranscriptionFromAudioFile transcriptAudioFile = new ExampleTranscriptionFromAudioFile();
 
+        //Example audio file that we are going to upload to OpenAI to be translated
+        URL audioUrl = ExampleTranscriptionFromAudioFile.class.getResource("what-can-i-do.mp3");
+        Path filePath = null;
+        if (audioUrl != null) {
+            filePath = Path.of(audioUrl.toURI());
+        }
+
+        //Response from OpenAI with the translated string
+        String response = transcriptAudioFile.communicate(filePath);
+
+        //Print the translation to the console
+        System.out.println(response);
+    }
+
+    private String communicate(Path filePath) {
+        //AudioData, ready to send to the OpenAI API
+        AudioData transcriptionData = AudioData.create(filePath);
+
+        //Call the CreateTranscription API from OpenAI & create instance
+        CreateTranscription createTranslation = openAI.createTranscription(transcriptionData);
+
+        //Return as text, do not replace \n or ascii characters
+        return createTranslation.asText();
+    }
+```
+
+## Audio Transcript & Translate
+    Scenario: Create a transcript from an audio file, then translate the transcript from English to French.
+    
+```java
+    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+
+    public static void main(String[] args) throws URISyntaxException {
+        //Initialize ExampleTranslationFromAudioFile class
+        ExampleTranslationFromAudioFile translateFromAudioFile = new ExampleTranslationFromAudioFile();
+
+        //This is the language we want to translate our audio file to
+        //Language parameter must be specified in ISO-639-1 format or Locale
+        //Example -> "French" = "fr" | "English UK" = "en_GB"
+        //String language = "fr";
+        Locale language = Locale.FRENCH;
+
+        //Example audio file that we are going to upload to OpenAI to be translated
+        URL audioUrl = ExampleTranslationFromAudioFile.class.getResource("what-can-i-do.mp3");
+        Path filePath = null;
+        if (audioUrl != null) {
+            filePath = Path.of(audioUrl.toURI());
+        }
+        if(filePath == null) {
+            System.err.println("File could not be found.");
+            return;
+        }
+
+        //Response from OpenAI with the translated string
+        String response = translateFromAudioFile.communicate(filePath, language);
+
+        //Print the translation to the console
+        System.out.println(response);
+    }
+
+    private String communicate(Path filePath, Locale language) {
+        //Alternatively can use AudioData.create(audioPath, "fr");
+        AudioData audioTranslationData = AudioData.create(filePath, language);
+
+        //Call the CreateTranslation API from OpenAI & create instance
+        CreateTranscriptionTranslation createTranslation = openAI.createTranscriptionTranslation(audioTranslationData);
+
+        //Return as text, do not replace \n or ascii characters
+        return createTranslation.asText();
+    }
+```
+
+## Get Model Information
+    Scenario: Get information about a specific model.
+
+```java
+    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+
+    public static void main(String[] args) {
+        //Initialize ExampleGetModel class
+        ExampleGetModel getModel = new ExampleGetModel();
+
+        String modelName = "davinci";
+
+        //Send request to API - response as JSON string
+        String modelJson = getModel.communicate(modelName);
+
+        //Print out the model information in JSON
+        System.out.println(modelJson);
+    }
+
+    private String communicate(String modelName) {
+        //Call the GetModels API from OpenAI & create instance
+        GetModel getModels = openAI.getModel(modelName);
+
+        //Return model as a JSON string
+        return getModels.asJson();
+    }
+```
+
+## List All Models
+
+```java
+    private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
+
+    public static void main(String[] args) {
+        //Initialize ExampleGetModels class
+        ExampleGetModels getModels = new ExampleGetModels();
+
+        //Send request to API and deserialize response as List<ModalData>
+        List<ModelData> models = getModels.communicate();
+
+        //Print out the names of all the available models, to the console
+        models.stream().map(ModelData::getId).forEach(System.out::println);
+    }
+
+    private List<ModelData> communicate() {
         //Call the GetModels API from OpenAI & create instance
         GetModels getModels = openAI.getModels();
 
-        //Data structure example
-        ModelData[] modelData = getModels.asDataArray(); //You can view all the listed models here
-        assertNotNull(modelData);
-        assertTrue(modelData.length > 0);
-
-        //Data list example
-        List<ModelData> modelList = getModels.asDataList();
-        assertNotNull(modelList);
-        assertTrue(modelList.size() > 0);
-
-        //Json example
-        String json = getModels.asJson();
-        assertNotNull(json);
-        assertFalse(json.isEmpty());
+        //Return models as a data structure list, so that we can get the name from each model
+        return getModels.asDataList();
     }
 ```
 
-### CreateCompletion
+## CreateCompletion
 
 ```java
     @Test
@@ -179,63 +411,6 @@ API Reference -> https://platform.openai.com/docs/api-reference/
     }
 ```
 
-### CreateChatCompletion
-
-```java
-    @Test
-    void createChatCompletionTest() {
-        //Grab OpenAI API key from system environment variables (gradle.properties)
-        String apiKey = System.getenv("OPEN_AI_API_KEY");
-        String organization = System.getenv("OPEN_AI_ORGANIZATION");
-        assertNotNull(apiKey);
-        assertNotNull(organization);
-
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
-
-        //Create message object, this will contain the data we want to send to ChatGPT
-        ChatCompletionMessageData message = new ChatCompletionMessageData();
-
-        //List of Messages that you would like to send to the Chat Bot
-        List<ChatCompletionMessageData> messages = new ArrayList<>();
-
-        //The role of the user
-        message.setRole("user");
-
-        //Message that you would like to send to OpenAI ChatGPT
-        message.setContent("Hello!");
-
-        //Add message to the messages list
-        messages.add(message);
-
-        //Completion Data, ready to send to the OpenAI Api
-        ChatCompletionData completion = new ChatCompletionData();
-
-        //ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are supported.
-        completion.setModel("gpt-3.5-turbo");
-
-        //The messages to generate chat completions for, in the chat format.
-        completion.setMessages(messages);
-
-        //Call the CreateChatCompletion API from OpenAI & create instance
-        CreateChatCompletion createChatCompletion = openAI.createChatCompletion(completion);
-
-        //Data structure example
-        CompletionResponseData responseData = createChatCompletion.asData();
-        assertNotNull(responseData);
-
-        //StringArray example - contains the response in plaintext from ChatGPT
-        String[] stringArray = createChatCompletion.asStringArray();
-        assertNotNull(stringArray);
-
-        //Json example
-        String json = createChatCompletion.asJson();
-        assertNotNull(json);
-        assertFalse(json.isEmpty());
-    }
-```
-
 ### CreateEdit
 
 ```java
@@ -277,73 +452,6 @@ API Reference -> https://platform.openai.com/docs/api-reference/
 
         //Json example
         String json = createEdit.asJson();
-        assertNotNull(json);
-        assertFalse(json.isEmpty());
-    }
-```
-
-### CreateImage
-
-```java
-    @Test
-    void createImageTest() {
-        //Grab OpenAI API key from system environment variables (gradle.properties)
-        String apiKey = System.getenv("OPEN_AI_API_KEY");
-        String organization = System.getenv("OPEN_AI_ORGANIZATION");
-        assertNotNull(apiKey);
-        assertNotNull(organization);
-
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI();
-
-        //Keep the same instance for openAI.createImage(imageData);
-        openAI.setAlwaysNewInstance(false);
-
-        //Set the API key (from .json file)
-        openAI.setApiKey(apiKey);
-
-        //Set the organization (from .json file)
-        openAI.setOrganization(organization);
-
-        //ImageData, ready to send to the OpenAI API
-        ImageData imageData = new ImageData();
-
-        //A text description of the desired image(s). The maximum length is 1000 characters
-        imageData.setPrompt("A cute baby sea otter");
-
-        //The number of images to generate. Must be between 1 and 10.
-        imageData.setN(2);
-
-        //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024
-        imageData.setSize("1024x1024");
-
-        //Call the CreateImage API from OpenAI & create instance
-        CreateImage createImage = openAI.createImage(imageData);
-
-        //Grabs the first image in the array, if your "setN" is higher than 1, then use imageArray
-        Image image = createImage.asImage();
-        assertNotNull(image);
-
-        //Array of images, size depends on the "setN" value
-        Image[] imageArray = createImage.asImageArray();
-        assertNotNull(imageArray);
-        assertNotEquals(0, imageArray.length);
-
-        //String List example (contains all the image urls)
-        List<String> imageList = createImage.asStringList();
-        assertNotNull(imageList);
-
-        //URIArray example (contains all the image urls)
-        URI[] uriArray = createImage.asUriArray();
-        assertNotNull(uriArray);
-
-        //Data structure example
-        ImageResponseData responseData = createImage.asData();
-        assertNotNull(responseData);
-
-        //Json example
-        String json = createImage.asJson();
         assertNotNull(json);
         assertFalse(json.isEmpty());
     }
@@ -458,121 +566,3 @@ API Reference -> https://platform.openai.com/docs/api-reference/
         assertFalse(json.isEmpty());
     }
  ```
- 
-### CreateTranscription - (English Audio)
-
-```java
-    @Test
-    void createTranscriptionTest() {
-        //Grab OpenAI API key from system environment variables (gradle.properties)
-        String apiKey = System.getenv("OPEN_AI_API_KEY");
-        String organization = System.getenv("OPEN_AI_ORGANIZATION");
-        assertNotNull(apiKey);
-        assertNotNull(organization);
-
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
-
-        //Example audio file that we are going to upload to OpenAI to have a transcript of
-        URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
-        Path audioPath = null;
-        try {
-            if (audioUrl != null) {
-                audioPath = Path.of(audioUrl.toURI());
-            }
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-
-        assertNotNull(audioPath);
-
-        //TranscriptionData, ready to send to the OpenAI Api
-        TranscriptionData transcriptionData = new TranscriptionData();
-
-        //Set the path for the audio file
-        transcriptionData.setFile(audioPath);
-
-        //Use the whisper-1 model for translation
-        transcriptionData.setModel("whisper-1");
-
-        //Option to specify language of the audio file
-        //transcriptionData.setLanguage("en");
-
-        //Call the CreateTranscription API from OpenAI & create instance
-        CreateTranscription createTranscription = openAI.createTranscription(transcriptionData);
-
-        //Transcript as a string (Audio File -> English)
-        String transcript = createTranscription.asText();
-        assertNotNull(transcript);
-        assertFalse(transcript.isEmpty());
-
-        //Get id from data structure example
-        TranscriptionResponseData responseData = createTranscription.asData();
-        assertNotNull(responseData);
-
-        //Json example
-        String json = createTranscription.asJson();
-        assertNotNull(json);
-        assertFalse(json.isEmpty());
-    }
-```
- 
-### CreateTranslation - (English Audio to French)
-
-```java
-    @Test
-    void createTranslationTest() {
-        //Grab OpenAI API key from system environment variables (gradle.properties)
-        String apiKey = System.getenv("OPEN_AI_API_KEY");
-        String organization = System.getenv("OPEN_AI_ORGANIZATION");
-        assertNotNull(apiKey);
-        assertNotNull(organization);
-
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
-
-        //Example audio file that we are going to upload to OpenAI to be translated
-        URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
-        Path audioPath = null;
-        try {
-            if (audioUrl != null) {
-                audioPath = Path.of(audioUrl.toURI());
-            }
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-
-        assertNotNull(audioPath);
-
-        //TranslationData, ready to send to the OpenAI API
-        TranslationData translationData = new TranslationData();
-
-        //Set the path for the audio file
-        translationData.setFile(audioPath);
-
-        //Use the whisper-1 model for translation
-        translationData.setModel("whisper-1");
-
-        //Set language to translate (French)
-        translationData.setLanguage("fr");
-
-        //Call the CreateTranslation API from OpenAI & create instance
-        CreateTranslation createTranslation = openAI.createTranslation(translationData);
-
-        //Data structure example
-        TranslationResponseData responseData = createTranslation.asData();
-        assertNotNull(responseData);
-
-        //Translated text as string (English -> French)
-        String translatedText = createTranslation.asText();
-        assertNotNull(translatedText);
-        assertFalse(translatedText.isEmpty());
-
-        //Json example
-        String json = createTranslation.asJson();
-        assertNotNull(json);
-        assertFalse(json.isEmpty());
-    }
-```
