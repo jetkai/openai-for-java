@@ -1,19 +1,19 @@
 # OpenAI For Java
 
-    ⚠️ This library is currently under development
+    ⚠️ This library is currently under development ⚠️
     
 ###### OpenAI API Reference -> https://platform.openai.com/docs/api-reference/
 ###### OpenAI API Key -> https://platform.openai.com/account/api-keys
 
-## Library Download
+## Release `1.0.0`
 
-### Release 1.0.0
-- [openai.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai.jar) - ~2.2 MB `(binary, with dependencies)`
+#### Binary:
+- [openai.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai.jar) `(with dependencies)` 
+- [openai-excldeps.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-excluding-dependencies.jar) `(excluding dependencies)`
 
-### Other
-- [openai-excldeps.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-excluding-dependencies.jar) - ~130.0 KB `(binary, excluding dependencies)`
-- [openai-sources.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-sources.jar) - ~105.00 KB
-- [openai-javadoc.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-javadoc.jar) - ~430.0 KB
+#### Other:
+- [openai-sources.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-sources.jar)
+- [openai-javadoc.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-javadoc.jar)
 
 ## Minimum Requirements
 - JDK 11
@@ -307,7 +307,7 @@
 ```
 
 ## List All Models
-
+    Scenario: List all the models available from OpenAI.
 ```java
     private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
