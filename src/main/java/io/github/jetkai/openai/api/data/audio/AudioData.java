@@ -1,4 +1,4 @@
-package io.github.jetkai.openai.api.data.transcription;
+package io.github.jetkai.openai.api.data.audio;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,9 +10,10 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.Locale;
 
 /**
- * TranscriptionData
+ * AudioTranscriptionData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
@@ -24,7 +25,7 @@ import java.nio.file.Path;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-public class TranscriptionData {
+public class AudioData {
 
     /**
      * file
@@ -52,6 +53,7 @@ public class TranscriptionData {
      * An optional text to guide the model's style or continue a previous audio segment.
      * The prompt should match the audio language.
      */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String prompt;
 
     /**
@@ -62,6 +64,7 @@ public class TranscriptionData {
      * <p>
      * The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
      */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("response_format")
     private String responseFormat;
 
@@ -75,6 +78,7 @@ public class TranscriptionData {
      * while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will
      * use log probability to automatically increase the temperature until certain thresholds are hit.
      */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private double temperature;
 
     /**
@@ -84,42 +88,70 @@ public class TranscriptionData {
      * <p>
      * The language of the input audio. Supplying the input language in ISO-639-1 format
      * will improve accuracy and latency.
+     * <p>
+     *     <a href="https://github.com/openai/whisper#available-models-and-languages">List of supported languages</a>
+     * </p>
      */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String language;
 
-    public TranscriptionData() { }
+    public AudioData() { }
 
-    public TranscriptionData setResponseFormat(String responseFormat) {
+    public static AudioData create() {
+        return new AudioData();
+    }
+
+    public static AudioData create(Path filePath) {
+        return new AudioData()
+                .setFile(filePath)
+                .setModel("whisper-1");
+    }
+
+    public static AudioData create(Path filePath, Locale locale) {
+        return new AudioData()
+                .setFile(filePath)
+                .setModel("whisper-1")
+                .setLanguage(locale.getLanguage());
+    }
+
+    public static AudioData create(Path filePath, String locale) {
+        return new AudioData()
+                .setFile(filePath)
+                .setModel("whisper-1")
+                .setLanguage(locale);
+    }
+
+    public AudioData setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
         return this;
     }
 
-    public TranscriptionData setTemperature(double temperature) {
+    public AudioData setTemperature(double temperature) {
         this.temperature = temperature;
         return this;
     }
 
-    public TranscriptionData setModel(String model) {
+    public AudioData setModel(String model) {
         this.model = model;
         return this;
     }
 
-    public TranscriptionData setPrompt(String prompt) {
+    public AudioData setPrompt(String prompt) {
         this.prompt = prompt;
         return this;
     }
 
-    public TranscriptionData setFile(String file) {
+    public AudioData setFile(String file) {
         this.file = Path.of(URI.create(file));
         return this;
     }
 
-    public TranscriptionData setFile(Path file) {
+    public AudioData setFile(Path file) {
         this.file = file;
         return this;
     }
 
-    public TranscriptionData setLanguage(String language) {
+    public AudioData setLanguage(String language) {
         this.language = language;
         return this;
     }

@@ -258,6 +258,23 @@ public class CompletionData {
 
     public CompletionData() { }
 
+    public CompletionData(String model, List<String> prompt) {
+        this.model = model;
+        this.prompt = prompt;
+    }
+
+    public static CompletionData create() {
+        return new CompletionData();
+    }
+
+    public static CompletionData create(String model, String prompt) {
+        return new CompletionData().setModel(model).setPrompt(prompt);
+    }
+
+    public static CompletionData create(String model, List<String> prompt) {
+        return new CompletionData().setModel(model).setPrompt(prompt);
+    }
+
     public CompletionData setEcho(boolean echo) {
         this.echo = echo;
         return this;

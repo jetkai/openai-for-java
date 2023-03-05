@@ -78,6 +78,36 @@ public class ImageData {
 
     public ImageData() { }
 
+    public ImageData(String imageDescription) {
+        this.prompt = imageDescription;
+    }
+
+    public ImageData(String imageDescription, int numberOfImages) {
+        this.prompt = imageDescription;
+        this.n = numberOfImages;
+    }
+
+    public ImageData(String imageDescription, int numberOfImages, String size) {
+        this.prompt = imageDescription;
+        this.n = numberOfImages;
+        this.size = size;
+    }
+
+    public static ImageData create() {
+        return new ImageData();
+    }
+    public static ImageData create(String imageDescription) {
+        return new ImageData(imageDescription);
+    }
+
+    public static ImageData create(String imageDescription, int numberOfImages) {
+        return new ImageData(imageDescription, numberOfImages);
+    }
+
+    public static ImageData create(String imageDescription, int numberOfImages, String size) {
+        return new ImageData(imageDescription, numberOfImages, size);
+    }
+
     public ImageData setUser(String user) {
         this.user = user;
         return this;

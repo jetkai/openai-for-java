@@ -1,4 +1,4 @@
-package io.github.jetkai.openai.api.data.transcription;
+package io.github.jetkai.openai.api.data.audio;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 /**
- * TranscriptionResponseData
+ * AudioTranscriptionResponseData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
@@ -20,13 +20,13 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
-public class TranscriptionResponseData {
+public class AudioResponseData {
 
     private String text;
 
-    public TranscriptionResponseData() { }
+    public AudioResponseData() { }
 
-    public TranscriptionResponseData setText(String text) {
+    public AudioResponseData setText(String text) {
         this.text = text;
         return this;
     }

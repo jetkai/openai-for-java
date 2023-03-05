@@ -1,6 +1,7 @@
 package io.github.jetkai.openai;
 
 import io.github.jetkai.openai.api.*;
+import io.github.jetkai.openai.api.data.audio.AudioData;
 import io.github.jetkai.openai.api.data.completion.CompletionData;
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
 import io.github.jetkai.openai.api.data.edit.EditData;
@@ -8,7 +9,6 @@ import io.github.jetkai.openai.api.data.embedding.EmbeddingData;
 import io.github.jetkai.openai.api.data.image.ImageData;
 import io.github.jetkai.openai.api.data.image.edit.ImageEditData;
 import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
-import io.github.jetkai.openai.api.data.transcription.TranscriptionData;
 import io.github.jetkai.openai.api.data.translation.TranslationData;
 import io.github.jetkai.openai.net.HttpClientInstance;
 
@@ -38,6 +38,8 @@ public class OpenAI {
     private CreateCompletion completion;
     private CreateChatCompletion chatCompletion;
     private CreateTranscription transcription;
+    private CreateTranscriptionTranslation transcriptionTranslation;
+
     private CreateTranslation translation;
 
     public OpenAI() {
@@ -91,11 +93,18 @@ public class OpenAI {
         return imageVariation;
     }
 
-    public CreateTranscription createTranscription(TranscriptionData transcriptionData) {
+    public CreateTranscription createTranscription(AudioData transcriptionData) {
         if(transcription == null || alwaysNewInstance) {
             transcription = new CreateTranscription(this, transcriptionData);
         }
         return transcription;
+    }
+
+    public CreateTranscriptionTranslation createTranscriptionTranslation(AudioData translationData) {
+        if(transcriptionTranslation == null || alwaysNewInstance) {
+            transcriptionTranslation = new CreateTranscriptionTranslation(this, translationData);
+        }
+        return transcriptionTranslation;
     }
 
     public CreateTranslation createTranslation(TranslationData translationData) {

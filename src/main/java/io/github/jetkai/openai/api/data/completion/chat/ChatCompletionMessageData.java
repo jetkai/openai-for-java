@@ -21,7 +21,7 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 @SuppressWarnings("unused")
 public class ChatCompletionMessageData {
 
-    private String role = "user";
+    private String role;
     private String content;
 
     public ChatCompletionMessageData() { }

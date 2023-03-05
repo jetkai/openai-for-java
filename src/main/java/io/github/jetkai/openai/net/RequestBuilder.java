@@ -1,9 +1,8 @@
 package io.github.jetkai.openai.net;
 
+import io.github.jetkai.openai.api.data.audio.AudioData;
 import io.github.jetkai.openai.api.data.image.edit.ImageEditData;
 import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
-import io.github.jetkai.openai.api.data.transcription.TranscriptionData;
-import io.github.jetkai.openai.api.data.translation.TranslationData;
 import io.github.jetkai.openai.util.ConvertImageFormat;
 
 import java.io.IOException;
@@ -113,59 +112,32 @@ public abstract class RequestBuilder {
         /*
          * Handle Transcription
          */
-        if(data instanceof TranscriptionData) {
-            Path audioFile = ((TranscriptionData) data).getFile();
+        if(data instanceof AudioData) {
+            Path audioFile = ((AudioData) data).getFile();
             if (audioFile != null) {
                 map.put("file", audioFile); //Required
             }
-            String model = ((TranscriptionData) data).getModel();
+            String model = ((AudioData) data).getModel();
             if (model != null) {
                 map.put("model", model); //Required
             }
-            String prompt = ((TranscriptionData) data).getPrompt();
+            String prompt = ((AudioData) data).getPrompt();
             if (prompt != null && !prompt.isEmpty()) {
-                map.put("prompt", prompt); //Optional
+               map.put("prompt", prompt); //Optional
             }
-            double temperature = ((TranscriptionData) data).getTemperature();
+            double temperature = ((AudioData) data).getTemperature();
             map.put("temperature", temperature); //Optional
-            String language = ((TranscriptionData) data).getLanguage();
+            String language = ((AudioData) data).getLanguage();
             if (language != null && !language.isEmpty()) {
                 map.put("language", language); //Optional
             }
-            String responseFormat = ((TranscriptionData) data).getResponseFormat();
+            String responseFormat = ((AudioData) data).getResponseFormat();
             if (responseFormat != null && !responseFormat.isEmpty()) {
                 map.put("response_format", responseFormat); //Optional
             }
 
             /*
              * Handle Translation
-             */
-        } else if(data instanceof TranslationData) {
-            Path audioFile = ((TranslationData) data).getFile();
-            if(audioFile != null) {
-                map.put("file", audioFile); //Required
-            }
-            String model = ((TranslationData) data).getModel();
-            if(model != null) {
-                map.put("model", model); //Required
-            }
-            String prompt = ((TranslationData) data).getPrompt();
-            if(prompt != null && !prompt.isEmpty()) {
-                map.put("prompt", prompt); //Optional
-            }
-            double temperature = ((TranslationData) data).getTemperature();
-            map.put("temperature", temperature); //Optional
-            String responseFormat = ((TranslationData) data).getResponseFormat();
-            if(responseFormat != null && !responseFormat.isEmpty()) {
-                map.put("response_format", responseFormat); //Optional
-            }
-            String language = ((TranslationData) data).getLanguage();
-            if(language != null && !language.isEmpty()) {
-                map.put("language", language);
-            }
-
-            /*
-             * Handle ImageVariation
              */
         } else if(data instanceof ImageVariationData) {
             Path image = ((ImageVariationData) data).getImage();

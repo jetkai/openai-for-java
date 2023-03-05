@@ -10,6 +10,8 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -98,6 +100,111 @@ public class CreateEdit implements ApiInterface {
                 );
             }
         }).thenAccept(this.response::set).join();
+    }
+
+    /**
+     * asSentences
+     * @return - {@code List<String>} containing sentences
+     */
+    @SuppressWarnings("unused")
+    public List<String> asSentences() {
+        List<String> sentences = new ArrayList<>();
+        StringBuilder sentenceBuilder = new StringBuilder();
+        String text = asText();
+
+        if(text == null) {
+            return null;
+        }
+        if(text.contains("\n")) {
+            String[] words = text.split("\n");
+            sentences.addAll(List.of(words));
+        } else {
+            sentences.add(text);
+        }
+
+        return sentences;
+    }
+
+    /**
+     * asNormalizedSentences
+     * @param maxCharactersPerLine - maximum length before adding new sentence to list
+     * @return - {@code List<String>} containing sentences, replacing ascii
+     */
+    @SuppressWarnings("unused")
+    public List<String> asNormalizedSentences(int maxCharactersPerLine) {
+        List<String> sentences = new ArrayList<>();
+        StringBuilder sentenceBuilder = new StringBuilder();
+        String normalizedResponse = asNormalizedText();
+
+        if(normalizedResponse == null) {
+            return null;
+        }
+        if(normalizedResponse.contains(" ")) {
+            String[] words = normalizedResponse.split(" ");
+            for (int i = 0; i < words.length; i++) {
+                String word = words[i];
+                if(i == words.length - 1) {
+                    sentenceBuilder.append(word);
+                    sentences.add(sentenceBuilder.toString());
+                } else if (sentenceBuilder.length() < maxCharactersPerLine) {
+                    sentenceBuilder.append(word).append(" ");
+                } else {
+                    sentences.add(sentenceBuilder.toString());
+                    sentenceBuilder.setLength(0);
+                    sentenceBuilder.append(word).append(" ");
+                }
+            }
+        } else {
+            sentences.add(normalizedResponse);
+        }
+
+        return sentences;
+    }
+    /**
+     * asNormalizedText
+     * @return - String with replaced ascii characters, and removes "\n"
+     */
+    @SuppressWarnings("unused")
+    public String asNormalizedText() {
+        //Replaces any characters that do not match the regex
+        String normalized = Normalizer.normalize(this.asText(), Normalizer.Form.NFD);
+        return normalized
+                .replaceAll("[^\\p{ASCII}]", "")
+                .replaceAll("\n", "");
+    }
+
+    /**
+     * asText
+     * @return - String with the raw text responded back from OpenAI
+     */
+    public String asText() {
+
+        if(this.data == null) {
+            CompletionResponseData responseData = deserialize();
+            if (responseData == null) {
+                return null;
+            }
+            this.data = responseData;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        List<CompletionChoiceData> choiceList = data.getChoices();
+        if(choiceList == null || choiceList.isEmpty()) {
+            return null;
+        }
+
+        for (CompletionChoiceData choice : choiceList) {
+            if (choice == null) {
+                continue;
+            }
+            String text = choice.getText();
+            if (text == null) {
+                continue;
+            }
+            builder.append(text);
+        }
+
+        return builder.toString();
     }
 
     @SuppressWarnings("unused")

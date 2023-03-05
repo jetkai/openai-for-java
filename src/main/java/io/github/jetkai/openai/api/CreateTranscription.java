@@ -1,14 +1,15 @@
 package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.OpenAI;
-import io.github.jetkai.openai.api.data.transcription.TranscriptionData;
-import io.github.jetkai.openai.api.data.transcription.TranscriptionResponseData;
+import io.github.jetkai.openai.api.data.audio.AudioData;
+import io.github.jetkai.openai.api.data.audio.AudioResponseData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.net.RequestBuilder;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.Normalizer;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -40,22 +41,36 @@ public class CreateTranscription implements ApiInterface {
     /**
      * The data that we are going to be sending through the POST request
      */
-    private final TranscriptionData transcription;
+    private final AudioData transcription;
 
     /**
      * Stored object of the data that has been deserialized from the OpenAI response
      */
-    private TranscriptionResponseData data;
+    private AudioResponseData data;
 
     /**
      * CreateTranscription
      * @param openAI - The OpenAI instance
      * @param transcription - The translation data specified
      */
-    public CreateTranscription(OpenAI openAI, TranscriptionData transcription) {
+    public CreateTranscription(OpenAI openAI, AudioData transcription) {
         this.openAI = openAI;
         this.transcription = transcription;
-        this.endpoint = OpenAIEndpoints.CREATE_TRANSCRIPTION;
+        this.endpoint = OpenAIEndpoints.CREATE_AUDIO_TRANSCRIPTION;
+        this.response = new AtomicReference<>();
+        this.initialize();
+    }
+
+    /**
+     * CreateTranscription
+     * @param openAI - The OpenAI instance
+     * @param transcription - The translation data specified
+     * @param endpoint - The OpenAI endpoint URI
+     */
+    public CreateTranscription(OpenAI openAI, AudioData transcription, OpenAIEndpoints endpoint) {
+        this.openAI = openAI;
+        this.transcription = transcription;
+        this.endpoint = endpoint;
         this.response = new AtomicReference<>();
         this.initialize();
     }
@@ -97,12 +112,25 @@ public class CreateTranscription implements ApiInterface {
     }
 
     /**
+     * asNormalizedText
+     * @return - String with replaced ascii characters, and removes "\n"
+     */
+    @SuppressWarnings("unused")
+    public String asNormalizedText() {
+        //Replaces any characters that do not match the regex
+        String normalized = Normalizer.normalize(this.asText(), Normalizer.Form.NFD);
+        return normalized
+                .replaceAll("[^\\p{ASCII}]", "")
+                .replaceAll("\n", "");
+    }
+
+    /**
      * asText
-     * @return String (Transcription)
+     * @return - String with the raw text responded back from OpenAI
      */
     public String asText() {
         if(this.data == null) {
-            TranscriptionResponseData transcription = deserialize();
+            AudioResponseData transcription = deserialize();
             if (transcription == null) {
                 return null;
             }
@@ -113,11 +141,11 @@ public class CreateTranscription implements ApiInterface {
 
     /**
      * asData
-     * @return TranscriptionResponseData
+     * @return AudioTranscriptionResponseData
      */
-    public TranscriptionResponseData asData() {
+    public AudioResponseData asData() {
         if(this.data == null) {
-            TranscriptionResponseData transcription = deserialize();
+            AudioResponseData transcription = deserialize();
             if (transcription == null) {
                 return null;
             }
@@ -133,7 +161,7 @@ public class CreateTranscription implements ApiInterface {
     @Override
     public String asJson() {
         if(this.data == null) {
-            TranscriptionResponseData transcription = deserialize();
+            AudioResponseData transcription = deserialize();
             if (transcription == null) {
                 return null;
             }
@@ -145,12 +173,12 @@ public class CreateTranscription implements ApiInterface {
     /**
      * deserializes
      * Parses the JSON response from OpenAI and deserializes the string to the below data structure
-     * @return TranscriptionResponseData
+     * @return AudioTranscriptionResponseData
      */
-    private TranscriptionResponseData deserialize() {
+    private AudioResponseData deserialize() {
         if(this.data == null) {
-            TranscriptionResponseData translation = JacksonJsonDeserializer.parseData(
-                    TranscriptionResponseData.class, this.getRawJsonResponse()
+            AudioResponseData translation = JacksonJsonDeserializer.parseData(
+                    AudioResponseData.class, this.getRawJsonResponse()
             );
             if (translation == null) {
                 return null;
@@ -189,7 +217,7 @@ public class CreateTranscription implements ApiInterface {
     }
 
     @Override
-    public TranscriptionData getRequestData() {
+    public AudioData getRequestData() {
         return transcription;
     }
 

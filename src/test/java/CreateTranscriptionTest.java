@@ -1,7 +1,7 @@
 import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateTranscription;
-import io.github.jetkai.openai.api.data.transcription.TranscriptionData;
-import io.github.jetkai.openai.api.data.transcription.TranscriptionResponseData;
+import io.github.jetkai.openai.api.data.audio.AudioData;
+import io.github.jetkai.openai.api.data.audio.AudioResponseData;
 import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;
@@ -46,20 +46,20 @@ public class CreateTranscriptionTest {
 
         assertNotNull(audioPath);
 
-        //TranscriptionData, ready to send to the OpenAI Api
-        TranscriptionData transcriptionData = new TranscriptionData();
+        //AudioTranscriptionData, ready to send to the OpenAI Api
+        AudioData audioTranscriptionData = new AudioData();
 
         //Set the path for the audio file
-        transcriptionData.setFile(audioPath);
+        audioTranscriptionData.setFile(audioPath);
 
         //Use the whisper-1 model for translation
-        transcriptionData.setModel("whisper-1");
+        audioTranscriptionData.setModel("whisper-1");
 
         //Option to specify language of the audio file
-        //transcriptionData.setLanguage("en");
+        //audioTranscriptionData.setLanguage("en");
 
         //Call the CreateTranscription API from OpenAI & create instance
-        CreateTranscription createTranscription = openAI.createTranscription(transcriptionData);
+        CreateTranscription createTranscription = openAI.createTranscription(audioTranscriptionData);
 
         //Transcript as a string (Audio File -> English)
         String transcript = createTranscription.asText();
@@ -67,7 +67,7 @@ public class CreateTranscriptionTest {
         assertFalse(transcript.isEmpty());
 
         //Get id from data structure example
-        TranscriptionResponseData responseData = createTranscription.asData();
+        AudioResponseData responseData = createTranscription.asData();
         assertNotNull(responseData);
 
         //Json example

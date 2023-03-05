@@ -131,12 +131,12 @@ public class CreateChatCompletion implements ApiInterface {
         }
         List<ChatCompletionMessageData> chatDataList = new ArrayList<>();
         for(CompletionChoiceData choice : this.data.getChoices()) {
-            //Get the content & role response from ChatGPT
+            //Get the content & role response from ExampleChatGPT
             CompletionMessageData messageData = choice.getMessage();
             if(messageData == null) {
                 continue;
             }
-            //Set the content & role response from ChatGPT as ChatCompletionMessageData
+            //Set the content & role response from ExampleChatGPT as ChatCompletionMessageData
             ChatCompletionMessageData messageResponse = new ChatCompletionMessageData()
                     .setRole(messageData.getRole())
                     .setContent(messageData.getContent());
@@ -148,24 +148,44 @@ public class CreateChatCompletion implements ApiInterface {
     }
 
     /**
-     * asParagraph
-     * @param maxCharactersPerLine - maximum length before adding new sentence to list
+     * asSentences
      * @return - {@code List<String>} containing sentences
      */
     @SuppressWarnings("unused")
-    public List<String> asParagraph(int maxCharactersPerLine) {
-
+    public List<String> asSentences() {
         List<String> sentences = new ArrayList<>();
+        StringBuilder sentenceBuilder = new StringBuilder();
+        String text = asText();
 
+        if(text == null) {
+            return null;
+        }
+        if(text.contains("\n")) {
+            String[] words = text.split("\n");
+            sentences.addAll(List.of(words));
+        } else {
+            sentences.add(text);
+        }
+
+        return sentences;
+    }
+
+    /**
+     * asNormalizedSentences
+     * @param maxCharactersPerLine - maximum length before adding new sentence to list
+     * @return - {@code List<String>} containing sentences, replacing ascii
+     */
+    @SuppressWarnings("unused")
+    public List<String> asNormalizedSentences(int maxCharactersPerLine) {
+        List<String> sentences = new ArrayList<>();
+        StringBuilder sentenceBuilder = new StringBuilder();
         String normalizedResponse = asNormalizedText();
+
         if(normalizedResponse == null) {
             return null;
         }
-
         if(normalizedResponse.contains(" ")) {
             String[] words = normalizedResponse.split(" ");
-            StringBuilder sentenceBuilder = new StringBuilder();
-
             for (int i = 0; i < words.length; i++) {
                 String word = words[i];
                 if(i == words.length - 1) {
@@ -179,7 +199,6 @@ public class CreateChatCompletion implements ApiInterface {
                     sentenceBuilder.append(word).append(" ");
                 }
             }
-
         } else {
             sentences.add(normalizedResponse);
         }
@@ -187,15 +206,23 @@ public class CreateChatCompletion implements ApiInterface {
         return sentences;
     }
 
+    /**
+     * asNormalizedText
+     * @return - String with replaced ascii characters, and removes "\n"
+     */
     @SuppressWarnings("unused")
     public String asNormalizedText() {
         //Replaces any characters that do not match the regex
         String normalized = Normalizer.normalize(this.asText(), Normalizer.Form.NFD);
         return normalized
-                .replaceAll("^[a-zA-Z 0-9\\-_\\\\*&^%$£!?|/:;',#~{}()@\"]+$", "")
+                .replaceAll("[^\\p{ASCII}]", "")
                 .replaceAll("\n", "");
     }
 
+    /**
+     * asText
+     * @return - String with the raw text responded back from OpenAI
+     */
     public String asText() {
 
         if(this.data == null) {

@@ -95,6 +95,24 @@ public class EditData {
 
     public EditData() { }
 
+    public static EditData create() {
+        return new EditData();
+    }
+
+    public static EditData create(String input, String instruction) {
+        return new EditData()
+                .setModel("text-davinci-edit-001")
+                .setInput(input)
+                .setInstruction(instruction);
+    }
+
+    public static EditData create(String model, String input, String instruction) {
+        return new EditData()
+                .setModel(model)
+                .setInput(input)
+                .setInstruction(instruction);
+    }
+
     public EditData setModel(String model) {
         this.model = model;
         return this;

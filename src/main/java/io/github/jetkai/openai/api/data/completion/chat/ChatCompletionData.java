@@ -34,7 +34,7 @@ public class ChatCompletionData {
      * <p>
      * ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are supported.
      */
-    private String model = "gpt-3.5-turbo";
+    private String model;
 
     /**
      * messages
@@ -89,7 +89,7 @@ public class ChatCompletionData {
      * Optional
      * Defaults to false
      * <p>
-     * If set, partial message deltas will be sent, like in ChatGPT.
+     * If set, partial message deltas will be sent, like in ExampleChatGPT.
      * Tokens will be sent as data-only server-sent events as they become available,
      * with the stream terminated by a data: [DONE] message.
      * <a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format">
