@@ -9,7 +9,7 @@
 
 #### Binary:
 - [openai.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai.jar) `(with dependencies)` 
-- [openai-excldeps.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-excluding-dependencies.jar) `(excluding dependencies)`
+- [openai-excldeps.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-excldeps.jar) `(excluding dependencies)`
 
 #### Other:
 - [openai-sources.jar](https://github.com/jetkai/openai-for-java/releases/download/1.0.0/openai-sources.jar)
