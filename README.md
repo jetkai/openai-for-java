@@ -34,7 +34,7 @@
 
 # Source Code (Examples)
 
-## ChatGPT-3.5 Turbo
+## [ChatGPT-3.5 Turbo](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleChatGPT.java)
     Scenario: Say "Hello" to the AI and ask the AI to respond back with the last thing I said.
 ```java
     private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
@@ -84,7 +84,7 @@
     }
 ```
 
-## AI Image Creation
+## [AI Image Creation](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleImageCreation.java)
     Scenario: Have an AI create a red panda with glasses, and have this drawn as a cartoon.
 ```java
     private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
@@ -128,7 +128,7 @@
     }
 ```
 
-## Spelling Correction
+## [Spelling Correction](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleSpellingCorrection.java)
     Scenario: Correct the spelling within the sentence "Wha dai of the wek is it?".
 ```java
     private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
@@ -162,7 +162,7 @@
     }
 ```
 
-## Translate Language
+## [Translate Language](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleTranslation.java)
     Scenario: Translate "Hello, how are you today?" from English to French.
 ```java
     private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
@@ -196,7 +196,7 @@
     }
 ```
 
-## Audio Transcript
+## [Audio Transcript](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleTranscriptionFromAudioFile.java)
     Scenario: Create a transcript from an audio file.
 
 ```java
@@ -232,7 +232,7 @@
     }
 ```
 
-## Audio Transcript & Translate
+## [Audio Transcript & Translate](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleTranslationFromAudioFile.java)
     Scenario: Create a transcript from an audio file, then translate the transcript from English to French.
     
 ```java
@@ -278,7 +278,7 @@
     }
 ```
 
-## Get Model Information
+## [Get Model Information](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleGetModel.java)
     Scenario: Get information about a specific model.
 
 ```java
@@ -306,7 +306,7 @@
     }
 ```
 
-## List All Models
+## [List All Models](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleGetModels.java)
     Scenario: List all the models available from OpenAI.
 ```java
     private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
