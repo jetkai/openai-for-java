@@ -61,17 +61,17 @@ public class ExampleChatGPT {
         //Store the message that we want to send, to the MessageHistory List
         messageHistory.add(messageData);
 
-        //Send the request to OpenAI, along with the MessageHistory data
+        //Build the data structure which contains the message history and model information
         ChatCompletionData completionData = ChatCompletionData.create(messageHistory);
 
-        //Send the request to OpenAI, along with the MessageHistory data
+        //Send the request to OpenAI and receive the response back
         CreateChatCompletion response = openAI.createChatCompletion(completionData);
 
         //Store chat response from AI, this allows the AI to see the full history of our chat
         //Including both our messages and the AI's messages
         messageHistory.addAll(response.asChatResponseDataList());
 
-        //Replace \n & ascii characters (Šťŕĭńġ -> String)
+        //Parse the response back as plain-text & replace \n & ascii characters (Šťŕĭńġ -> String)
         return response.asNormalizedText();
     }
 
