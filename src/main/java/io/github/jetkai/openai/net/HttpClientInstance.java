@@ -19,8 +19,7 @@ public class HttpClientInstance {
 
     private HttpClient httpClient;
 
-    public CompletableFuture<HttpResponse<String>> sendAsync(Object data,
-                                                             RequestBuilder requestBuilder) {
+    public CompletableFuture<HttpResponse<String>> sendAsync(Object data, RequestBuilder requestBuilder) {
         HttpRequest request = requestBuilder.request(data);
         if(request == null || httpClient == null) {
             return null;

@@ -59,6 +59,19 @@ public abstract class ChatCompletionData {
         ChatCompletionData build();
     }
 
+    public abstract String getModel();
+    public abstract List<ChatCompletionMessageData> getMessages();
+    public abstract Double getTemperature();
+    public abstract String getUser();
+    public abstract Integer getN();
+    public abstract Map<Object, Object> getLogitBias();
+    public abstract Integer getFrequencyPenalty();
+    public abstract Integer getTopP();
+    public abstract Boolean isStream();
+    public abstract List<String> getStop();
+    public abstract Integer getMaxTokens();
+    public abstract Integer getPresencePenalty();
+
     public abstract Optional<String> model();
     public abstract Optional<List<ChatCompletionMessageData>> messages();
     public abstract Optional<Double> temperature();

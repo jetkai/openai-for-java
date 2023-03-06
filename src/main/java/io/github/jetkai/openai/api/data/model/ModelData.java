@@ -39,6 +39,15 @@ public abstract class ModelData {
         ModelData build();
     }
 
+    public abstract String getId();
+    public abstract int getCreated();
+    public abstract String getObject();
+    public abstract String getParent();
+    public abstract String getOwnedBy();
+    public abstract String getRoot();
+    public abstract List<ModelPermissionsImpl> getPermissions();
+
+
     public abstract Optional<String> id();
     public abstract Optional<Integer> created();
     public abstract Optional<String> object();

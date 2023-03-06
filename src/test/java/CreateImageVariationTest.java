@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,10 +31,6 @@ public class CreateImageVariationTest {
         assertNotNull(apiKey);
         assertNotNull(organization);
 
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
-
         //Example image file that we are going to upload to OpenAI
         URL imageUrl = CreateImageVariationTest.class.getResource("otter.png");
         Path imagePath = null;
@@ -48,19 +45,33 @@ public class CreateImageVariationTest {
         assertNotNull(imagePath);
 
         //ImageVariationData, ready to send to the OpenAI API
-        ImageVariationData image = new ImageVariationData();
+        ImageVariationData imageVariationData = new ImageVariationData();
 
         //Set the path for the image file
-        image.setImage(imagePath);
+        imageVariationData.setImage(imagePath);
 
         //Set the number of images to generate. Must be between 1 and 10.
-        image.setN(2);
+        imageVariationData.setN(2);
 
         //Set the size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
-        image.setSize("1024x1024");
+        imageVariationData.setSize("1024x1024");
+
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(apiKey)
+                .setOrganization(organization)
+                .createImageVariation(imageVariationData)
+                .build()
+                //Finally, send our request to the API, this initiates the request (after .build())
+                .sendRequest();
+
 
         //Call the CreateTranscription API from OpenAI & create instance
-        CreateImageVariation createImageVariation = openAI.imageVariation(image);
+        Optional<CreateImageVariation> optionalCreateImageVariation = openAI.imageVariation();
+        assertFalse(optionalCreateImageVariation.isEmpty());
+
+        CreateImageVariation createImageVariation = optionalCreateImageVariation.get();
 
         //String List example (contains all the image urls)
         List<String> stringList = createImageVariation.asStringList();

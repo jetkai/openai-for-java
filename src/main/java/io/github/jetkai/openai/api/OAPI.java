@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class OAPI {
@@ -45,12 +46,12 @@ public abstract class OAPI {
 
     /**
      * Initialize
-     * Sends a HttpRequest & handles the response from OpenAI's API
+     * Sends a HttpRequest and handles the response from OpenAI's API
      */
     public void initialize() {
         HttpResponse<String> httpResponse = response.get();
         if(httpResponse == null || httpResponse.body() == null || httpResponse.body().isEmpty()) {
-            this.handleHttpResponse();
+            this.handleHttpResponse().thenAccept(this.response::set).join();
         }
     }
 
@@ -58,17 +59,19 @@ public abstract class OAPI {
 
     /**
      * HandleHttpResponse
-     * This method will update the HttpResponse<String> response field with data from OpenAI
+     * This method will update the {@code HttpResponse<String>} response field with data from OpenAI
      * response.get().body() can then be called to retrieve the JSON response from OpenAI
+     * @return {@code CompletableFuture<HttpResponse<String>>} the HttpResponse from the API
      */
-    protected void handleHttpResponse() {
+    protected CompletableFuture<HttpResponse<String>> handleHttpResponse() {
         Optional<HttpClientInstance> optionalHttpClient = openAI.httpClientInstance();
         Optional<String> optionalKey = openAI.apiKey();
         Optional<String> optionalOrg = openAI.organization();
         if (optionalHttpClient.isEmpty() || optionalKey.isEmpty() || optionalOrg.isEmpty()) {
-            return;
+            return null;
         }
-        optionalHttpClient.get().sendAsync(requestData, new RequestBuilder() {
+        HttpClientInstance httpClient = optionalHttpClient.get();
+        return httpClient.sendAsync(requestData, new RequestBuilder() {
             @Override
             public HttpRequest request(Object data) {
                 URI uri = requestType == HttpRequestType.GET && data != null
@@ -83,12 +86,14 @@ public abstract class OAPI {
                 }
                 return null;
             }
-        }).thenAccept(this.response::set).join();
+        });
     }
 
     /**
      * deserializes
      * Parses the JSON response from OpenAI and deserializes the string to the below data structure
+     * @param clazz is the class we wish the json data to be deserialized to
+     * @param <T> is the class we wish the json data to be deserialized to
      * @return data structure
      */
     protected synchronized <T> T deserialize(Class<T> clazz) {

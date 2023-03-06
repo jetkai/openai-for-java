@@ -72,7 +72,7 @@ public class ExampleTranslationFromAudioFile {
                 .build();
 
         //Sends the request to OpenAI's endpoint & parses the response data
-        openAI.initialize();
+        openAI.sendRequest();
 
         //Call the CreateTranslation API from OpenAI & create instance
         Optional<CreateTranscriptionTranslation> createTranslation = openAI.transcriptionTranslation();

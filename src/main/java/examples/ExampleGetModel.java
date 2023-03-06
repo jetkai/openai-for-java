@@ -48,7 +48,7 @@ public class ExampleGetModel {
                 .build();
 
         //Sends the request to OpenAI's endpoint & parses the response data
-        openAI.initialize();
+        openAI.sendRequest();
 
         //Call the GetModels API from OpenAI & create instance
         Optional<GetModel> getModels = openAI.model();

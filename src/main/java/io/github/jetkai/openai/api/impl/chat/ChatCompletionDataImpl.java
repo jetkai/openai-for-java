@@ -213,6 +213,66 @@ public class ChatCompletionDataImpl extends ChatCompletionData {
     }
 
     @Override
+    public String getModel() {
+        return this.model;
+    }
+
+    @Override
+    public List<ChatCompletionMessageData> getMessages() {
+        return this.messages;
+    }
+
+    @Override
+    public Double getTemperature() {
+        return this.temperature;
+    }
+
+    @Override
+    public String getUser() {
+        return this.user;
+    }
+
+    @Override
+    public Integer getN() {
+        return this.n;
+    }
+
+    @Override
+    public Map<Object, Object> getLogitBias() {
+        return this.logitBias;
+    }
+
+    @Override
+    public Integer getFrequencyPenalty() {
+        return this.frequencyPenalty;
+    }
+
+    @Override
+    public Integer getTopP() {
+        return this.topP;
+    }
+
+    @Override
+    public Boolean isStream() {
+        return this.stream;
+    }
+
+    @Override
+    public List<String> getStop() {
+        return this.stop;
+    }
+
+    @Override
+    public Integer getMaxTokens() {
+        return this.maxTokens;
+    }
+
+    @Override
+    public Integer getPresencePenalty() {
+        return this.presencePenalty;
+    }
+
+    @Override
     public Optional<String> model() {
         return Optional.ofNullable(this.model);
     }

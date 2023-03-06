@@ -44,10 +44,9 @@ public class CreateEmbeddingTest {
         OpenAI openAI = OpenAI.builder()
                 .setApiKey(apiKey)
                 .setOrganization(organization)
-                .setAlwaysNewInstance(true)
-                .setProxy(null)
                 .createEmbedding(embed)
-                .build();
+                .build()
+                .sendRequest();
 
         Optional<CreateEmbedding> optionalEmbedding = openAI.embedding();
         if (optionalEmbedding.isEmpty()) {

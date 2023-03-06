@@ -55,7 +55,39 @@ public abstract class OpenAI {
         OpenAI build();
     }
 
-    public abstract void initialize();
+    public abstract <T> T sendRequest();
+
+    public abstract GetModels getModels();
+
+    public abstract GetModel getModel();
+
+    public abstract CreateImageVariation createImageVariation();
+
+    public abstract CreateTranscription createTranscription();
+
+    public abstract CreateTranscriptionTranslation createTranscriptionTranslation();
+
+    public abstract CreateTranslation createTranslation();
+
+    public abstract CreateCompletion createCompletion();
+
+    public abstract CreateChatCompletion createChatCompletion();
+
+    public abstract CreateEdit createEdit();
+
+    public abstract CreateImage createImage();
+
+    public abstract CreateImageEdit createImageEdit();
+
+    public abstract CreateEmbedding createEmbedding();
+
+    public abstract HttpClient getHttpClient();
+
+    public abstract HttpClientInstance getHttpClientInstance();
+
+    public abstract String getApiKey();
+
+    public abstract String getOrganization();
 
     public abstract Optional<GetModels> models();
 

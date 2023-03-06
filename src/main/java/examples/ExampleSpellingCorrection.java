@@ -56,7 +56,7 @@ public class ExampleSpellingCorrection {
                 .build();
 
         //Sends the request to OpenAI's endpoint & parses the response data
-        openAI.initialize();
+        openAI.sendRequest();
 
         //Call the CreateEdit API from OpenAI & create instance
         Optional<CreateEdit> createEdit = openAI.edit();

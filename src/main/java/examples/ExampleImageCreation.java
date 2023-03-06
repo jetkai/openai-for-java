@@ -69,7 +69,7 @@ public class ExampleImageCreation {
                 .build();
 
         //Sends the request to OpenAI's endpoint & parses the response data
-        openAI.initialize();
+        openAI.sendRequest();
 
         //Call the CreateImage API from OpenAI & create instance
         Optional<CreateImage> createImage = openAI.image();

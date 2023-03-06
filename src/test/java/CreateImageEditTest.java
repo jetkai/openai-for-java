@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,10 +31,6 @@ public class CreateImageEditTest {
         String organization = System.getenv("OPEN_AI_ORGANIZATION");
         assertNotNull(apiKey);
         assertNotNull(organization);
-
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
 
         //Example image file that we are going to upload to OpenAI
         URL imageUrl = CreateImageEditTest.class.getResource("otter.png");
@@ -80,8 +77,21 @@ public class CreateImageEditTest {
         //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
         imageData.setSize("1024x1024");
 
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(apiKey)
+                .setOrganization(organization)
+                .createImageEdit(imageData)
+                .build()
+                //Finally, send our request to the API, this initiates the request (after .build())
+                .sendRequest();
+
         //Call the CreateImageEdit API from OpenAI & create instance
-        CreateImageEdit createImageEdit = openAI.imageEdit(imageData);
+        Optional<CreateImageEdit> optionalCreateImageEdit = openAI.imageEdit();
+        assertFalse(optionalCreateImageEdit.isEmpty());
+
+        CreateImageEdit createImageEdit = optionalCreateImageEdit.get();
 
         //Data structure example
         ImageResponseData imageResponse = createImageEdit.asData();

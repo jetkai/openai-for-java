@@ -73,6 +73,23 @@ public abstract class CompletionData {
         CompletionData build();
     }
 
+    public abstract Boolean getEcho();
+    public abstract String getLogprobs();
+    public abstract Integer getMaxTokens();
+    public abstract String getModel();
+    public abstract Integer getN();
+    public abstract List<String> getPrompt();
+    public abstract List<String> getStop();
+    public abstract Boolean isStream();
+    public abstract Double getTemperature();
+    public abstract Double getTopP();
+    public abstract String getSuffix();
+    public abstract Double getFrequencyPenalty();
+    public abstract Double getPresencePenalty();
+    public abstract Integer getBestOf();
+    public abstract Map<Object, Object> getLogitBias();
+    public abstract String getUser();
+
     public abstract Optional<Boolean> echo();
     public abstract Optional<String> logprobs();
     public abstract Optional<Integer> maxTokens();

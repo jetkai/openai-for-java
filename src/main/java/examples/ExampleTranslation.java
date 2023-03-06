@@ -57,7 +57,7 @@ public class ExampleTranslation {
                 .build();
 
         //Sends the request to OpenAI's endpoint & parses the response data
-        openAI.initialize();
+        openAI.sendRequest();
 
         //Call the CreateTranslation API from OpenAI & create instance
         Optional<CreateTranslation> createTranslation = openAI.translation();

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -15,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * CreateTranscriptionTest
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.0.1
  * @created 02/03/2023
- * @last-update 03/03/2023
+ * @last-update 05/03/2023
  */
 public class CreateTranscriptionTest {
 
@@ -29,37 +30,37 @@ public class CreateTranscriptionTest {
         assertNotNull(apiKey);
         assertNotNull(organization);
 
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
-
         //Example audio file that we are going to upload to OpenAI to have a transcript of
-        URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
-        Path audioPath = null;
-        try {
-            if (audioUrl != null) {
-                audioPath = Path.of(audioUrl.toURI());
-            }
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-
+        Path audioPath = getAudioPath();
         assertNotNull(audioPath);
 
-        //AudioTranscriptionData, ready to send to the OpenAI Api
-        AudioData audioTranscriptionData = new AudioData();
+        //Data that we are going to be sending to the API
+        AudioData audioTranscriptionData = AudioData.builder()
+                //Set the path for the audio file
+                .setFilePath(audioPath)
+                //Use the whisper-1 model for translation
+                .setModel("whisper-1")
+                //Option to specify language of the audio file
+                //audioTranscriptionData.setLanguage("en");
+                .build();
 
-        //Set the path for the audio file
-        audioTranscriptionData.setFile(audioPath);
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(apiKey)
+                .setOrganization(organization)
+                .createTranscription(audioTranscriptionData)
+                .build()
+                //Finally, send our request to the API, this initiates the request (after .build())
+                .sendRequest();
 
-        //Use the whisper-1 model for translation
-        audioTranscriptionData.setModel("whisper-1");
-
-        //Option to specify language of the audio file
-        //audioTranscriptionData.setLanguage("en");
+        assertNotNull(openAI);
 
         //Call the CreateTranscription API from OpenAI & create instance
-        CreateTranscription createTranscription = openAI.transcription(audioTranscriptionData);
+        Optional<CreateTranscription> optionalCreateTranscription = openAI.transcription();
+        assertFalse(optionalCreateTranscription.isEmpty());
+
+        CreateTranscription createTranscription = optionalCreateTranscription.get();
 
         //Transcript as a string (Audio File -> English)
         String transcript = createTranscription.asText();
@@ -74,6 +75,20 @@ public class CreateTranscriptionTest {
         String json = createTranscription.asJson();
         assertNotNull(json);
         assertFalse(json.isEmpty());
+    }
+
+    private Path getAudioPath() {
+        //Example audio file that we are going to upload to OpenAI to have a transcript of
+        URL audioUrl = CreateImageEditTest.class.getResource("what-can-i-do.mp3");
+        Path audioPath = null;
+        try {
+            if (audioUrl != null) {
+                audioPath = Path.of(audioUrl.toURI());
+            }
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        return audioPath;
     }
 
 }

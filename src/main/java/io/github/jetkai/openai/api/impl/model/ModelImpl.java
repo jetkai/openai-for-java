@@ -61,6 +61,41 @@ public class ModelImpl extends ModelData {
     }
 
     @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public int getCreated() {
+        return this.created;
+    }
+
+    @Override
+    public String getObject() {
+        return this.object;
+    }
+
+    @Override
+    public String getParent() {
+        return this.parent;
+    }
+
+    @Override
+    public String getOwnedBy() {
+        return this.ownedBy;
+    }
+
+    @Override
+    public String getRoot() {
+        return this.root;
+    }
+
+    @Override
+    public List<ModelPermissionsImpl> getPermissions() {
+        return this.permission;
+    }
+
+    @Override
     public Optional<String> id() {
         return Optional.ofNullable(this.id);
     }

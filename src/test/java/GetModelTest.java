@@ -3,8 +3,9 @@ import io.github.jetkai.openai.api.GetModel;
 import io.github.jetkai.openai.api.data.model.ModelData;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * GetModelTest
@@ -24,15 +25,27 @@ public class GetModelTest {
         assertNotNull(apiKey);
         assertNotNull(organization);
 
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
-
         //Set model to view
         String modelName = "davinci";
 
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(apiKey)
+                .setOrganization(organization)
+                //Call the GetModel API from OpenAI & create instance
+                .getModel(modelName)
+                .build()
+                //Finally, send our request to the API, this initiates the request (after .build())
+                .sendRequest();
+
+        assertNotNull(openAI);
+
         //Call the GetModel API from OpenAI & create instance
-        GetModel getModel = openAI.model(modelName);
+        Optional<GetModel> optionalGetModel = openAI.model();
+        assertFalse(optionalGetModel.isEmpty());
+
+        GetModel getModel = optionalGetModel.get();
 
         //Data structure example
         ModelData modelData = getModel.asData();
@@ -40,6 +53,7 @@ public class GetModelTest {
 
         //Get id from data structure example
         String id = modelData.getId();
+        assertNotNull(id);
         assertEquals(id, modelName);
 
         //Json example

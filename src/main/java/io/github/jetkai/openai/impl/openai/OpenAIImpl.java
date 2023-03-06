@@ -61,7 +61,7 @@ final class OpenAIImpl extends OpenAI {
     }
 
     @Override
-    public void initialize() {
+    public <T> T sendRequest() {
         this.httpClientInstance.setHttpClient(this.httpClient != null
                 ? this.httpClient
                 : HttpClient.newBuilder()
@@ -106,6 +106,87 @@ final class OpenAIImpl extends OpenAI {
         if(this.chatCompletion != null) {
             this.chatCompletion.setOpenAI(this).initialize();
         }
+        return (T) this;
+    }
+
+    @Override
+    public GetModels getModels() {
+        return this.models;
+    }
+
+    @Override
+    public GetModel getModel() {
+        return this.model;
+    }
+
+    @Override
+    public CreateImageVariation createImageVariation() {
+        return this.imageVariation;
+    }
+
+    @Override
+    public CreateTranscription createTranscription() {
+        return this.transcription;
+    }
+
+    @Override
+    public CreateTranscriptionTranslation createTranscriptionTranslation() {
+        return this.transcriptionTranslation;
+    }
+
+    @Override
+    public CreateTranslation createTranslation() {
+        return this.translation;
+    }
+
+    @Override
+    public CreateCompletion createCompletion() {
+        return this.completion;
+    }
+
+    @Override
+    public CreateChatCompletion createChatCompletion() {
+        return this.chatCompletion;
+    }
+
+    @Override
+    public CreateEdit createEdit() {
+        return this.edit;
+    }
+
+    @Override
+    public CreateImage createImage() {
+        return this.image;
+    }
+
+    @Override
+    public CreateImageEdit createImageEdit() {
+        return this.imageEdit;
+    }
+
+    @Override
+    public CreateEmbedding createEmbedding() {
+        return this.embedding;
+    }
+
+    @Override
+    public HttpClient getHttpClient() {
+        return this.httpClient;
+    }
+
+    @Override
+    public HttpClientInstance getHttpClientInstance() {
+        return this.httpClientInstance;
+    }
+
+    @Override
+    public String getApiKey() {
+        return this.apiKey;
+    }
+
+    @Override
+    public String getOrganization() {
+        return this.organization;
     }
 
     @Override

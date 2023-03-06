@@ -66,6 +66,14 @@ public abstract class AudioData {
         AudioData build();
     }
 
+
+    public abstract String getModel();
+    public abstract List<String> getPrompt();
+    public abstract String getResponseFormat();
+    public abstract Double getTemperature();
+    public abstract String getLanguage();
+    public abstract Path getFilePath();
+
     public abstract Optional<String> model();
     public abstract Optional<List<String>> prompt();
     public abstract Optional<String> responseFormat();

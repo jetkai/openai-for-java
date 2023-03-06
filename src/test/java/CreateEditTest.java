@@ -4,6 +4,8 @@ import io.github.jetkai.openai.api.data.completion.response.CompletionResponseDa
 import io.github.jetkai.openai.api.data.edit.EditData;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -25,25 +27,35 @@ public class CreateEditTest {
         assertNotNull(apiKey);
         assertNotNull(organization);
 
+        //EditData, ready to send to the OpenAI Api
+        EditData edit = EditData.builder()
+                //ID of the model to use. You can use the text-davinci-edit-001 or
+                //code-davinci-edit-001 model with this endpoint.
+                .setModel("text-davinci-edit-001")
+
+                //The input text to use as a starting point for the edit.
+                .setInput("What day of the wek is it?")
+
+                //The instruction that tells the model how to edit the prompt.
+                .setInstruction("Fix the spelling mistakes")
+                .build();
+
         //Create OpenAI instance using API key & organization
         //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(apiKey)
+                .setOrganization(organization)
+                .createEdit(edit)
+                .build()
+                .sendRequest();
 
-        //EditData, ready to send to the OpenAI Api
-        EditData edit = new EditData();
-
-        //ID of the model to use. You can use the text-davinci-edit-001 or
-        //code-davinci-edit-001 model with this endpoint.
-        edit.setModel("text-davinci-edit-001");
-
-        //The input text to use as a starting point for the edit.
-        edit.setInput("What day of the wek is it?");
-
-        //The instruction that tells the model how to edit the prompt.
-        edit.setInstruction("Fix the spelling mistakes");
+        assertNotNull(openAI);
 
         //Call the CreateEdit API from OpenAI & create instance
-        CreateEdit createEdit = openAI.edit(edit); //You can call "data" to see the response
+        Optional<CreateEdit> optionalCreateEdit = openAI.edit(); //You can call "data" to see the response
+        assertFalse(optionalCreateEdit.isEmpty());
+
+        CreateEdit createEdit = optionalCreateEdit.get();
 
         //Data structure example
         CompletionResponseData responseData = createEdit.asData();

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,19 +21,6 @@ public class CreateImageTests {
         assertNotNull(apiKey);
         assertNotNull(organization);
 
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI();
-
-        //Keep the same instance for openAI.createImage(imageData);
-        openAI.setAlwaysNewInstance(false);
-
-        //Set the API key (from .json file)
-        openAI.setApiKey(apiKey);
-
-        //Set the organization (from .json file)
-        openAI.setOrganization(organization);
-
         //ImageData, ready to send to the OpenAI API
         ImageData imageData = new ImageData();
 
@@ -45,8 +33,23 @@ public class CreateImageTests {
         //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024
         imageData.setSize("1024x1024");
 
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(apiKey)
+                .setOrganization(organization)
+                .createImage(imageData)
+                .build()
+                //Finally, send our request to the API, this initiates the request (after .build())
+                .sendRequest();
+
+        assertNotNull(openAI);
+
         //Call the CreateImage API from OpenAI & create instance
-        CreateImage createImage = openAI.image(imageData);
+        Optional<CreateImage> optionalCreateImage = openAI.image();
+        assertFalse(optionalCreateImage.isEmpty());
+
+        CreateImage createImage = optionalCreateImage.get();
 
         //Grabs the first image in the array, if your "setN" is higher than 1, then use imageArray
         Image image = createImage.asImage();

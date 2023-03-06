@@ -289,6 +289,86 @@ public class CompletionDataImpl extends CompletionData {
     }
 
     @Override
+    public Boolean getEcho() {
+        return this.echo;
+    }
+
+    @Override
+    public String getLogprobs() {
+        return this.logprobs;
+    }
+
+    @Override
+    public Integer getMaxTokens() {
+        return this.maxTokens;
+    }
+
+    @Override
+    public String getModel() {
+        return this.model;
+    }
+
+    @Override
+    public Integer getN() {
+        return this.n;
+    }
+
+    @Override
+    public List<String> getPrompt() {
+        return this.prompt;
+    }
+
+    @Override
+    public List<String> getStop() {
+        return this.stop;
+    }
+
+    @Override
+    public Boolean isStream() {
+        return this.stream;
+    }
+
+    @Override
+    public Double getTemperature() {
+        return this.temperature;
+    }
+
+    @Override
+    public Double getTopP() {
+        return this.topP;
+    }
+
+    @Override
+    public String getSuffix() {
+        return this.suffix;
+    }
+
+    @Override
+    public Double getFrequencyPenalty() {
+        return this.frequencyPenalty;
+    }
+
+    @Override
+    public Double getPresencePenalty() {
+        return this.presencePenalty;
+    }
+
+    @Override
+    public Integer getBestOf() {
+        return this.bestOf;
+    }
+
+    @Override
+    public Map<Object, Object> getLogitBias() {
+        return this.logitBias;
+    }
+
+    @Override
+    public String getUser() {
+        return this.user;
+    }
+
+    @Override
     public Optional<Boolean> echo() {
         return Optional.of(this.echo);
     }

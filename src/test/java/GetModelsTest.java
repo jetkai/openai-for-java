@@ -4,6 +4,7 @@ import io.github.jetkai.openai.api.data.model.ModelData;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,10 +28,19 @@ public class GetModelsTest {
 
         //Create OpenAI instance using API key & organization
         //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(apiKey)
+                .setOrganization(organization)
+                //Call the GetModels API from OpenAI & create instance
+                .getModels()
+                .build()
+                //Finally, send our request to the API, this initiates the request (after .build())
+                .sendRequest();
 
-        //Call the GetModels API from OpenAI & create instance
-        GetModels getModels = openAI.models();
+        Optional<GetModels> optionalGetModels = openAI.models();
+        assertFalse(optionalGetModels.isEmpty());
+
+        GetModels getModels = optionalGetModels.get();
 
         //Data structure example
         ModelData[] modelData = getModels.asDataArray(); //You can view all the listed models here
@@ -40,7 +50,7 @@ public class GetModelsTest {
         //Data list example
         List<ModelData> modelList = getModels.asDataList();
         assertNotNull(modelList);
-        assertTrue(modelList.size() > 0);
+        assertFalse(modelList.isEmpty());
 
         //Json example
         String json = getModels.asJson();

@@ -30,6 +30,7 @@ public class CreateImage extends OAPI {
      * @param image - The image data specified
      */
     public CreateImage(ImageData image) {
+        super();
         this.requestData = image.toJson();
         this.endpoint = OpenAIEndpoints.CREATE_IMAGE;
         this.requestType = HttpRequestType.POST;
@@ -37,6 +38,7 @@ public class CreateImage extends OAPI {
     }
 
     public CreateImage(Object image, OpenAIEndpoints endpoint, HttpRequestType requestType) {
+        super();
         this.requestData = image;
         this.endpoint = endpoint;
         this.requestType = requestType;

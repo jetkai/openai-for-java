@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -29,10 +30,6 @@ public class CreateChatCompletionTest {
         assertNotNull(apiKey);
         assertNotNull(organization);
 
-        //Create OpenAI instance using API key & organization
-        //Organization is optional
-        OpenAI openAI = new OpenAI(apiKey, organization);
-
         //Create message object, this will contain the data we want to send to ExampleChatGPT
         ChatCompletionMessageData message = new ChatCompletionMessageData();
 
@@ -49,16 +46,30 @@ public class CreateChatCompletionTest {
         messages.add(message);
 
         //Completion Data, ready to send to the OpenAI Api
-        ChatCompletionData completion = new ChatCompletionData();
+        ChatCompletionData completion = ChatCompletionData.builder()
+                //ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are supported.
+                .setModel("gpt-3.5-turbo")
+                //The messages to generate chat completions for, in the chat format.
+                .setMessages(messages)
+                .build();
 
-        //ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are supported.
-        completion.setModel("gpt-3.5-turbo");
+        //Create OpenAI instance using API key & organization
+        //Organization is optional
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(apiKey)
+                .setOrganization(organization)
+                .createChatCompletion(completion)
+                .build()
+                .sendRequest();
 
-        //The messages to generate chat completions for, in the chat format.
-        completion.setMessages(messages);
+        assertNotNull(openAI);
+
 
         //Call the CreateChatCompletion API from OpenAI & create instance
-        CreateChatCompletion createChatCompletion = openAI.chatCompletion(completion);
+        Optional<CreateChatCompletion> optionalChatCompletion = openAI.chatCompletion();
+        assertFalse(optionalChatCompletion.isEmpty());
+
+        CreateChatCompletion createChatCompletion = optionalChatCompletion.get();
 
         //Data structure example
         CompletionResponseData responseData = createChatCompletion.asData();

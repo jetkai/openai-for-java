@@ -106,6 +106,36 @@ public class AudioImpl extends AudioData {
     }
 
     @Override
+    public String getModel() {
+        return this.model;
+    }
+
+    @Override
+    public List<String> getPrompt() {
+        return this.prompt;
+    }
+
+    @Override
+    public String getResponseFormat() {
+        return this.responseFormat;
+    }
+
+    @Override
+    public Double getTemperature() {
+        return this.temperature;
+    }
+
+    @Override
+    public String getLanguage() {
+        return this.language;
+    }
+
+    @Override
+    public Path getFilePath() {
+        return this.file;
+    }
+
+    @Override
     public Optional<String> model() {
         return Optional.ofNullable(this.model);
     }

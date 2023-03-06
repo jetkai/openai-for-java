@@ -70,7 +70,7 @@ public class ExampleChatGPT {
                 .build();
 
         //Sends the request to OpenAI's endpoint & parses the response data
-        openAI.initialize();
+        openAI.sendRequest();
 
         //Check to see if there is a valid response from OpenAI
         Optional<CreateChatCompletion> optionalResponse = openAI.chatCompletion();

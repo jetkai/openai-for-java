@@ -60,7 +60,7 @@ public class ExampleTranscriptionFromAudioFile {
                 .build();
 
         //Sends the request to OpenAI's endpoint & parses the response data
-        openAI.initialize();
+        openAI.sendRequest();
 
         //Call the CreateTranscription API from OpenAI & create instance
         Optional<CreateTranscription> createTranscription = openAI.transcription();
