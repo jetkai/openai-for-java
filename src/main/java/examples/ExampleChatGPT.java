@@ -7,7 +7,6 @@ import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionMessageDat
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * ExampleChatGPT
@@ -56,12 +55,22 @@ public class ExampleChatGPT {
 
     private String communicate(String message) {
         //Create the Message Data object with the message we wish to send
+        //Alternatively can use a builder
+        //ChatCompletionMessageData messageData ChatCompletionMessageData.builder()
+        //        .setRole("user")
+        //        .setContent(message)
+        //        .build();
         ChatCompletionMessageData messageData = ChatCompletionMessageData.create(message);
 
         //Store the message that we want to send, to the MessageHistory List
         messageHistory.add(messageData);
 
         //Build the data structure which contains the message history and model information
+        //Can also use a builder instead
+        //ChatCompletionData completionData = ChatCompletionData.builder()
+        //        .setModel("gpt-3.5-turbo")
+        //        .setMessages(messageHistory)
+        //        .build();
         ChatCompletionData completionData = ChatCompletionData.create(messageHistory);
 
         OpenAI openAI = OpenAI.builder()
@@ -70,22 +79,20 @@ public class ExampleChatGPT {
                 .build();
 
         //Sends the request to OpenAI's endpoint & parses the response data
+        //Instead of openAI.sendRequest(); you can initialize the request for the class manually
+        //openAI.createChatCompletion().initialize();
         openAI.sendRequest();
 
         //Check to see if there is a valid response from OpenAI
-        Optional<CreateChatCompletion> optionalResponse = openAI.chatCompletion();
-        if(optionalResponse.isEmpty()) {
-            return null;
-        }
-        //Get the response
-        CreateChatCompletion response = optionalResponse.get();
+        //You can also call Optional<CreateChatCompletion> createChatCompletion = openAI.chatCompletion();
+        CreateChatCompletion createChatCompletion = openAI.createChatCompletion();
 
         //Store chat response from AI, this allows the AI to see the full history of our chat
         //Including both our messages and the AI's messages
-        messageHistory.addAll(response.asChatResponseDataList());
+        messageHistory.addAll(createChatCompletion.asChatResponseDataList());
 
         //Parse the response back as plain-text & replace \n & ascii characters (Šťŕĭńġ -> String)
-        return response.asNormalizedText();
+        return createChatCompletion.asNormalizedText();
     }
 
 }

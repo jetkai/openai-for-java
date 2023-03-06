@@ -65,9 +65,10 @@ public class CreateChatCompletion extends CreateCompletion {
                 continue;
             }
             //Set the content & role response from ExampleChatGPT as ChatCompletionMessageData
-            ChatCompletionMessageData messageResponse = new ChatCompletionMessageData()
+            ChatCompletionMessageData messageResponse = ChatCompletionMessageData.builder()
                     .setRole(messageData.getRole())
-                    .setContent(messageData.getContent());
+                    .setContent(messageData.getContent())
+                    .build();
 
             //Store the response in an array, so that gpt-3.5 model can keep learning
             chatDataList.add(messageResponse);
