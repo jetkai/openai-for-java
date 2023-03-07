@@ -1,10 +1,6 @@
 name: openai-for-java
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+on: [push]
 
 env:
   API_KEY: ${{ secrets.OPEN_AI_API_KEY }}
@@ -20,12 +16,16 @@ jobs:
         with:
           java-version: 11
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
-      - name: Run tests with Maven
-        run: mvn test --file pom.xml
-      - name: Display test status badge
-        uses: badgen/codacy-coverage-action@v3.0.0
+        run: mvn -B package --file pom.xml -Dapi.key=$API_KEY
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3.1.1
         with:
-          api-token: ${{ secrets.CODACY_API_TOKEN }}
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          format: markdown
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Display test status badge
+        uses: codecov/codecov-action@v3.1.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
+          fail_ci_if_error: true
+          output: file
+          file: coverage-report.txt
