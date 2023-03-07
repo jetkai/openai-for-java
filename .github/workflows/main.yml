@@ -6,8 +6,8 @@ on:
 
 env:
   API_KEY: ${{ secrets.OPEN_AI_API_KEY }}
-  JIRA_USERNAME: ""
-  JIRA_PASSWORD: ""
+  JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
+  JIRA_PASSWORD: ${{ secrets.JIRA_PASSWORD }}
 
 jobs:
   build:
