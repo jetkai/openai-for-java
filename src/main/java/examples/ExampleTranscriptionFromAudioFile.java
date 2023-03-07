@@ -20,17 +20,17 @@ import java.util.Optional;
  *
  * <p>
  * Note - This is just a test class, it is recommended to import this project as a library
- * and then call OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
  * </p>
  */
 final class ExampleTranscriptionFromAudioFile {
 
     /*
      * You can get a free API key from https://platform.openai.com/account/api-keys
-     * private final OpenAI openAI = new OpenAI("YOUR_API_KEY");
-     * private final OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
+     *     OpenAI openAI = OpenAI.builder()
+     *             .setApiKey("YOUR_API_KEY")
+     *             .setOrganization("YOUR_ORGANIZATION")
+     *             .build();
      */
-    //private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
     public static void main(String[] args) throws URISyntaxException {
         //Initialize ExampleTranslationFromAudioFile class
@@ -57,10 +57,9 @@ final class ExampleTranscriptionFromAudioFile {
         OpenAI openAI = OpenAI.builder()
                 .setApiKey(System.getenv("OPEN_AI_API_KEY"))
                 .createTranscription(transcriptionData)
-                .build();
-
-        //Sends the request to OpenAI's endpoint & parses the response data
-        openAI.sendRequest();
+                .build()
+                //Sends the request to OpenAI's endpoint & parses the response data
+                .sendRequest();
 
         //Call the CreateTranscription API from OpenAI & create instance
         Optional<CreateTranscription> createTranscription = openAI.transcription();

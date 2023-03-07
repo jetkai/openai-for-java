@@ -46,9 +46,6 @@ final class OpenAIImpl extends OpenAI {
     private final CreateTranscription transcription;
     private final CreateTranscriptionTranslation transcriptionTranslation;
     private final CreateTranslation translation;
-    private final String proxyIp;
-    private final int proxyPort;
-    private final Duration httpClientTimeout;
 
     static OpenAIImpl create(OpenAIBuilderImpl builder) {
         return new OpenAIImpl(builder);
@@ -69,11 +66,11 @@ final class OpenAIImpl extends OpenAI {
         this.translation = builder.translation;
         this.apiKey = builder.apiKey;
         this.organization = Objects.requireNonNullElse(builder.organization, "");
-        this.httpClientTimeout = builder.httpClientTimeout;
-        this.proxyIp = builder.proxyIp;
-        this.proxyPort = builder.proxyPort;
+        Duration httpClientTimeout = builder.httpClientTimeout;
+        String proxyIp = builder.proxyIp;
+        int proxyPort = builder.proxyPort;
         this.httpClient = builder.httpClientTimeout != null
-                ? HttpClientInstance.customHttpClient(this.proxyIp, this.proxyPort, this.httpClientTimeout)
+                ? HttpClientInstance.customHttpClient(proxyIp, proxyPort, httpClientTimeout)
                 : Objects.requireNonNullElse(builder.httpClient, HttpClientInstance.defaultHttpClient());
         this.httpClientInstance = Objects.requireNonNullElseGet(builder.httpClientInstance, () ->
                 new HttpClientInstance(this.httpClient));
@@ -100,11 +97,12 @@ final class OpenAIImpl extends OpenAI {
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T createInstance(Class<T> clazz, Object data) {
         if (clazz == null) {
             return (T) this;
         }
-        Object instance;
+        T instance;
         try {
             instance = clazz.getConstructor(data.getClass()).newInstance(data);
             if (instance instanceof OAPI) {
@@ -114,9 +112,10 @@ final class OpenAIImpl extends OpenAI {
                  | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        return (T) instance;
+        return instance;
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T createInstance(OpenAIEndpoints endpoint, Object data) {
         OAPI instance;
         switch (endpoint) {

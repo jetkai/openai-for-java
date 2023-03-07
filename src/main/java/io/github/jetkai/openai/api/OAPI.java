@@ -118,6 +118,7 @@ public abstract class OAPI {
      * @param <T> is the class we wish the json data to be deserialized to
      * @return data structure
      */
+    @SuppressWarnings("unchecked")
     protected synchronized <T> T deserialize(Class<T> clazz) {
         if (this.deserializedData != null) {
             return (T) this.deserializedData;

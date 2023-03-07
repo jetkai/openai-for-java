@@ -24,15 +24,16 @@ import java.util.List;
  *
  * <p>
  * Note - This is just a test class, it is recommended to import this project as a library
- * and then call OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
  * </p>
  */
 final class ExampleChatGPT {
 
     /*
      * You can get a free API key from https://platform.openai.com/account/api-keys
-     * private final OpenAI openAI = new OpenAI("YOUR_API_KEY");
-     * private final OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
+     *     OpenAI openAI = OpenAI.builder()
+     *             .setApiKey("YOUR_API_KEY")
+     *             .setOrganization("YOUR_ORGANIZATION")
+     *             .build();
      */
 
     //This is a List that will store all our conversation history
