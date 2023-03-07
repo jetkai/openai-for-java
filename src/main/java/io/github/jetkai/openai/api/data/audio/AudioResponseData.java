@@ -15,7 +15,6 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
  * {@code - 02/03/2023}
  */
 @JsonSerialize
-@SuppressWarnings("unused")
 public class AudioResponseData {
 
     private String text;

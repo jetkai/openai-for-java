@@ -18,7 +18,6 @@ import java.util.Optional;
  * {@code - 02/03/2023}
  */
 @JsonDeserialize(builder = CompletionUsageData.Builder.class)
-@SuppressWarnings("unused")
 public abstract class CompletionUsageData {
 
     @JsonPOJOBuilder(withPrefix = "set")

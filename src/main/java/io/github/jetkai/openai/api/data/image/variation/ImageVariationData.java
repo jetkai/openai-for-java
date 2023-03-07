@@ -17,7 +17,6 @@ import java.nio.file.Path;
  * {@code - 02/03/2023}
  */
 @JsonSerialize
-@SuppressWarnings("unused")
 public class ImageVariationData {
 
     /**

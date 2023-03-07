@@ -31,7 +31,6 @@ public class ListModels extends OAPI {
      * @return - ModelData[] which contains all the available OpenAI models
      */
     //@Override
-    @SuppressWarnings("unused")
     public ModelData[] asDataArray() {
         if(this.deserializedData == null) {
             this.deserializedData = deserialize(ModelsResponseData.class);
@@ -46,8 +45,6 @@ public class ListModels extends OAPI {
      * asDataList
      * @return - {@code List<ModelData>} which contains all the available OpenAI models
      */
-    //@Override
-    @SuppressWarnings("unused")
     public List<ModelData> asDataList() {
         if(this.deserializedData == null) {
             this.deserializedData = deserialize(ModelsResponseData.class);

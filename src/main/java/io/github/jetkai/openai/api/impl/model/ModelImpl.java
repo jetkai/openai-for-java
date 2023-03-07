@@ -15,7 +15,6 @@ import java.util.Optional;
  * @since 1.1.0
  * {@code - 05/03/2023}
  */
-@SuppressWarnings("unused")
 public class ModelImpl extends ModelData {
 
     private String id; //text-babbage:001

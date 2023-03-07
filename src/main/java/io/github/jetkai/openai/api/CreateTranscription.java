@@ -38,7 +38,6 @@ public class CreateTranscription extends OAPI {
      * asNormalizedText
      * @return - String with replaced ascii characters, and removes "\n"
      */
-    @SuppressWarnings("unused")
     public String asNormalizedText() {
         //Replaces any characters that do not match the regex
         String normalized = Normalizer.normalize(this.asText(), Normalizer.Form.NFD);

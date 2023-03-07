@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * {@code - 02/03/2023}
  */
 @JsonSerialize
-@SuppressWarnings("unused")
 class EmbeddingResponseUsageData {
 
     @JsonProperty("prompt_tokens")

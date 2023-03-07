@@ -104,7 +104,6 @@ public class CreateImage extends OAPI {
      * asLinks
      * @return {@code List<String>} of URLs
      */
-    @SuppressWarnings("unused")
     public List<String> asStringList() {
         if(this.deserializedData == null) {
             this.deserializedData = deserialize(ImageResponseData.class);
@@ -122,7 +121,6 @@ public class CreateImage extends OAPI {
      * asUriArray
      * @return {@code List<String>} of URLs
      */
-    @SuppressWarnings("unused")
     public URI[] asUriArray() {
         if(this.deserializedData == null) {
             this.deserializedData = deserialize(ImageResponseData.class);

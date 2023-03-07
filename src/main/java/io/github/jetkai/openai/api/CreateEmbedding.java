@@ -30,7 +30,6 @@ public class CreateEmbedding extends OAPI {
      * asFloatList
      * @return {@code List<Float>}
      */
-    @SuppressWarnings("unused")
     public List<Float> asFloatList() {
         if(this.deserializedData == null) {
             this.deserializedData = deserialize(EmbeddingResponseData.class);
@@ -51,7 +50,6 @@ public class CreateEmbedding extends OAPI {
      * asData
      * @return EmbeddingResponseData
      */
-    @SuppressWarnings("unused")
     public EmbeddingResponseData asData() {
         if(this.deserializedData == null) {
             this.deserializedData = deserialize(EmbeddingResponseData.class);

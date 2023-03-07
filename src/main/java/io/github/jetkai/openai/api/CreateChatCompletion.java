@@ -40,7 +40,6 @@ public class CreateChatCompletion extends CreateCompletion {
      * asChatResponseData
      * @return ChatCompletionMessageData
      */
-    @SuppressWarnings("unused")
     public ChatCompletionMessageData asChatResponseData() {
         List<ChatCompletionMessageData> chatDataList = asChatResponseDataList();
         if(chatDataList == null || chatDataList.isEmpty()) {

@@ -13,7 +13,6 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
-@SuppressWarnings("unused")
 public class ListModel extends OAPI {
 
     /**

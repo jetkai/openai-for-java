@@ -20,7 +20,6 @@ import java.util.Optional;
  */
 
 @JsonSerialize
-@SuppressWarnings("unused")
 public abstract class CompletionData {
 
     public CompletionData() { }

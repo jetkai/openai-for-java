@@ -17,7 +17,6 @@ import static java.util.Objects.requireNonNull;
  * @since 1.1.0
  * {@code - 02/03/2023}
  */
-@SuppressWarnings("unused")
 public class CompletionResponseDataBuilderImpl implements CompletionResponseData.Builder {
 
     String id;

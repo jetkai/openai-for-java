@@ -20,7 +20,6 @@ import java.util.Optional;
  */
 @JsonSerialize
 @JsonDeserialize(builder = ModelPermissionsData.Builder.class)
-@SuppressWarnings("unused")
 public abstract class ModelPermissionsData {
 
     public ModelPermissionsData() { }
