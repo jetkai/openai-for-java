@@ -58,24 +58,20 @@ public class CreateImageEditTest {
         assertNotNull(maskPath);
 
         //ImageEditData, ready to send to the OpenAI API
-        ImageEditData imageData = new ImageEditData();
-
-        //The image to edit. Must be a valid PNG file, less than 4MB, and square.
-        //If mask is not provided, image must have transparency, which will be used as the mask.
-        imageData.setImage(imagePath);
-
-        //An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where
-        //image should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as image.
-        imageData.setMask(maskPath);
-
-        //A text description of the desired image(s). The maximum length is 1000 characters.
-        imageData.setPrompt("A cute baby sea otter wearing a beret");
-
-        //The number of images to generate. Must be between 1 and 10.
-        imageData.setN(2);
-
-        //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
-        imageData.setSize("1024x1024");
+        ImageEditData imageData = ImageEditData.builder()
+                //The image to edit. Must be a valid PNG file, less than 4MB, and square.
+                //If mask is not provided, image must have transparency, which will be used as the mask.
+                .setImage(imagePath)
+                //An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where
+                //image should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as image.
+                .setMask(maskPath)
+                //A text description of the desired image(s). The maximum length is 1000 characters.
+                .setPrompt("A cute baby sea otter wearing a beret")
+                //The number of images to generate. Must be between 1 and 10.
+                .setN(2)
+                //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
+                .setSize("1024x1024")
+                .build();
 
         //Create OpenAI instance using API key & organization
         //Organization is optional

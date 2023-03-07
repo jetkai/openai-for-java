@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
 import io.github.jetkai.openai.api.data.embedding.response.block.EmbeddingResponseBlockData;
 import io.github.jetkai.openai.api.data.embedding.response.usage.EmbeddingResponseUsageData;
 
@@ -20,7 +19,7 @@ import java.util.Optional;
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
-@JsonDeserialize(builder = CompletionResponseData.Builder.class)
+@JsonDeserialize(builder = EmbeddingResponseData.Builder.class)
 public abstract class EmbeddingResponseData {
 
     public EmbeddingResponseData() { }

@@ -45,16 +45,14 @@ public class CreateImageVariationTest {
         assertNotNull(imagePath);
 
         //ImageVariationData, ready to send to the OpenAI API
-        ImageVariationData imageVariationData = new ImageVariationData();
-
-        //Set the path for the image file
-        imageVariationData.setImage(imagePath);
-
-        //Set the number of images to generate. Must be between 1 and 10.
-        imageVariationData.setN(2);
-
-        //Set the size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
-        imageVariationData.setSize("1024x1024");
+        ImageVariationData imageVariationData = ImageVariationData.builder()
+                //Set the path for the image file
+                .setImage(imagePath)
+                //Set the number of images to generate. Must be between 1 and 10.
+                .setN(2)
+                //Set the size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
+                .setSize("1024x1024")
+                .build();
 
         //Create OpenAI instance using API key & organization
         //Organization is optional

@@ -22,16 +22,14 @@ public class CreateImageTests {
         assertNotNull(organization);
 
         //ImageData, ready to send to the OpenAI API
-        ImageData imageData = new ImageData();
-
-        //A text description of the desired image(s). The maximum length is 1000 characters
-        imageData.setPrompt("A cute baby sea otter");
-
-        //The number of images to generate. Must be between 1 and 10.
-        imageData.setN(2);
-
-        //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024
-        imageData.setSize("1024x1024");
+        ImageData imageData = ImageData.builder()
+                //A text description of the desired image(s). The maximum length is 1000 characters
+                .setPrompt("A cute baby sea otter")
+                //The number of images to generate. Must be between 1 and 10.
+                .setN(2)
+                //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024
+                .setSize("1024x1024")
+                .build();
 
         //Create OpenAI instance using API key & organization
         //Organization is optional

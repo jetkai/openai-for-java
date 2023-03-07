@@ -59,6 +59,7 @@ public abstract class ImageData {
      * <p>
      * A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
      * <a href="https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids">Learn More.</a>
+     * @return getUser
      */
     @JsonProperty("user")
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
@@ -71,6 +72,7 @@ public abstract class ImageData {
      * Defaults to 1
      * <p>
      * The number of images to generate. Must be between 1 and 10.
+     * @return getN
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("n")
@@ -82,6 +84,7 @@ public abstract class ImageData {
      * Required
      * <p>
      * A text description of the desired image(s). The maximum length is 1000 characters.
+     * @return getPrompt
      */
     @JsonProperty("prompt")
     public abstract String getPrompt();
@@ -93,6 +96,7 @@ public abstract class ImageData {
      * Defaults to url
      * <p>
      * The format in which the generated images are returned. Must be one of url or b64_json.
+     * @return getResponseFormat
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("response_format")
@@ -105,6 +109,7 @@ public abstract class ImageData {
      * Defaults to 1024x1024
      * <p>
      * The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024
+     * @return getSize
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("size")

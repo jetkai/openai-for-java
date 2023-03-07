@@ -65,7 +65,7 @@ public abstract class RequestBuilder {
 
     public HttpRequest createMultiDataPost(URI uri, Object data, String apiKey, String organization) {
         Map<Object, Object> map = new LinkedHashMap<>();
-        RequestDataHandler handler = handlers.get(data.getClass());
+        RequestDataHandler handler = handlers.get(data.getClass().getSuperclass());
         if (handler == null) {
             throw new IllegalArgumentException("Unhandled data type: " + data.getClass().getName());
         }
@@ -84,28 +84,27 @@ public abstract class RequestBuilder {
     }
 
     private HttpRequest.BodyPublisher ofMimeMultipartData(Map<Object, Object> data, String boundary) {
-        List<byte[]> byteArrays = new ArrayList<>();
+        var byteArrays = new ArrayList<byte[]>();
         try {
-            String separator = "--" + boundary + "\r\nContent-Disposition: form-data; name=";
-            byte[] separatorBytes = separator.getBytes(StandardCharsets.UTF_8);
+            byte[] separator = ("--" + boundary + "\r\nContent-Disposition: form-data; name=")
+                    .getBytes(StandardCharsets.UTF_8);
 
             for (Map.Entry<Object, Object> entry : data.entrySet()) {
-                byteArrays.add(separatorBytes);
-                Object value = entry.getValue();
-                if (value instanceof Path) {
-                    Path path = (Path) value;
+                byteArrays.add(separator);
+                if (entry.getValue() instanceof Path) {
+                    Path path = (Path) entry.getValue();
                     String mimeType = Files.probeContentType(path);
                     byteArrays.add(("\"" + entry.getKey() + "\"; filename=\"" + path.getFileName()
                             + "\"\r\nContent-Type: " + mimeType + "\r\n\r\n")
                             .getBytes(StandardCharsets.UTF_8));
                     byteArrays.add(Files.readAllBytes(path));
+                    byteArrays.add("\r\n".getBytes(StandardCharsets.UTF_8));
                 } else {
-                    byteArrays.add(("\"" + entry.getKey() + "\"\r\n\r\n" + value + "\r\n")
-                            .getBytes(StandardCharsets.UTF_8));
+                    byteArrays.add(("\"" + entry.getKey() + "\"\r\n\r\n" + entry.getValue() + "\r\n").getBytes(StandardCharsets.UTF_8));
                 }
             }
 
-            byteArrays.add(("--" + boundary + "--\r\n").getBytes(StandardCharsets.UTF_8));
+            byteArrays.add(("--" + boundary + "--").getBytes(StandardCharsets.UTF_8));
         } catch (IOException io) {
             io.printStackTrace();
         }

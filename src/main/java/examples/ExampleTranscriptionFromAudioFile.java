@@ -23,7 +23,7 @@ import java.util.Optional;
  * and then call OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
  * </p>
  */
-public class ExampleTranscriptionFromAudioFile {
+final class ExampleTranscriptionFromAudioFile {
 
     /*
      * You can get a free API key from https://platform.openai.com/account/api-keys

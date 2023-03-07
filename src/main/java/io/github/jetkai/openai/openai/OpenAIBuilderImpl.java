@@ -47,7 +47,6 @@ final class OpenAIBuilderImpl implements OpenAI.Builder {
     int proxyPort;
     Duration httpClientTimeout;
 
-
     @Override
     public OpenAIBuilderImpl listModels() {
         this.models = new ListModels();

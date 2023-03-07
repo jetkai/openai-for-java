@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class CreateCompletionTest {
 
-
     @Test
     void createCompletionTest() {
         //Grab OpenAI API key from system environment variables (gradle.properties)
