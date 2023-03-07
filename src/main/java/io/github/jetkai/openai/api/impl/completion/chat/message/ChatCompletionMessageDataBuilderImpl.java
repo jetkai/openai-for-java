@@ -1,15 +1,15 @@
-package io.github.jetkai.openai.api.impl.chat;
+package io.github.jetkai.openai.api.impl.completion.chat.message;
 
-import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionMessageData;
+import io.github.jetkai.openai.api.data.completion.chat.message.ChatCompletionMessageData;
 
 import static java.util.Objects.requireNonNull;
 
 /**
- * ChatCompletionMessageData
+ * ChatCompletionMessageDataBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.1.0
- * {@code - 06/03/2023}
+ * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 02/03/2023}
  */

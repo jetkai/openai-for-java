@@ -1,54 +1,32 @@
-package io.github.jetkai.openai.api.impl.model;
+package io.github.jetkai.openai.api.impl.model.permissions;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.api.data.model.ModelPermissionsData;
 
 import java.util.Optional;
 
 /**
- * ModelPermissionsData
+ * ModelPermissionsImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
- * {@code - 03/03/2023}
- * @since 1.0.0
+ * @version 1.1.0
+ * {@code - 07/03/2023}
+ * @since 1.1.0
  * {@code - 02/03/2023}
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize
-@SuppressWarnings("unused")
 public class ModelPermissionsImpl extends ModelPermissionsData {
 
-    @JsonProperty("id")
-    private String id;
-    @JsonProperty("object")
-    private String object;
-    @JsonProperty("created")
-    private int created;
-    @JsonProperty("allow_create_engine")
-    private boolean allowCreateEngine;
-    @JsonProperty("allow_sampling")
-    private boolean allowSampling;
-    @JsonProperty("allow_logprobs")
-    private boolean allowLogprobs;
-    @JsonProperty("allow_search_indices")
-    private boolean allowSearchIndices;
-    @JsonProperty("allow_view")
-    private boolean allowView;
-    @JsonProperty("allow_fine_tuning")
-    private boolean allowFineTuning;
-    @JsonProperty("organization")
-    private String organization;
-    @JsonProperty("group")
-    private String group;
-    @JsonProperty("isBlocking")
-    private boolean isBlocking;
-
-    public ModelPermissionsImpl() { }
+    private final String id;
+    private final String object;
+    private final int created;
+    private final boolean allowCreateEngine;
+    private final boolean allowSampling;
+    private final boolean allowLogprobs;
+    private final boolean allowSearchIndices;
+    private final boolean allowView;
+    private final boolean allowFineTuning;
+    private final String organization;
+    private final String group;
+    private final boolean blocking;
 
     static ModelPermissionsImpl create(ModelPermissionsBuilderImpl builder) {
         return new ModelPermissionsImpl(builder);
@@ -65,8 +43,68 @@ public class ModelPermissionsImpl extends ModelPermissionsData {
         this.allowSearchIndices = builder.allowSearchIndices;
         this.allowView = builder.allowView;
         this.group = builder.group;
-        this.isBlocking = builder.isBlocking;
+        this.blocking = builder.isBlocking;
         this.object = builder.object;
+    }
+
+    @Override
+    public String getObject() {
+        return this.object;
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public int getCreated() {
+        return this.created;
+    }
+
+    @Override
+    public boolean isAllowCreationEngine() {
+        return this.allowCreateEngine;
+    }
+
+    @Override
+    public boolean isAllowFineTuning() {
+        return this.allowFineTuning;
+    }
+
+    @Override
+    public boolean isAllowLogprobs() {
+        return this.allowLogprobs;
+    }
+
+    @Override
+    public boolean isAllowSampling() {
+        return this.allowSampling;
+    }
+
+    @Override
+    public boolean isAllowSearchIndices() {
+        return this.allowSearchIndices;
+    }
+
+    @Override
+    public boolean isAllowView() {
+        return this.allowView;
+    }
+
+    @Override
+    public boolean isBlocking() {
+        return this.blocking;
+    }
+
+    @Override
+    public String getGroup() {
+        return this.group;
+    }
+
+    @Override
+    public String getOrganization() {
+        return this.organization;
     }
 
     @Override
@@ -116,7 +154,7 @@ public class ModelPermissionsImpl extends ModelPermissionsData {
 
     @Override
     public Optional<Boolean> blocking() {
-        return Optional.of(this.isBlocking);
+        return Optional.of(this.blocking);
     }
 
     @Override

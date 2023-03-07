@@ -11,6 +11,7 @@ import io.github.jetkai.openai.api.data.image.edit.ImageEditData;
 import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
 import io.github.jetkai.openai.impl.openai.OpenAIBuilderImpl;
 import io.github.jetkai.openai.net.HttpClientInstance;
+import io.github.jetkai.openai.net.OpenAIEndpoints;
 
 import java.net.http.HttpClient;
 import java.util.Optional;
@@ -37,8 +38,8 @@ public abstract class OpenAI {
     }
 
     public interface Builder {
-        Builder getModel(String model);
-        Builder getModels();
+        Builder listModel(String model);
+        Builder listModels();
         Builder createEmbedding(EmbeddingData embedding);
         Builder createImageEdit(ImageEditData imageEdit);
         Builder createImage(ImageData image);
@@ -55,31 +56,33 @@ public abstract class OpenAI {
         OpenAI build();
     }
 
-    public abstract <T> T sendRequest();
+    public abstract OpenAI sendRequest();
+    public abstract <T> T createInstance(Class<T> clazz, Object data);
 
-    public abstract GetModels getModels();
+    public abstract <T> T createInstance(OpenAIEndpoints endpoint, Object data);
 
-    public abstract GetModel getModel();
+    public abstract ListModels getModels();
+    public abstract ListModel getModel();
 
-    public abstract CreateImageVariation createImageVariation();
+    public abstract CreateImageVariation getImageVariation();
 
-    public abstract CreateTranscription createTranscription();
+    public abstract CreateTranscription getTranscription();
 
-    public abstract CreateTranscriptionTranslation createTranscriptionTranslation();
+    public abstract CreateTranscriptionTranslation getTranscriptionTranslation();
 
-    public abstract CreateTranslation createTranslation();
+    public abstract CreateTranslation getTranslation();
 
-    public abstract CreateCompletion createCompletion();
+    public abstract CreateCompletion getCompletion();
 
-    public abstract CreateChatCompletion createChatCompletion();
+    public abstract CreateChatCompletion getChatCompletion();
 
-    public abstract CreateEdit createEdit();
+    public abstract CreateEdit getEdit();
 
-    public abstract CreateImage createImage();
+    public abstract CreateImage getImage();
 
-    public abstract CreateImageEdit createImageEdit();
+    public abstract CreateImageEdit getImageEdit();
 
-    public abstract CreateEmbedding createEmbedding();
+    public abstract CreateEmbedding getEmbedding();
 
     public abstract HttpClient getHttpClient();
 
@@ -89,9 +92,9 @@ public abstract class OpenAI {
 
     public abstract String getOrganization();
 
-    public abstract Optional<GetModels> models();
+    public abstract Optional<ListModels> models();
 
-    public abstract Optional<GetModel> model();
+    public abstract Optional<ListModel> model();
 
     public abstract Optional<CreateImageVariation> imageVariation();
 

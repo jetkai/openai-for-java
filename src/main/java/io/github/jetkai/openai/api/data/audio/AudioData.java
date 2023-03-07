@@ -1,6 +1,9 @@
 package io.github.jetkai.openai.api.data.audio;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.api.impl.audio.AudioBuilderImpl;
 
 import java.nio.file.Path;
@@ -12,19 +15,16 @@ import java.util.Optional;
  * AudioData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.1
- * {@code - 05/03/2023}
+ * @version 1.1.0
+ * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
+@JsonSerialize
 @SuppressWarnings("unused")
 public abstract class AudioData {
 
     public AudioData() { }
-
-    public static AudioData newAudioData() {
-        return builder().build();
-    }
 
     public static AudioData.Builder builder() {
         return new AudioBuilderImpl();
@@ -66,12 +66,77 @@ public abstract class AudioData {
         AudioData build();
     }
 
-
+    /**
+     * model
+     * string
+     * Required
+     * <p>
+     * ID of the model to use. Only whisper-1 is currently available.
+     */
+    @JsonProperty("model")
     public abstract String getModel();
+
+    /**
+     * prompt
+     * string
+     * Optional
+     * <p>
+     * An optional text to guide the model's style or continue a previous audio segment.
+     * The prompt should match the audio language.
+     */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @JsonProperty("prompt")
     public abstract List<String> getPrompt();
+
+    /**
+     * response_format
+     * string
+     * Optional
+     * Defaults to json
+     * <p>
+     * The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
+     */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @JsonProperty("response_format")
     public abstract String getResponseFormat();
+
+    /**
+     * temperature
+     * number
+     * Optional
+     * Defaults to 0
+     * <p>
+     * The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random,
+     * while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will
+     * use log probability to automatically increase the temperature until certain thresholds are hit.
+     */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @JsonProperty("temperature")
     public abstract Double getTemperature();
+
+    /**
+     * language
+     * string
+     * Optional
+     * <p>
+     * The language of the input audio. Supplying the input language in ISO-639-1 format
+     * will improve accuracy and latency.
+     * <p>
+     *     <a href="https://github.com/openai/whisper#available-models-and-languages">List of supported languages</a>
+     * </p>
+     */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @JsonProperty("language")
     public abstract String getLanguage();
+
+    /**
+     * file
+     * string
+     * Required
+     * <p>
+     * The audio file to transcribe, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+     */
+    @JsonProperty("file")
     public abstract Path getFilePath();
 
     public abstract Optional<String> model();

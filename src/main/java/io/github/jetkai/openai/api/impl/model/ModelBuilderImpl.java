@@ -1,6 +1,7 @@
 package io.github.jetkai.openai.api.impl.model;
 
 import io.github.jetkai.openai.api.data.model.ModelData;
+import io.github.jetkai.openai.api.data.model.ModelPermissionsData;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ import static java.util.Objects.requireNonNull;
  * ModelBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.1
- * {@code - 05/03/2023}
- * @since 1.0.0
+ * @version 1.1.0
+ * {@code - 07/03/2023}
+ * @since 1.1.0
  * {@code - 05/03/2023}
  */
 @SuppressWarnings("unused")
@@ -24,9 +25,7 @@ public class ModelBuilderImpl implements ModelData.Builder {
     String ownedBy; //openai
     String root; //text-babbage:001
     String parent; //null
-    List<ModelPermissionsImpl> permission;
-
-    public ModelBuilderImpl() { }
+    List<ModelPermissionsData> permission;
 
     @Override
     public ModelBuilderImpl setId(String id) {
@@ -37,7 +36,6 @@ public class ModelBuilderImpl implements ModelData.Builder {
 
     @Override
     public ModelBuilderImpl setCreated(int created) {
-        requireNonNull(created);
         this.created = created;
         return this;
     }
@@ -71,7 +69,7 @@ public class ModelBuilderImpl implements ModelData.Builder {
     }
 
     @Override
-    public ModelBuilderImpl setPermissions(List<ModelPermissionsImpl> permission) {
+    public ModelBuilderImpl setPermissions(List<ModelPermissionsData> permission) {
         requireNonNull(permission);
         this.permission = permission;
         return this;

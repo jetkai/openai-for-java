@@ -6,11 +6,13 @@ import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.net.RequestBuilder;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
+import java.util.Objects;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class OAPI {
@@ -42,7 +44,12 @@ public abstract class OAPI {
      */
     protected HttpRequestType requestType;
 
-    protected OAPI() { }
+    public OAPI(Object data, OpenAIEndpoints endpoint, HttpRequestType requestType) {
+        this.requestData = data;
+        this.endpoint = endpoint;
+        this.requestType = requestType;
+        this.response = new AtomicReference<>();
+    }
 
     /**
      * Initialize
@@ -50,8 +57,14 @@ public abstract class OAPI {
      */
     public void initialize() {
         HttpResponse<String> httpResponse = response.get();
-        if(httpResponse == null || httpResponse.body() == null || httpResponse.body().isEmpty()) {
-            this.handleHttpResponse().thenAccept(this.response::set).join();
+        if (httpResponse == null || httpResponse.body() == null || httpResponse.body().isEmpty()) {
+            response.getAndUpdate(r -> {
+                try {
+                    return handleHttpResponse().toCompletableFuture().get();
+                } catch (InterruptedException | ExecutionException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 
@@ -63,28 +76,28 @@ public abstract class OAPI {
      * response.get().body() can then be called to retrieve the JSON response from OpenAI
      * @return {@code CompletableFuture<HttpResponse<String>>} the HttpResponse from the API
      */
-    protected CompletableFuture<HttpResponse<String>> handleHttpResponse() {
-        Optional<HttpClientInstance> optionalHttpClient = openAI.httpClientInstance();
-        Optional<String> optionalKey = openAI.apiKey();
-        Optional<String> optionalOrg = openAI.organization();
-        if (optionalHttpClient.isEmpty() || optionalKey.isEmpty() || optionalOrg.isEmpty()) {
-            return null;
-        }
-        HttpClientInstance httpClient = optionalHttpClient.get();
+    protected CompletionStage<HttpResponse<String>> handleHttpResponse() {
+        HttpClientInstance httpClient = openAI.httpClientInstance()
+                .orElseThrow(() -> new IllegalStateException("HttpClientInstance is missing"));
+        String apiKey = openAI.apiKey().orElseThrow(() -> new IllegalStateException("API Key is missing"));
+        String organization = openAI.organization().orElseThrow(() -> new IllegalStateException("Organization is missing"));
+
         return httpClient.sendAsync(requestData, new RequestBuilder() {
             @Override
             public HttpRequest request(Object data) {
                 URI uri = requestType == HttpRequestType.GET && data != null
                         ? URI.create(endpoint.uri().toString() + "/" + data)
                         : endpoint.uri();
-                if(requestType == HttpRequestType.GET) {
-                    return createGetRequest(uri, optionalKey.get(), optionalOrg.get());
-                } else if(requestType == HttpRequestType.POST) {
-                    return createPostRequest(uri, data, optionalKey.get(), optionalOrg.get());
-                } else if(requestType == HttpRequestType.MULTI_DATA_POST) {
-                    return createMultiDataPost(uri, data, optionalKey.get(), optionalOrg.get());
+                switch (requestType) {
+                    case GET:
+                        return createGetRequest(uri, apiKey, organization);
+                    case POST:
+                        return createPostRequest(uri, data, apiKey, organization);
+                    case MULTI_DATA_POST:
+                        return createMultiDataPost(uri, data, apiKey, organization);
+                    default:
+                        throw new IllegalStateException("HttpRequestType is missing");
                 }
-                return null;
             }
         });
     }
@@ -101,16 +114,11 @@ public abstract class OAPI {
             return (T) this.deserializedData;
         }
         String jsonResponse = this.getRawJsonResponse();
-        if(jsonResponse == null) {
-            return null;
-        }
+        Objects.requireNonNull(jsonResponse);
+
         this.deserializedData = JacksonJsonDeserializer.parseData(clazz, jsonResponse);
         return (T) this.deserializedData;
     }
-
-    //public abstract Object[] asDataArray();
-
-    //public abstract Object asDataList();
 
     public abstract String asJson();
 
@@ -139,10 +147,20 @@ public abstract class OAPI {
      */
     public String getRawJsonResponse() {
         HttpResponse<String> httpResponse = response.get();
-        if(httpResponse == null || httpResponse.body() == null) {
-            return null;
+        try {
+            Objects.requireNonNull(httpResponse, "HttpResponse is null");
+
+            String body = httpResponse.body();
+            Objects.requireNonNull(body, "No data received from OpenAI");
+
+            int statusCode = httpResponse.statusCode();
+            if (statusCode != 200) {
+                throw new IOException(body);
+            }
+            return body;
+        } catch (NullPointerException | IOException e) {
+            throw new IllegalStateException("Error getting raw JSON response from OpenAI API", e);
         }
-        return String.valueOf(httpResponse.body());
     }
 
     /**

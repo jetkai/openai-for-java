@@ -1,8 +1,8 @@
 package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.api.data.completion.CompletionData;
-import io.github.jetkai.openai.api.data.completion.response.CompletionChoiceData;
-import io.github.jetkai.openai.api.data.completion.response.CompletionMessageData;
+import io.github.jetkai.openai.api.data.completion.choice.CompletionChoiceData;
+import io.github.jetkai.openai.api.data.completion.message.CompletionMessageData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
@@ -10,7 +10,6 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * CreateCompletion
@@ -28,20 +27,12 @@ public class CreateCompletion extends OAPI {
      * @param completion - The completion data specified
      */
     public CreateCompletion(CompletionData completion) {
-        super();
-        //Requires the POST data to be in JSON format
-        this.requestData = JacksonJsonDeserializer.valuesAsString(completion);
-        this.endpoint = OpenAIEndpoints.CREATE_COMPLETION;
-        this.requestType = HttpRequestType.POST;
-        this.response = new AtomicReference<>();
+        super(JacksonJsonDeserializer.valuesAsString(completion),
+                OpenAIEndpoints.CREATE_COMPLETION, HttpRequestType.POST);
     }
 
     public CreateCompletion(Object completion, OpenAIEndpoints endpoint) {
-        super();
-        this.requestData = completion;
-        this.endpoint = endpoint;
-        this.requestType = HttpRequestType.POST;
-        this.response = new AtomicReference<>();
+        super(completion, endpoint, HttpRequestType.POST);
     }
 
     /**
@@ -215,7 +206,7 @@ public class CreateCompletion extends OAPI {
         if (!(this.deserializedData instanceof CompletionResponseData)) {
             return null;
         }
-        return ((CompletionResponseData) this.deserializedData).toJson();
+        return JacksonJsonDeserializer.valuesAsString(this.deserializedData);
     }
 
 }

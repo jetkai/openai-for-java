@@ -13,8 +13,8 @@ import java.net.URI;
  */
 public enum OpenAIEndpoints {
 
-    GET_MODEL(URI.create("https://api.openai.com/v1/models")),
-    GET_MODELS(URI.create("https://api.openai.com/v1/models")),
+    LIST_MODEL(URI.create("https://api.openai.com/v1/models")),
+    LIST_MODELS(URI.create("https://api.openai.com/v1/models")),
     CREATE_COMPLETION(URI.create("https://api.openai.com/v1/completions")),
     CREATE_CHAT_COMPLETION(URI.create("https://api.openai.com/v1/chat/completions")),
     CREATE_EDIT(URI.create("https://api.openai.com/v1/edits")),
@@ -22,11 +22,11 @@ public enum OpenAIEndpoints {
     CREATE_IMAGE_EDIT(URI.create("https://api.openai.com/v1/images/edits")),
     CREATE_IMAGE_VARIATION(URI.create("https://api.openai.com/v1/images/variations")),
     CREATE_EMBEDDING(URI.create("https://api.openai.com/v1/embeddings")),
-    CREATE_AUDIO_TRANSCRIPTION(URI.create("https://api.openai.com/v1/audio/transcriptions")),
+    CREATE_TRANSCRIPTION(URI.create("https://api.openai.com/v1/audio/transcriptions")),
     CREATE_TRANSLATION(URI.create("https://api.openai.com/v1/completions")),
     //OpenAI's https://api.openai.com/v1/audio/translations endpoint does not work correctly for audio translations
     //Using transcriptions API as this has been tested to work
-    CREATE_AUDIO_TRANSLATION(URI.create("https://api.openai.com/v1/audio/transcriptions"));
+    CREATE_TRANSCRIPTION_TRANSLATION(URI.create("https://api.openai.com/v1/audio/transcriptions"));
 
     private final URI uri;
 

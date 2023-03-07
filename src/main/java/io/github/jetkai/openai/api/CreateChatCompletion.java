@@ -1,10 +1,12 @@
 package io.github.jetkai.openai.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
-import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionMessageData;
-import io.github.jetkai.openai.api.data.completion.response.CompletionChoiceData;
-import io.github.jetkai.openai.api.data.completion.response.CompletionMessageData;
+import io.github.jetkai.openai.api.data.completion.chat.message.ChatCompletionMessageData;
+import io.github.jetkai.openai.api.data.completion.choice.CompletionChoiceData;
+import io.github.jetkai.openai.api.data.completion.message.CompletionMessageData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
+import io.github.jetkai.openai.api.impl.completion.chat.ChatCompletionDataImpl;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
@@ -30,6 +32,10 @@ public class CreateChatCompletion extends CreateCompletion {
         super(JacksonJsonDeserializer.valuesAsString(completion), OpenAIEndpoints.CREATE_CHAT_COMPLETION);
     }
 
+    public CreateChatCompletion(ChatCompletionDataImpl completion) {
+        super(JacksonJsonDeserializer.valuesAsString(completion), OpenAIEndpoints.CREATE_CHAT_COMPLETION);
+    }
+
     /**
      * asChatResponseData
      * @return ChatCompletionMessageData
@@ -49,7 +55,7 @@ public class CreateChatCompletion extends CreateCompletion {
      */
     public List<ChatCompletionMessageData> asChatResponseDataList() {
         if(this.deserializedData == null) {
-            this.deserializedData = deserialize(CompletionResponseData.class);
+            this.deserializedData = deserialize();
         }
         if (!(this.deserializedData instanceof CompletionResponseData)) {
             return null;
@@ -74,6 +80,21 @@ public class CreateChatCompletion extends CreateCompletion {
             chatDataList.add(messageResponse);
         }
         return chatDataList;
+    }
+
+    private synchronized CompletionResponseData deserialize() {
+        CompletionResponseData data = null;
+        String json = this.getRawJsonResponse();
+        try {
+            if (json.contains("\"error\":")) {
+                throw new Exception(json);
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            data = mapper.readValue(json, CompletionResponseData.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 
 }

@@ -1,6 +1,8 @@
-package io.github.jetkai.openai.api.data.completion.chat;
+package io.github.jetkai.openai.api.data.completion.chat.message;
 
-import io.github.jetkai.openai.api.impl.chat.ChatCompletionMessageDataBuilderImpl;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.github.jetkai.openai.api.impl.completion.chat.message.ChatCompletionMessageDataBuilderImpl;
 
 import java.util.Optional;
 
@@ -9,18 +11,15 @@ import java.util.Optional;
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.1.0
- * {@code - 06/03/2023}
+ * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
+@JsonSerialize
 @SuppressWarnings("unused")
 public abstract class ChatCompletionMessageData {
 
     public ChatCompletionMessageData() { }
-
-    public static ChatCompletionMessageData newAudioData() {
-        return builder().build();
-    }
 
     public static ChatCompletionMessageData create() {
         return builder().build();
@@ -49,7 +48,10 @@ public abstract class ChatCompletionMessageData {
         ChatCompletionMessageData build();
     }
 
+    @JsonProperty("content")
     public abstract String getContent();
+
+    @JsonProperty("role")
     public abstract String getRole();
 
     public abstract Optional<String> content();

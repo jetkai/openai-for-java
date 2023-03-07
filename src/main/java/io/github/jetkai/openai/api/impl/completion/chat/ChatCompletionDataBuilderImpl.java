@@ -1,10 +1,7 @@
-package io.github.jetkai.openai.api.impl.chat;
+package io.github.jetkai.openai.api.impl.completion.chat;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
-import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionMessageData;
+import io.github.jetkai.openai.api.data.completion.chat.message.ChatCompletionMessageData;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,14 +13,11 @@ import static java.util.Objects.requireNonNull;
  * ChatCompletionDataBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.1
- * {@code - 05/03/2023}
- * @since 1.0.0
+ * @version 1.1.0
+ * {@code - 07/03/2023}
+ * @since 1.1.0
  * {@code - 05/03/2023}
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize
 @SuppressWarnings("unused")
 public class ChatCompletionDataBuilderImpl implements ChatCompletionData.Builder {
 

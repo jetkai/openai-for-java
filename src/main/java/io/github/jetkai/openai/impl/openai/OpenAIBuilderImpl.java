@@ -30,8 +30,8 @@ public class OpenAIBuilderImpl implements OpenAI.Builder {
     HttpClientInstance httpClientInstance;
     String apiKey;
     String organization;
-    GetModel model;
-    GetModels models;
+    ListModel model;
+    ListModels models;
     CreateImageVariation imageVariation;
     CreateImageEdit imageEdit;
     CreateImage image;
@@ -45,15 +45,15 @@ public class OpenAIBuilderImpl implements OpenAI.Builder {
     HttpClient httpClient;
 
     @Override
-    public OpenAIBuilderImpl getModels() {
-        this.models = new GetModels();
+    public OpenAIBuilderImpl listModels() {
+        this.models = new ListModels();
         return this;
     }
 
     @Override
-    public OpenAIBuilderImpl getModel(String model) {
+    public OpenAIBuilderImpl listModel(String model) {
         requireNonNull(model);
-        this.model = new GetModel(model);
+        this.model = new ListModel(model);
         return this;
     }
 

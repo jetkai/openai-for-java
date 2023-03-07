@@ -10,8 +10,8 @@ import java.util.Optional;
  * ExampleSpellingCorrection
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.1
- * {@code - 05/03/2023}
+ * @version 1.1.0
+ * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 05/03/2023}
  *
@@ -45,7 +45,7 @@ public class ExampleSpellingCorrection {
     }
 
     private String communicate(String spellingMistake, String instruction) {
-        //Call the GetModels API from OpenAI & create instance
+        //Call the ListModels API from OpenAI & create instance
         //You can also specify the model and use the following:
         //EditData.create(model, spellingMistake, instruction);
         EditData editData = EditData.create(spellingMistake, instruction);

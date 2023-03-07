@@ -19,7 +19,7 @@ public class CreateTranscriptionTranslation extends CreateTranscription {
      * @param translation - The translation data specified
      */
     public CreateTranscriptionTranslation(AudioData translation) {
-        super(translation, OpenAIEndpoints.CREATE_AUDIO_TRANSLATION);
+        super(translation, OpenAIEndpoints.CREATE_TRANSCRIPTION_TRANSLATION);
     }
 
 }

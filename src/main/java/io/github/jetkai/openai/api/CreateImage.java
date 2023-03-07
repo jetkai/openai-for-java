@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -30,19 +29,11 @@ public class CreateImage extends OAPI {
      * @param image - The image data specified
      */
     public CreateImage(ImageData image) {
-        super();
-        this.requestData = image.toJson();
-        this.endpoint = OpenAIEndpoints.CREATE_IMAGE;
-        this.requestType = HttpRequestType.POST;
-        this.response = new AtomicReference<>();
+        super(image.toJson(), OpenAIEndpoints.CREATE_IMAGE, HttpRequestType.POST);
     }
 
     public CreateImage(Object image, OpenAIEndpoints endpoint, HttpRequestType requestType) {
-        super();
-        this.requestData = image;
-        this.endpoint = endpoint;
-        this.requestType = requestType;
-        this.response = new AtomicReference<>();
+        super(image, endpoint, requestType);
     }
 
     /**

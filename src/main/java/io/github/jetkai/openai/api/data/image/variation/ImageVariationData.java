@@ -1,6 +1,5 @@
 package io.github.jetkai.openai.api.data.image.variation;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -12,13 +11,11 @@ import java.nio.file.Path;
  * ImageVariationData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
- * {@code - 03/03/2023}
+ * @version 1.1.0
+ * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize
 @SuppressWarnings("unused")
 public class ImageVariationData {

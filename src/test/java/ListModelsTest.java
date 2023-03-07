@@ -1,5 +1,5 @@
 import io.github.jetkai.openai.OpenAI;
-import io.github.jetkai.openai.api.GetModels;
+import io.github.jetkai.openai.api.ListModels;
 import io.github.jetkai.openai.api.data.model.ModelData;
 import org.junit.jupiter.api.Test;
 
@@ -9,14 +9,14 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * GetModelsTest
+ * ListModelsTest
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
  * @created 02/03/2023
  * @last-update 03/03/2023
  */
-public class GetModelsTest {
+public class ListModelsTest {
 
     @Test
     void getModelsTest() {
@@ -31,29 +31,29 @@ public class GetModelsTest {
         OpenAI openAI = OpenAI.builder()
                 .setApiKey(apiKey)
                 .setOrganization(organization)
-                //Call the GetModels API from OpenAI & create instance
-                .getModels()
+                //Call the ListModels API from OpenAI & create instance
+                .listModels()
                 .build()
                 //Finally, send our request to the API, this initiates the request (after .build())
                 .sendRequest();
 
-        Optional<GetModels> optionalGetModels = openAI.models();
+        Optional<ListModels> optionalGetModels = openAI.models();
         assertFalse(optionalGetModels.isEmpty());
 
-        GetModels getModels = optionalGetModels.get();
+        ListModels listModels = optionalGetModels.get();
 
         //Data structure example
-        ModelData[] modelData = getModels.asDataArray(); //You can view all the listed models here
+        ModelData[] modelData = listModels.asDataArray(); //You can view all the listed models here
         assertNotNull(modelData);
         assertTrue(modelData.length > 0);
 
         //Data list example
-        List<ModelData> modelList = getModels.asDataList();
+        List<ModelData> modelList = listModels.asDataList();
         assertNotNull(modelList);
         assertFalse(modelList.isEmpty());
 
         //Json example
-        String json = getModels.asJson();
+        String json = listModels.asJson();
         assertNotNull(json);
         assertFalse(json.isEmpty());
     }

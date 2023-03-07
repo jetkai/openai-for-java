@@ -5,7 +5,6 @@ import io.github.jetkai.openai.api.data.audio.AudioResponseData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 
 import java.text.Normalizer;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * CreateTranscription
@@ -23,11 +22,7 @@ public class CreateTranscription extends OAPI {
      * @param transcription - The translation data specified
      */
     public CreateTranscription(AudioData transcription) {
-        super();
-        this.requestData = transcription;
-        this.endpoint = OpenAIEndpoints.CREATE_AUDIO_TRANSCRIPTION;
-        this.requestType = HttpRequestType.MULTI_DATA_POST;
-        this.response = new AtomicReference<>();
+        super(transcription, OpenAIEndpoints.CREATE_TRANSCRIPTION, HttpRequestType.MULTI_DATA_POST);
     }
 
     /**
@@ -36,11 +31,7 @@ public class CreateTranscription extends OAPI {
      * @param endpoint - The OpenAI endpoint URI
      */
     public CreateTranscription(AudioData transcription, OpenAIEndpoints endpoint) {
-        super();
-        this.requestData = transcription;
-        this.endpoint = endpoint;
-        this.requestType = HttpRequestType.MULTI_DATA_POST;
-        this.response = new AtomicReference<>();
+        super(transcription, endpoint, HttpRequestType.MULTI_DATA_POST);
     }
 
     /**

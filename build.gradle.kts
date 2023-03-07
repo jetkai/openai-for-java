@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "io.github.jetkai"
-version = "1.0.1"
+version = "1.1.0"
 
 java {
     withSourcesJar()

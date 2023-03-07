@@ -6,7 +6,6 @@ import io.github.jetkai.openai.api.data.embedding.EmbeddingResponseData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * CreateEmbedding
@@ -24,11 +23,7 @@ public class CreateEmbedding extends OAPI {
      * @param embedding - The embedding data specified
      */
     public CreateEmbedding(EmbeddingData embedding) {
-        super();
-        this.requestData = embedding.toJson();
-        this.endpoint = OpenAIEndpoints.CREATE_EMBEDDING;
-        this.requestType = HttpRequestType.POST;
-        this.response = new AtomicReference<>();
+        super(embedding.toJson(), OpenAIEndpoints.CREATE_EMBEDDING, HttpRequestType.POST);
     }
 
     /**

@@ -1,18 +1,18 @@
 package examples;
 
 import io.github.jetkai.openai.OpenAI;
-import io.github.jetkai.openai.api.GetModels;
+import io.github.jetkai.openai.api.ListModels;
 import io.github.jetkai.openai.api.data.model.ModelData;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * ExampleGetModels
+ * ExampleListModels
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.1
- * {@code - 05/03/2023}
+ * @version 1.1.0
+ * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 05/03/2023}
  *
@@ -21,7 +21,7 @@ import java.util.Optional;
  * and then call OpenAI openAI = new OpenAI("YOUR_API_KEY", "YOUR_ORGANIZATION");
  * </p>
  */
-public class ExampleGetModels {
+public class ExampleListModels {
 
     /*
      * You can get a free API key from https://platform.openai.com/account/api-keys
@@ -31,8 +31,8 @@ public class ExampleGetModels {
     //private final OpenAI openAI = new OpenAI(System.getenv("OPEN_AI_API_KEY"));
 
     public static void main(String[] args) {
-        //Initialize ExampleGetModels class
-        ExampleGetModels getModels = new ExampleGetModels();
+        //Initialize ExampleListModels class
+        ExampleListModels getModels = new ExampleListModels();
 
         //Send request to API and deserialize response as List<ModalData>
         List<ModelData> models = getModels.communicate();
@@ -50,17 +50,17 @@ public class ExampleGetModels {
     private List<ModelData> communicate() {
         OpenAI openAI = OpenAI.builder()
                 .setApiKey(System.getenv("OPEN_AI_API_KEY"))
-                .getModels()
+                .listModels()
                 .build();
 
         //Sends the request to OpenAI's endpoint & parses the response data
         openAI.sendRequest();
 
-        //Call the GetModels API from OpenAI & create instance
-        Optional<GetModels> getModels = openAI.models();
+        //Call the ListModels API from OpenAI & create instance
+        Optional<ListModels> getModels = openAI.models();
 
         //Return models as a data structure list, so that we can get the name from each model
-        return getModels.map(GetModels::asDataList).orElse(null);
+        return getModels.map(ListModels::asDataList).orElse(null);
     }
 
 }

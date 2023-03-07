@@ -3,7 +3,9 @@ package io.github.jetkai.openai.net;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
 /**
@@ -17,9 +19,19 @@ import java.util.function.Function;
  */
 public class HttpClientInstance {
 
-    private HttpClient httpClient;
+    public static final HttpClient DEFAULT_HTTP_CLIENT = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_2)
+            .followRedirects(HttpClient.Redirect.ALWAYS)
+            .connectTimeout(Duration.ofSeconds(30)) //30 seconds timeout
+            .build();
 
-    public CompletableFuture<HttpResponse<String>> sendAsync(Object data, RequestBuilder requestBuilder) {
+    private final HttpClient httpClient;
+
+    public HttpClientInstance(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
+    public CompletionStage<HttpResponse<String>> sendAsync(Object data, RequestBuilder requestBuilder) {
         HttpRequest request = requestBuilder.request(data);
         if(request == null || httpClient == null) {
             return null;
@@ -29,17 +41,8 @@ public class HttpClientInstance {
 
     private HttpResponse.PushPromiseHandler<String> pushPromiseHandler() {
         return (HttpRequest initiatingRequest, HttpRequest pushPromiseRequest,
-                Function<HttpResponse.BodyHandler<String>, CompletableFuture<HttpResponse<String>>> acceptor) -> {
-            acceptor.apply(HttpResponse.BodyHandlers.ofString())
-                    /*.thenAccept(resp ->
-                            System.out.println(" Pushed response: " + resp.uri() + ", headers: " + resp.headers()));
-            System.out.println("Promise request: " + pushPromiseRequest.uri());
-            System.out.println("Promise request: " + pushPromiseRequest.headers())*/;
-        };
-    }
-
-    public void setHttpClient(HttpClient httpClient) {
-        this.httpClient = httpClient;
+                Function<HttpResponse.BodyHandler<String>, CompletableFuture<HttpResponse<String>>> acceptor)
+                -> acceptor.apply(HttpResponse.BodyHandlers.ofString());
     }
 
     @SuppressWarnings("unused")

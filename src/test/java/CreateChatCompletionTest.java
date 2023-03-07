@@ -1,7 +1,7 @@
 import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateChatCompletion;
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
-import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionMessageData;
+import io.github.jetkai.openai.api.data.completion.chat.message.ChatCompletionMessageData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
 import org.junit.jupiter.api.Test;
 

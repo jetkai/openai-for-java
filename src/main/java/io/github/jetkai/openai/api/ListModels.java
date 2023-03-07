@@ -7,10 +7,9 @@ import io.github.jetkai.openai.net.OpenAIEndpoints;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * GetModels
+ * ListModels
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.1
@@ -18,16 +17,13 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
-public class GetModels extends OAPI {
+public class ListModels extends OAPI {
 
     /**
-     * GetModels
+     * ListModels
      */
-    public GetModels() {
-        super();
-        this.endpoint = OpenAIEndpoints.GET_MODELS;
-        this.requestType = HttpRequestType.GET;
-        this.response = new AtomicReference<>();
+    public ListModels() {
+        super(null, OpenAIEndpoints.LIST_MODELS, HttpRequestType.GET);
     }
 
     /**

@@ -1,7 +1,14 @@
 package io.github.jetkai.openai.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import java.util.Objects;
 
 /**
  * JacksonJsonDeserializer
@@ -14,6 +21,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class JacksonJsonDeserializer {
 
+    private static final ObjectMapper mapper = new ObjectMapper()
+            .setDefaultSetterInfo(JsonSetter.Value.forValueNulls(Nulls.SKIP))
+            .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
     /**
      * parseData
      * Parses the JSON response from OpenAI and deserializes the string to the below data structure
@@ -23,36 +36,21 @@ public class JacksonJsonDeserializer {
      * @return - Deserialized data structure
      */
     public static <T> T parseData(Class<T> clazz, String json) {
-        T data = null;
+        Objects.requireNonNull(clazz, "clazz is null");
         try {
-            if (json.contains("\"error\":")) {
-                throw new Exception(json);
-            }
-
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                data = mapper.readValue(json, clazz);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-    public static <T> String valuesAsString(T clazz) {
-        if(clazz == null) {
-            return null;
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        String json;
-        try {
-            json = mapper.writeValueAsString(clazz);
+            return mapper.readValue(json, clazz);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return json;
+    }
+
+    public static <T> String valuesAsString(T clazz) {
+        Objects.requireNonNull(clazz, "clazz is null");
+        try {
+            return mapper.writeValueAsString(clazz);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

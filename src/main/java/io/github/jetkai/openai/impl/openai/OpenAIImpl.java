@@ -2,12 +2,22 @@ package io.github.jetkai.openai.impl.openai;
 
 import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.*;
+import io.github.jetkai.openai.api.data.audio.AudioData;
+import io.github.jetkai.openai.api.data.completion.CompletionData;
+import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
+import io.github.jetkai.openai.api.data.edit.EditData;
+import io.github.jetkai.openai.api.data.embedding.EmbeddingData;
+import io.github.jetkai.openai.api.data.image.ImageData;
+import io.github.jetkai.openai.api.data.image.edit.ImageEditData;
+import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
 import io.github.jetkai.openai.net.HttpClientInstance;
+import io.github.jetkai.openai.net.OpenAIEndpoints;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.http.HttpClient;
-import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * OpenAI
@@ -24,8 +34,8 @@ final class OpenAIImpl extends OpenAI {
     private final HttpClientInstance httpClientInstance;
     private final String apiKey;
     private final String organization;
-    private final GetModel model;
-    private final GetModels models;
+    private final ListModel model;
+    private final ListModels models;
     private final CreateImageVariation imageVariation;
     private final CreateImageEdit imageEdit;
     private final CreateImage image;
@@ -55,117 +65,186 @@ final class OpenAIImpl extends OpenAI {
         this.transcriptionTranslation = builder.transcriptionTranslation;
         this.translation = builder.translation;
         this.apiKey = builder.apiKey;
-        this.httpClient = builder.httpClient;
+        this.httpClient = Objects.requireNonNullElse(builder.httpClient, HttpClientInstance.DEFAULT_HTTP_CLIENT);
         this.organization = Objects.requireNonNullElse(builder.organization, "");
-        this.httpClientInstance = Objects.requireNonNullElseGet(builder.httpClientInstance, HttpClientInstance::new);
+        this.httpClientInstance = Objects.requireNonNullElseGet(builder.httpClientInstance, () ->
+                new HttpClientInstance(this.httpClient));
     }
 
     @Override
-    public <T> T sendRequest() {
-        this.httpClientInstance.setHttpClient(this.httpClient != null
-                ? this.httpClient
-                : HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_2)
-                .followRedirects(HttpClient.Redirect.ALWAYS)
-                .connectTimeout(Duration.ofSeconds(30)) //30 seconds timeout
-                .build()
-        );
-        if(model != null) {
-            this.model.setOpenAI(this).initialize();
+    public OpenAI sendRequest() {
+        Stream.of(
+                        model ,
+                        models,
+                        translation,
+                        transcriptionTranslation,
+                        transcription,
+                        imageVariation,
+                        imageEdit,
+                        image,
+                        embedding,
+                        edit,
+                        completion,
+                        chatCompletion
+                )
+                .filter(Objects::nonNull)
+                .forEach(request -> request.setOpenAI(this).initialize());
+        return this;
+    }
+
+    public <T> T createInstance(Class<T> clazz, Object data) {
+        if (clazz == null) {
+            return (T) this;
         }
-        if(this.models != null) {
-            this.models.setOpenAI(this).initialize();
+        Object instance;
+        try {
+            instance = clazz.getConstructor(data.getClass()).newInstance(data);
+            if (instance instanceof OAPI) {
+                ((OAPI) instance).setOpenAI(this).initialize();
+            }
+        } catch (InstantiationException | IllegalAccessException
+                 | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
-        if(this.translation != null) {
-            this.translation.setOpenAI(this).initialize();
+        return (T) instance;
+    }
+
+    public <T> T createInstance(OpenAIEndpoints endpoint, Object data) {
+        OAPI instance;
+        switch (endpoint) {
+            case LIST_MODEL:
+                if (!(data instanceof String)) {
+                    throw new IllegalArgumentException("Data provided is not instance of String");
+                }
+                instance = new ListModel(String.valueOf(data));
+                break;
+            case LIST_MODELS:
+                instance = new ListModels();
+                break;
+            case CREATE_CHAT_COMPLETION:
+                if (!(data instanceof ChatCompletionData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of ChatCompletionData");
+                }
+                instance = new CreateChatCompletion((ChatCompletionData) data);
+                break;
+            case CREATE_COMPLETION:
+                if (!(data instanceof CompletionData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of CompletionData");
+                }
+                instance = new CreateCompletion((CompletionData) data);
+                break;
+            case CREATE_EDIT:
+                if (!(data instanceof EditData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of EditData");
+                }
+                instance = new CreateEdit((EditData) data);
+                break;
+            case CREATE_IMAGE:
+                if (!(data instanceof ImageData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of ImageData");
+                }
+                instance = new CreateImage((ImageData) data);
+                break;
+            case CREATE_IMAGE_EDIT:
+                if (!(data instanceof ImageEditData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of ImageEditData");
+                }
+                instance = new CreateImageEdit((ImageEditData) data);
+                break;
+            case CREATE_IMAGE_VARIATION:
+                if (!(data instanceof ImageVariationData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of ImageVariationData");
+                }
+                instance = new CreateImageVariation((ImageVariationData) data);
+                break;
+            case CREATE_TRANSCRIPTION:
+                if (!(data instanceof AudioData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of AudioData");
+                }
+                instance = new CreateTranscription((AudioData) data);
+                break;
+            case CREATE_TRANSCRIPTION_TRANSLATION:
+                if (!(data instanceof AudioData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of AudioData");
+                }
+                instance = new CreateTranscriptionTranslation((AudioData) data);
+                break;
+            case CREATE_TRANSLATION:
+                if (!(data instanceof CompletionData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of CompletionData");
+                }
+                instance = new CreateTranslation((CompletionData) data);
+                break;
+            case CREATE_EMBEDDING:
+                if (!(data instanceof EmbeddingData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of EmbeddingData");
+                }
+                instance = new CreateEmbedding((EmbeddingData) data);
+                break;
+            default:
+                throw new IllegalArgumentException("Endpoint not handled: " + endpoint);
         }
-        if(this.transcriptionTranslation != null) {
-            this.transcriptionTranslation.setOpenAI(this).initialize();
-        }
-        if(this.transcription != null) {
-            this.transcription.setOpenAI(this).initialize();
-        }
-        if(this.imageVariation != null) {
-            this.imageVariation.setOpenAI(this).initialize();
-        }
-        if(this.imageEdit != null) {
-            this.imageEdit.setOpenAI(this).initialize();
-        }
-        if(this.image != null) {
-            this.image.setOpenAI(this).initialize();
-        }
-        if(this.embedding != null) {
-            this.embedding.setOpenAI(this).initialize();
-        }
-        if(this.edit != null) {
-            this.edit.setOpenAI(this).initialize();
-        }
-        if(this.completion != null) {
-            this.completion.setOpenAI(this).initialize();
-        }
-        if(this.chatCompletion != null) {
-            this.chatCompletion.setOpenAI(this).initialize();
-        }
-        return (T) this;
+        instance.setOpenAI(this).initialize();
+        return (T) instance;
     }
 
     @Override
-    public GetModels getModels() {
+    public ListModels getModels() {
         return this.models;
     }
 
     @Override
-    public GetModel getModel() {
+    public ListModel getModel() {
         return this.model;
     }
 
     @Override
-    public CreateImageVariation createImageVariation() {
+    public CreateImageVariation getImageVariation() {
         return this.imageVariation;
     }
 
     @Override
-    public CreateTranscription createTranscription() {
+    public CreateTranscription getTranscription() {
         return this.transcription;
     }
 
     @Override
-    public CreateTranscriptionTranslation createTranscriptionTranslation() {
+    public CreateTranscriptionTranslation getTranscriptionTranslation() {
         return this.transcriptionTranslation;
     }
 
     @Override
-    public CreateTranslation createTranslation() {
+    public CreateTranslation getTranslation() {
         return this.translation;
     }
 
     @Override
-    public CreateCompletion createCompletion() {
+    public CreateCompletion getCompletion() {
         return this.completion;
     }
 
     @Override
-    public CreateChatCompletion createChatCompletion() {
+    public CreateChatCompletion getChatCompletion() {
         return this.chatCompletion;
     }
 
     @Override
-    public CreateEdit createEdit() {
+    public CreateEdit getEdit() {
         return this.edit;
     }
 
     @Override
-    public CreateImage createImage() {
+    public CreateImage getImage() {
         return this.image;
     }
 
     @Override
-    public CreateImageEdit createImageEdit() {
+    public CreateImageEdit getImageEdit() {
         return this.imageEdit;
     }
 
     @Override
-    public CreateEmbedding createEmbedding() {
+    public CreateEmbedding getEmbedding() {
         return this.embedding;
     }
 
@@ -190,12 +269,12 @@ final class OpenAIImpl extends OpenAI {
     }
 
     @Override
-    public Optional<GetModel> model() {
+    public Optional<ListModel> model() {
         return Optional.ofNullable(this.model);
     }
 
     @Override
-    public Optional<GetModels> models() {
+    public Optional<ListModels> models() {
         return Optional.ofNullable(this.models);
     }
 

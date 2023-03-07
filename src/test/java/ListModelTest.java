@@ -1,5 +1,5 @@
 import io.github.jetkai.openai.OpenAI;
-import io.github.jetkai.openai.api.GetModel;
+import io.github.jetkai.openai.api.ListModel;
 import io.github.jetkai.openai.api.data.model.ModelData;
 import org.junit.jupiter.api.Test;
 
@@ -8,14 +8,14 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * GetModelTest
+ * ListModelTest
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.0.0
  * @created 02/03/2023
  * @last-update 03/03/2023
  */
-public class GetModelTest {
+public class ListModelTest {
 
     @Test
     void getModelTest() {
@@ -33,22 +33,22 @@ public class GetModelTest {
         OpenAI openAI = OpenAI.builder()
                 .setApiKey(apiKey)
                 .setOrganization(organization)
-                //Call the GetModel API from OpenAI & create instance
-                .getModel(modelName)
+                //Call the ListModel API from OpenAI & create instance
+                .listModel(modelName)
                 .build()
                 //Finally, send our request to the API, this initiates the request (after .build())
                 .sendRequest();
 
         assertNotNull(openAI);
 
-        //Call the GetModel API from OpenAI & create instance
-        Optional<GetModel> optionalGetModel = openAI.model();
+        //Call the ListModel API from OpenAI & create instance
+        Optional<ListModel> optionalGetModel = openAI.model();
         assertFalse(optionalGetModel.isEmpty());
 
-        GetModel getModel = optionalGetModel.get();
+        ListModel listModel = optionalGetModel.get();
 
         //Data structure example
-        ModelData modelData = getModel.asData();
+        ModelData modelData = listModel.asData();
         assertNotNull(modelData);
 
         //Get id from data structure example
@@ -57,7 +57,7 @@ public class GetModelTest {
         assertEquals(id, modelName);
 
         //Json example
-        String json = getModel.asJson();
+        String json = listModel.asJson();
         assertNotNull(json);
     }
 

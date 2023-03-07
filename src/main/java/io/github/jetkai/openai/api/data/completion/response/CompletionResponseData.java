@@ -1,84 +1,89 @@
 package io.github.jetkai.openai.api.data.completion.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.github.jetkai.openai.util.JacksonJsonDeserializer;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import io.github.jetkai.openai.api.data.completion.choice.CompletionChoiceData;
+import io.github.jetkai.openai.api.data.completion.usage.CompletionUsageData;
+import io.github.jetkai.openai.api.impl.completion.response.CompletionResponseDataBuilderImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * CompletionResponseData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
- * {@code - 03/03/2023}
+ * @version 1.1.0
+ * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize
-@SuppressWarnings("unused")
-public class CompletionResponseData {
-
-    private String id;
-    private String object;
-    private String model;
-    private List<CompletionChoiceData> choices;
-    private CompletionUsageData usage;
+@JsonDeserialize(builder = CompletionResponseData.Builder.class)
+public abstract class CompletionResponseData {
 
     public CompletionResponseData() { }
 
-    public CompletionResponseData setModel(String model) {
-        this.model = model;
-        return this;
+    public static CompletionResponseData.Builder builder() {
+        return new CompletionResponseDataBuilderImpl();
     }
 
-    public CompletionResponseData setObject(String object) {
-        this.object = object;
-        return this;
+    @JsonPOJOBuilder(withPrefix = "set")
+    public interface Builder {
+        @JsonProperty("created")
+        Builder setCreated(int created);
+
+        @JsonProperty("model")
+        Builder setModel(String model);
+
+        @JsonProperty("object")
+        Builder setObject(String object);
+
+        @JsonProperty("id")
+        Builder setId(String id);
+
+        @JsonProperty("choices")
+        Builder setChoices(List<CompletionChoiceData> choices);
+
+        @JsonProperty("usage")
+        Builder setUsage(CompletionUsageData usage);
+
+        CompletionResponseData build();
+
+        @JsonCreator
+        static Builder create() {
+            return new CompletionResponseDataBuilderImpl();
+        }
     }
 
-    public CompletionResponseData setId(String id) {
-        this.id = id;
-        return this;
-    }
+    @JsonProperty("created")
+    public abstract int getCreated();
 
-    public CompletionResponseData setChoices(List<CompletionChoiceData> choices) {
-        this.choices = choices;
-        return this;
-    }
+    @JsonProperty("model")
+    public abstract String getModel();
 
-    public CompletionResponseData setUsage(CompletionUsageData usage) {
-        this.usage = usage;
-        return this;
-    }
+    @JsonProperty("object")
+    public abstract String getObject();
 
-    public String getModel() {
-        return model;
-    }
+    @JsonProperty("id")
+    public abstract String getId();
 
-    public String getObject() {
-        return object;
-    }
+    @JsonProperty("choices")
+    public abstract List<CompletionChoiceData> getChoices();
 
-    public String getId() {
-        return id;
-    }
+    @JsonProperty("usage")
+    public abstract CompletionUsageData getUsage();
 
-    public List<CompletionChoiceData> getChoices() {
-        return choices;
-    }
+    public abstract Optional<Integer> created();
 
-    public CompletionUsageData getUsage() {
-        return usage;
-    }
+    public abstract Optional<String> model();
 
-    @JsonIgnore
-    public String toJson() {
-        return JacksonJsonDeserializer.valuesAsString(this);
-    }
+    public abstract Optional<String> object();
 
+    public abstract Optional<String> id();
+
+    public abstract Optional<List<CompletionChoiceData>> choices();
+
+    public abstract Optional<CompletionUsageData> usage();
 }
