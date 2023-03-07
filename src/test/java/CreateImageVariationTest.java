@@ -51,7 +51,7 @@ public class CreateImageVariationTest {
                 //Set the number of images to generate. Must be between 1 and 10.
                 .setN(2)
                 //Set the size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
-                .setSize("1024x1024")
+                .setSize("256x256")
                 .build();
 
         //Create OpenAI instance using API key & organization

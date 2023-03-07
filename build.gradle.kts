@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("maven-publish")
+    id("jacoco")
 }
 
 group = "io.github.jetkai"
@@ -62,6 +63,16 @@ tasks.register("setEnvironmentVariable") {
         val processBuilder = ProcessBuilder()
         processBuilder.environment().putAll(env)
     }
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+    }
+    dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
 tasks.withType<Jar> {
