@@ -14,6 +14,7 @@ import io.github.jetkai.openai.net.HttpClientInstance;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 
 import java.net.http.HttpClient;
+import java.time.Duration;
 import java.util.Optional;
 
 /**
@@ -29,7 +30,7 @@ public abstract class OpenAI {
 
     public OpenAI() { }
 
-    public static OpenAI newOpenAI() {
+    public static OpenAI create() {
         return builder().build();
     }
 
@@ -53,6 +54,8 @@ public abstract class OpenAI {
         Builder setApiKey(String apiKey);
         Builder setOrganization(String organization);
         Builder setHttpClient(HttpClient httpClient);
+        Builder setProxy(String ip, int port);
+        Builder setTimeout(Duration duration);
         OpenAI build();
     }
 

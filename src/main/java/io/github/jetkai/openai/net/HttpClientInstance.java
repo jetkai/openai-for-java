@@ -1,5 +1,7 @@
 package io.github.jetkai.openai.net;
 
+import java.net.InetSocketAddress;
+import java.net.ProxySelector;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -25,6 +27,16 @@ public class HttpClientInstance {
             .connectTimeout(Duration.ofSeconds(30)) //30 seconds timeout
             .build();
 
+    public static HttpClient customHttpClient(String proxyIp, int proxyPort, Duration timeout) {
+        ProxySelector proxySelector = ProxySelector.of(new InetSocketAddress(proxyIp, proxyPort));
+        return HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_2)
+                .followRedirects(HttpClient.Redirect.ALWAYS)
+                .proxy(proxySelector)
+                .connectTimeout(timeout) //30 seconds timeout
+                .build();
+    }
+
     private final HttpClient httpClient;
 
     public HttpClientInstance(HttpClient httpClient) {
@@ -45,7 +57,6 @@ public class HttpClientInstance {
                 -> acceptor.apply(HttpResponse.BodyHandlers.ofString());
     }
 
-    @SuppressWarnings("unused")
     public HttpClient getHttpClient() {
         return httpClient;
     }

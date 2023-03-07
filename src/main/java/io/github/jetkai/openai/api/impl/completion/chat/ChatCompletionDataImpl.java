@@ -16,7 +16,6 @@ import java.util.Optional;
  * @since 1.1.0
  * {@code - 05/03/2023}
  */
-@SuppressWarnings("unused")
 public class ChatCompletionDataImpl extends ChatCompletionData {
 
     private final String model;

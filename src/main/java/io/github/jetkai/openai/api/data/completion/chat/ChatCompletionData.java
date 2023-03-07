@@ -20,7 +20,6 @@ import java.util.Optional;
  * {@code - 02/03/2023}
  */
 @JsonSerialize
-@SuppressWarnings("unused")
 public abstract class ChatCompletionData {
     public ChatCompletionData() { }
 

@@ -30,17 +30,16 @@ public class CreateChatCompletionTest {
         assertNotNull(apiKey);
         assertNotNull(organization);
 
-        //Create message object, this will contain the data we want to send to ExampleChatGPT
-        ChatCompletionMessageData message = new ChatCompletionMessageData();
-
         //List of Messages that you would like to send to the Chat Bot
         List<ChatCompletionMessageData> messages = new ArrayList<>();
 
-        //The role of the user
-        message.setRole("user");
-
-        //Message that you would like to send to OpenAI ExampleChatGPT
-        message.setContent("Hello!");
+        //Create message object, this will contain the data we want to send to ExampleChatGPT
+        ChatCompletionMessageData message = ChatCompletionMessageData.builder()
+                //The role of the user
+                .setRole("user")
+                //Message that you would like to send to OpenAI ExampleChatGPT
+                .setContent("Hello!")
+                .build();
 
         //Add message to the messages list
         messages.add(message);

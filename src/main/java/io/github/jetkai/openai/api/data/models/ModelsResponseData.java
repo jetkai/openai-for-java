@@ -16,7 +16,6 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
  * {@code - 02/03/2023}
  */
 @JsonSerialize
-@SuppressWarnings("unused")
 public class ModelsResponseData {
 
     private String object;

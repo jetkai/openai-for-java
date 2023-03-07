@@ -39,7 +39,6 @@ public class CreateCompletion extends OAPI {
      * asSentences
      * @return - {@code List<String>} containing sentences
      */
-    @SuppressWarnings("unused")
     public List<String> asSentences() {
         List<String> sentences = new ArrayList<>();
         StringBuilder sentenceBuilder = new StringBuilder();
@@ -63,7 +62,6 @@ public class CreateCompletion extends OAPI {
      * @param maxCharactersPerLine - maximum length before adding new sentence to list
      * @return - {@code List<String>} containing sentences, replacing ascii
      */
-    @SuppressWarnings("unused")
     public List<String> asNormalizedSentences(int maxCharactersPerLine) {
         List<String> sentences = new ArrayList<>();
         StringBuilder sentenceBuilder = new StringBuilder();
@@ -97,7 +95,6 @@ public class CreateCompletion extends OAPI {
      * asNormalizedText
      * @return - String with replaced ascii characters, and removes "\n"
      */
-    @SuppressWarnings("unused")
     public String asNormalizedText() {
         //Replaces any characters that do not match the regex
         String normalized = Normalizer.normalize(this.asText(), Normalizer.Form.NFD);
@@ -145,7 +142,6 @@ public class CreateCompletion extends OAPI {
         return builder.toString();
     }
 
-    @SuppressWarnings("unused")
     public String[] asStringArray() {
         if(this.deserializedData == null) {
             this.deserializedData = deserialize(CompletionResponseData.class);
@@ -182,7 +178,6 @@ public class CreateCompletion extends OAPI {
      * asData
      * @return CompletionResponseData
      */
-    @SuppressWarnings("unused")
     public CompletionResponseData asData() {
         if(this.deserializedData == null) {
             this.deserializedData = deserialize(CompletionResponseData.class);

@@ -13,7 +13,6 @@ import java.util.Optional;
  * @since 1.1.0
  * {@code - 02/03/2023}
  */
-@SuppressWarnings("unused")
 public class ChatCompletionMessageDataImpl extends ChatCompletionMessageData {
 
     private final String role;

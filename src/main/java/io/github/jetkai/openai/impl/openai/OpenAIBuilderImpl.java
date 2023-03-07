@@ -13,6 +13,7 @@ import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
 import io.github.jetkai.openai.net.HttpClientInstance;
 
 import java.net.http.HttpClient;
+import java.time.Duration;
 
 import static java.util.Objects.requireNonNull;
 
@@ -43,6 +44,10 @@ public class OpenAIBuilderImpl implements OpenAI.Builder {
     CreateTranscriptionTranslation transcriptionTranslation;
     CreateTranslation translation;
     HttpClient httpClient;
+    String proxyIp;
+    int proxyPort;
+    Duration httpClientTimeout;
+
 
     @Override
     public OpenAIBuilderImpl listModels() {
@@ -100,7 +105,6 @@ public class OpenAIBuilderImpl implements OpenAI.Builder {
     }
 
     @Override
-    @SuppressWarnings("unused")
     public OpenAIBuilderImpl createEdit(EditData edit) {
         requireNonNull(edit);
         this.edit = new CreateEdit(edit);
@@ -146,6 +150,21 @@ public class OpenAIBuilderImpl implements OpenAI.Builder {
     public OpenAIBuilderImpl setHttpClient(HttpClient httpClient) {
         requireNonNull(httpClient);
         this.httpClient = httpClient;
+        return this;
+    }
+
+    @Override
+    public OpenAI.Builder setProxy(String ip, int port) {
+        requireNonNull(ip);
+        this.proxyIp = ip;
+        this.proxyPort = port;
+        return this;
+    }
+
+    @Override
+    public OpenAI.Builder setTimeout(Duration duration) {
+        requireNonNull(duration);
+        this.httpClientTimeout = duration;
         return this;
     }
 

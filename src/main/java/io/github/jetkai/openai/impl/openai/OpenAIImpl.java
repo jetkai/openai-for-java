@@ -15,6 +15,7 @@ import io.github.jetkai.openai.net.OpenAIEndpoints;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.http.HttpClient;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -46,6 +47,9 @@ final class OpenAIImpl extends OpenAI {
     private final CreateTranscription transcription;
     private final CreateTranscriptionTranslation transcriptionTranslation;
     private final CreateTranslation translation;
+    private final String proxyIp;
+    private final int proxyPort;
+    private final Duration httpClientTimeout;
 
     static OpenAIImpl create(OpenAIBuilderImpl builder) {
         return new OpenAIImpl(builder);
@@ -65,8 +69,13 @@ final class OpenAIImpl extends OpenAI {
         this.transcriptionTranslation = builder.transcriptionTranslation;
         this.translation = builder.translation;
         this.apiKey = builder.apiKey;
-        this.httpClient = Objects.requireNonNullElse(builder.httpClient, HttpClientInstance.DEFAULT_HTTP_CLIENT);
         this.organization = Objects.requireNonNullElse(builder.organization, "");
+        this.httpClientTimeout = builder.httpClientTimeout;
+        this.proxyIp = builder.proxyIp;
+        this.proxyPort = builder.proxyPort;
+        this.httpClient = builder.httpClientTimeout != null
+                ? HttpClientInstance.customHttpClient(this.proxyIp, this.proxyPort, this.httpClientTimeout)
+                : Objects.requireNonNullElse(builder.httpClient, HttpClientInstance.DEFAULT_HTTP_CLIENT);
         this.httpClientInstance = Objects.requireNonNullElseGet(builder.httpClientInstance, () ->
                 new HttpClientInstance(this.httpClient));
     }

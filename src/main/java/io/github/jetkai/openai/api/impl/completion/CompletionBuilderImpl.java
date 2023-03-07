@@ -17,7 +17,6 @@ import static java.util.Objects.requireNonNull;
  * @since 1.1.0
  * {@code - 05/03/2023}
  */
-@SuppressWarnings("unused")
 public class CompletionBuilderImpl implements CompletionData.Builder {
 
     /**

@@ -22,7 +22,6 @@ import java.util.Optional;
  */
 @JsonSerialize
 @JsonDeserialize(builder = ModelData.Builder.class)
-@SuppressWarnings("unused")
 public abstract class ModelData {
 
     public ModelData() { }
