@@ -8,8 +8,8 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
  * ListModel
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.1
- * {@code - 05/03/2023}
+ * @version 1.1.0
+ * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */

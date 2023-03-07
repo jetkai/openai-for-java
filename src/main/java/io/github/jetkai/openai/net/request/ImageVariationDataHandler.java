@@ -1,36 +1,30 @@
 package io.github.jetkai.openai.net.request;
 
 import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
-import io.github.jetkai.openai.util.ConvertImageFormat;
 
 import java.util.Map;
-import java.util.Optional;
 
+/**
+ * ImageVariationDataHandler
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.1.0
+ * {@code - 07/03/2023}
+ * @since 1.1.0
+ * {@code - 07/03/2023}
+ */
 final class ImageVariationDataHandler implements RequestDataHandler {
     public void populateMap(Object data, Map<Object, Object> map) {
         // Required
-        Optional.ofNullable(((ImageVariationData) data).getImage())
-                .map(ConvertImageFormat::convertPngToRGBA)
-                .ifPresent(img -> map.put("image", img));
-
+        ((ImageVariationData) data).image().ifPresent(img -> map.put("image", img));
         // Optional
-        Optional.of(((ImageVariationData) data).getN())
-                .filter(val -> val > 0 && val < 11)
-                .ifPresent(val -> map.put("n", val));
-
+        ((ImageVariationData) data).n().ifPresent(val -> map.put("n", val));
         // Optional
-        Optional.ofNullable(((ImageVariationData) data).getSize())
-                .filter(str -> !str.isEmpty())
-                .ifPresent(str -> map.put("size", str));
-
+        ((ImageVariationData) data).size().ifPresent(str -> map.put("size", str));
         //Optional
-        Optional.ofNullable(((ImageVariationData) data).getResponseFormat())
-                .filter(str -> !str.isEmpty())
-                .ifPresent(str -> map.put("response_format", str));
-
+        ((ImageVariationData) data).responseFormat().ifPresent(str -> map.put("response_format", str));
         //Optional
-        Optional.ofNullable(((ImageVariationData) data).getUser())
-                .filter(str -> !str.isEmpty())
-                .ifPresent(str -> map.put("user", str));
+        ((ImageVariationData) data).user().ifPresent(str -> map.put("user", str));
     }
+
 }

@@ -9,8 +9,8 @@ import java.util.Optional;
  * @author <a href="https://github.com/jetkai">Kai</a>
  * @version 1.1.0
  * {@code - 07/03/2023}
- * @since 1.0.0
- * {@code - 02/03/2023}
+ * @since 1.1.0
+ * {@code - 07/03/2023}
  */
 final class EmbeddingImpl extends EmbeddingData {
 

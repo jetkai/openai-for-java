@@ -13,7 +13,7 @@ import java.util.Optional;
  * @version 1.1.0
  * {@code - 07/03/2023}
  * @since 1.1.0
- * {@code - 05/03/2023}
+ * {@code - 07/03/2023}
  */
 final class ChatCompletionImpl extends ChatCompletionData {
 
