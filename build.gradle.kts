@@ -6,6 +6,12 @@ plugins {
 group = "io.github.jetkai"
 version = "1.1.0"
 
+val apiKey = property("OPEN_AI_API_KEY") as String
+val organization = property("OPEN_AI_ORGANIZATION") as String
+val jiraUsername = property("JIRA_USERNAME") as String
+val jiraPassword = property("JIRA_PASSWORD") as String
+
+
 java {
     withSourcesJar()
     withJavadocJar()
@@ -39,8 +45,8 @@ publishing {
             name = "OSSRH"
             url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
-                username = property("JIRA_USERNAME") as String
-                password = property("JIRA_PASSWORD") as String
+                username = jiraUsername
+                password = jiraPassword
             }
         }
     }
@@ -49,9 +55,6 @@ publishing {
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
-
-val apiKey = property("OPEN_AI_API_KEY") as String
-val organization = property("OPEN_AI_ORGANIZATION") as String
 
 tasks.register("setEnvironmentVariable") {
     doFirst {
