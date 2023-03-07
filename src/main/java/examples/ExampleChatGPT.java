@@ -1,10 +1,10 @@
 package examples;
 
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateChatCompletion;
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
 import io.github.jetkai.openai.api.data.completion.chat.message.ChatCompletionMessageData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
+import io.github.jetkai.openai.openai.OpenAI;
 
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;

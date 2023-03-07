@@ -1,9 +1,9 @@
 package io.github.jetkai.openai.api;
 
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.net.HttpClientInstance;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
-import io.github.jetkai.openai.net.RequestBuilder;
+import io.github.jetkai.openai.net.request.RequestBuilder;
+import io.github.jetkai.openai.openai.OpenAI;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import java.io.IOException;
@@ -15,34 +15,43 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * OAPI
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.1.0
+ * {@code - 05/03/2023}
+ * @since 1.0.1
+ * {@code - 02/03/2023}
+ */
 public abstract class OAPI {
 
     /**
      * HttpResponse from OpenAI
      */
-    protected AtomicReference<HttpResponse<String>> response;
+    protected final AtomicReference<HttpResponse<String>> response;
 
     /**
      * The OpenAI instance
      */
-    protected OpenAI openAI;
+    protected  OpenAI openAI;
 
     /**
      * The endpoint that handleHttpResponse calls
      */
-    protected OpenAIEndpoints endpoint;
+    protected final OpenAIEndpoints endpoint;
 
     /**
      * Stored object of the data that has been deserialized from the OpenAI response
      */
     protected Object deserializedData;
 
-    protected Object requestData;
+    protected final Object requestData;
 
     /**
      * The type of request we are making - POST, GET or MULTI_DATA_POST
      */
-    protected HttpRequestType requestType;
+    protected final HttpRequestType requestType;
 
     public OAPI(Object data, OpenAIEndpoints endpoint, HttpRequestType requestType) {
         this.requestData = data;

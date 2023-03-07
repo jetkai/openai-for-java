@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.jetkai.openai.api.data.completion.chat.message.ChatCompletionMessageData;
-import io.github.jetkai.openai.api.impl.completion.chat.ChatCompletionDataBuilderImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ public abstract class ChatCompletionData {
     }
 
     public static ChatCompletionData.Builder builder() {
-        return new ChatCompletionDataBuilderImpl();
+        return new ChatCompletionBuilderImpl();
     }
 
     public static ChatCompletionData create(String model, List<ChatCompletionMessageData> messageHistory) {
@@ -67,6 +66,7 @@ public abstract class ChatCompletionData {
      * Default:gpt-3.5-turbo
      * <p>
      * ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are supported.
+     * @return model
      */
     @JsonProperty("model")
     public abstract String getModel();
@@ -77,6 +77,7 @@ public abstract class ChatCompletionData {
      * Required
      * <p>
      * The messages to generate chat completions for, in the chat format.
+     * @return messages
      */
     @JsonProperty("messages")
     public abstract List<ChatCompletionMessageData> getMessages();
@@ -90,6 +91,7 @@ public abstract class ChatCompletionData {
      * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
      * <p>
      * We generally recommend altering this or top_p but not both.
+     * @return temperature
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("temperature")
@@ -104,6 +106,7 @@ public abstract class ChatCompletionData {
      * <a href="https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids">
      *     Learn more.
      * </a>
+     * @return user
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("user")
@@ -116,6 +119,7 @@ public abstract class ChatCompletionData {
      * Defaults to 1
      * <p>
      * How many chat completion choices to generate for each input message.
+     * @return n
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("n")
@@ -134,6 +138,7 @@ public abstract class ChatCompletionData {
      * by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1
      * should decrease or increase likelihood of selection; values like -100 or 100 should result in a
      * ban or exclusive selection of the relevant token.
+     * @return logitBias
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("logit_bias")
@@ -150,6 +155,7 @@ public abstract class ChatCompletionData {
      * <a href="https://platform.openai.com/docs/api-reference/parameter-details">
      *     See more information about frequency and presence penalties.
      * </a>
+     * @return frequencyPenalty
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("frequency_penalty")
@@ -164,6 +170,7 @@ public abstract class ChatCompletionData {
      * An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
      * <p>
      * We generally recommend altering this or temperature but not both.
+     * @return topP
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("top_p")
@@ -181,6 +188,7 @@ public abstract class ChatCompletionData {
      * <a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format">
      *     Server Sent Events
      * </a>
+     * @return stream
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("stream")
@@ -193,6 +201,7 @@ public abstract class ChatCompletionData {
      * Defaults to null
      * <p>
      * Up to 4 sequences where the API will stop generating further tokens.
+     * @return stop
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("stop")
@@ -206,6 +215,7 @@ public abstract class ChatCompletionData {
      * <p>
      * The maximum number of tokens allowed for the generated answer. By default, the number
      * of tokens the model can return will be (4096 - prompt tokens).
+     * @return maxTokens
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("max_tokens")
@@ -222,6 +232,7 @@ public abstract class ChatCompletionData {
      * <a href="https://platform.openai.com/docs/api-reference/parameter-details">
      *     See more information about frequency and presence penalties.
      * </a>
+     * @return presencePenalty
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("presence_penalty")

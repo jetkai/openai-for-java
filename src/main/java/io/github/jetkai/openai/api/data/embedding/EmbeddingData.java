@@ -1,12 +1,11 @@
 package io.github.jetkai.openai.api.data.embedding;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * EmbeddingData
@@ -18,28 +17,25 @@ import java.util.List;
  * {@code - 02/03/2023}
  */
 @JsonSerialize
-public class EmbeddingData {
+public abstract class EmbeddingData {
 
-    /**
-     * model
-     * string
-     * Required
-     * <p>
-     * ID of the model to use. You can use the List models API to see all of your available models,
-     * or see our Model overview for descriptions of them.
-     */
-    private String model;
+    public EmbeddingData() { }
 
-    /**
-     * input
-     * string or array
-     * Required
-     * <p>
-     * Input text to get embeddings for, encoded as a string or array of tokens.
-     * To get embeddings for multiple inputs in a single request, pass an array of strings or array of token arrays.
-     * Each input must not exceed 8192 tokens in length.
-     */
-    private List<String> input;
+    public static EmbeddingData.Builder builder() {
+        return new EmbeddingBuilderImpl();
+    }
+
+    public static EmbeddingData create() {
+        return builder().build();
+    }
+
+    public interface Builder {
+        Builder setUser(String user);
+        Builder setInput(String input);
+        Builder setInput(List<String> input);
+        Builder setModel(String model);
+        EmbeddingData build();
+    }
 
     /**
      * user
@@ -50,45 +46,34 @@ public class EmbeddingData {
      * <a href="https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids">Learn more.</a>
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private String user;
+    @JsonProperty("user")
+    public abstract String getUser();
 
-    public EmbeddingData() { }
+    /**
+     * input
+     * string or array
+     * Required
+     * <p>
+     * Input text to get embeddings for, encoded as a string or array of tokens.
+     * To get embeddings for multiple inputs in a single request, pass an array of strings or array of token arrays.
+     * Each input must not exceed 8192 tokens in length.
+     */
+    @JsonProperty("input")
+    public abstract List<String> getInput();
 
-    public EmbeddingData setUser(String user) {
-        this.user = user;
-        return this;
-    }
+    /**
+     * model
+     * string
+     * Required
+     * <p>
+     * ID of the model to use. You can use the List models API to see all of your available models,
+     * or see our Model overview for descriptions of them.
+     */
+    @JsonProperty("model")
+    public abstract String getModel();
 
-    public EmbeddingData setInput(String input) {
-        this.input = new ArrayList<>(List.of(input));
-        return this;
-    }
-
-    public EmbeddingData setInput(List<String> input) {
-        this.input = input;
-        return this;
-    }
-
-    public EmbeddingData setModel(String model) {
-        this.model = model;
-        return this;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public List<String> getInput() {
-        return input;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    @JsonIgnore
-    public String toJson() {
-        return JacksonJsonDeserializer.valuesAsString(this);
-    }
+    public abstract Optional<String> model();
+    public abstract Optional<List<String>> input();
+    public abstract Optional<String> user();
 
 }

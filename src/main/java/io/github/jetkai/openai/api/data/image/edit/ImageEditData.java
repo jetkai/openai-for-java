@@ -1,13 +1,11 @@
 package io.github.jetkai.openai.api.data.image.edit;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
-import java.net.URI;
 import java.nio.file.Path;
+import java.util.Optional;
 
 /**
  * ImageEditData
@@ -19,59 +17,39 @@ import java.nio.file.Path;
  * {@code - 02/03/2023}
  */
 @JsonSerialize
-public class ImageEditData {
+public abstract class ImageEditData {
 
-    /**
-     * image
-     * string
-     * Required
-     * <p>
-     * The image to edit. Must be a valid PNG file, less than 4MB, and square.
-     * If mask is not provided, image must have transparency, which will be used as the mask.
-     */
-    private Path image;
+    public ImageEditData() { }
 
-    /**
-     * mask
-     * string
-     * Optional
-     * <p>
-     * An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where
-     * image should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as image.
-     */
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private Path mask;
+    public static ImageEditData.Builder builder() {
+        return new ImageEditBuilderImpl();
+    }
 
-    /**
-     * prompt
-     * string
-     * Required
-     * <p>
-     * A text description of the desired image(s). The maximum length is 1000 characters.
-     */
-    private String prompt;
+    public static ImageEditData create() {
+        return builder().build();
+    }
 
-    /**
-     * n
-     * integer
-     * Optional
-     * Defaults to 1
-     * <p>
-     * The number of images to generate. Must be between 1 and 10.
-     */
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private int n;
+    public interface Builder {
+        Builder setResponseFormat(String responseFormat);
 
-    /**
-     * size
-     * string
-     * Optional
-     * <p>
-     * Defaults to 1024x1024
-     * The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
-     */
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private String size;
+        Builder setSize(String size);
+
+        Builder setPrompt(String prompt);
+
+        Builder setN(int n);
+
+        Builder setUser(String user);
+
+        Builder setImage(String image);
+
+        Builder setImage(Path image);
+
+        Builder setMask(String mask);
+
+        Builder setMask(Path mask);
+
+        ImageEditData build();
+    }
 
     /**
      * response_format
@@ -83,7 +61,41 @@ public class ImageEditData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("response_format")
-    private String responseFormat;
+    public abstract String getResponseFormat();
+
+    /**
+     * prompt
+     * string
+     * Required
+     * <p>
+     * A text description of the desired image(s). The maximum length is 1000 characters.
+     */
+    @JsonProperty("prompt")
+    public abstract String getPrompt();
+
+    /**
+     * size
+     * string
+     * Optional
+     * <p>
+     * Defaults to 1024x1024
+     * The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
+     */
+    @JsonProperty("size")
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    public abstract String getSize();
+
+    /**
+     * n
+     * integer
+     * Optional
+     * Defaults to 1
+     * <p>
+     * The number of images to generate. Must be between 1 and 10.
+     */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @JsonProperty("n")
+    public abstract int getN();
 
     /**
      * user
@@ -94,86 +106,37 @@ public class ImageEditData {
      * <a href="https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids">Learn more.</a>
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private String user;
+    @JsonProperty("user")
+    public abstract String getUser();
+    /**
+     * image
+     * string
+     * Required
+     * <p>
+     * The image to edit. Must be a valid PNG file, less than 4MB, and square.
+     * If mask is not provided, image must have transparency, which will be used as the mask.
+     */
+    @JsonProperty("image")
+    public abstract Path getImage();
 
-    public ImageEditData() { }
+    /**
+     * mask
+     * string
+     * Optional
+     * <p>
+     * An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where
+     * image should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as image.
+     */
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @JsonProperty("mask")
+    public abstract Path getMask();
 
-    public ImageEditData setResponseFormat(String responseFormat) {
-        this.responseFormat = responseFormat;
-        return this;
-    }
-
-    public ImageEditData setSize(String size) {
-        this.size = size;
-        return this;
-    }
-
-    public ImageEditData setPrompt(String prompt) {
-        this.prompt = prompt;
-        return this;
-    }
-
-    public ImageEditData setN(int n) {
-        this.n = n;
-        return this;
-    }
-
-    public ImageEditData setUser(String user) {
-        this.user = user;
-        return this;
-    }
-
-    public ImageEditData setImage(String image) {
-        this.image = Path.of(URI.create(image));
-        return this;
-    }
-
-    public ImageEditData setImage(Path image) {
-        this.image = image;
-        return this;
-    }
-
-    public ImageEditData setMask(String mask) {
-        this.mask = Path.of(URI.create(mask));
-        return this;
-    }
-
-    public ImageEditData setMask(Path mask) {
-        this.mask = mask;
-        return this;
-    }
-
-    public String getResponseFormat() {
-        return responseFormat;
-    }
-
-    public String getPrompt() {
-        return prompt;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public int getN() {
-        return n;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public Path getImage() {
-        return image;
-    }
-
-    public Path getMask() {
-        return mask;
-    }
-
-    @JsonIgnore
-    public String toJson() {
-        return JacksonJsonDeserializer.valuesAsString(this);
-    }
+    public abstract Optional<String> responseFormat();
+    public abstract Optional<String> prompt();
+    public abstract Optional<String> size();
+    public abstract Optional<Integer> n();
+    public abstract Optional<String> user();
+    public abstract Optional<Path> image();
+    public abstract Optional<Path> mask();
 
 }

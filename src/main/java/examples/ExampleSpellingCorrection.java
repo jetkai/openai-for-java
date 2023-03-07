@@ -1,8 +1,8 @@
 package examples;
 
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateEdit;
 import io.github.jetkai.openai.api.data.edit.EditData;
+import io.github.jetkai.openai.openai.OpenAI;
 
 import java.util.Optional;
 

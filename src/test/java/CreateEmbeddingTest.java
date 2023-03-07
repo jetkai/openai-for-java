@@ -1,7 +1,7 @@
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateEmbedding;
 import io.github.jetkai.openai.api.data.embedding.EmbeddingData;
-import io.github.jetkai.openai.api.data.embedding.EmbeddingResponseData;
+import io.github.jetkai.openai.api.data.embedding.response.EmbeddingResponseData;
+import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

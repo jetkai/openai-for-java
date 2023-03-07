@@ -1,6 +1,6 @@
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.ListModels;
 import io.github.jetkai.openai.api.data.model.ModelData;
+import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

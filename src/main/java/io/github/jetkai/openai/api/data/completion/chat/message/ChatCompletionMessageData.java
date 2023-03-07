@@ -2,7 +2,6 @@ package io.github.jetkai.openai.api.data.completion.chat.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.github.jetkai.openai.api.impl.completion.chat.message.ChatCompletionMessageDataBuilderImpl;
 
 import java.util.Optional;
 
@@ -24,7 +23,7 @@ public abstract class ChatCompletionMessageData {
         return builder().build();
     }
     public static ChatCompletionMessageData.Builder builder() {
-        return new ChatCompletionMessageDataBuilderImpl();
+        return new ChatCompletionMessageBuilderImpl();
     }
 
     public static ChatCompletionMessageData create(String role, String content) {

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import io.github.jetkai.openai.api.data.completion.choice.CompletionChoiceData;
 import io.github.jetkai.openai.api.data.completion.usage.CompletionUsageData;
-import io.github.jetkai.openai.api.impl.completion.response.CompletionResponseDataBuilderImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +25,7 @@ public abstract class CompletionResponseData {
     public CompletionResponseData() { }
 
     public static CompletionResponseData.Builder builder() {
-        return new CompletionResponseDataBuilderImpl();
+        return new CompletionResponseBuilderImpl();
     }
 
     @JsonPOJOBuilder(withPrefix = "set")
@@ -53,7 +52,7 @@ public abstract class CompletionResponseData {
 
         @JsonCreator
         static Builder create() {
-            return new CompletionResponseDataBuilderImpl();
+            return new CompletionResponseBuilderImpl();
         }
     }
 

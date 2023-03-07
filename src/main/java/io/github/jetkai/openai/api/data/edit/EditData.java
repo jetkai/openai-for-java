@@ -3,7 +3,6 @@ package io.github.jetkai.openai.api.data.edit;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.github.jetkai.openai.api.impl.edit.EditDataBuilderImpl;
 
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ public abstract class EditData {
     public EditData() { }
 
     public static EditData.Builder builder() {
-        return new EditDataBuilderImpl();
+        return new EditBuilderImpl();
     }
 
     public static EditData create() {
@@ -60,6 +59,7 @@ public abstract class EditData {
      * <p>
      * ID of the model to use. You can use the text-davinci-edit-001 or
      * code-davinci-edit-001 model with this endpoint.
+     * @return model
      */
     @JsonProperty("model")
     public abstract String getModel();
@@ -71,6 +71,7 @@ public abstract class EditData {
      * Defaults to ''
      * <p>
      * The input text to use as a starting point for the edit.
+     * @return input
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("input")
@@ -82,6 +83,7 @@ public abstract class EditData {
      * Required
      * <p>
      * The instruction that tells the model how to edit the prompt.
+     * @return instruction
      */
     @JsonProperty("instruction")
     public abstract String getInstruction();
@@ -93,6 +95,7 @@ public abstract class EditData {
      * Defaults to 1
      * <p>
      * How many edits to generate for the input and instruction.
+     * @return n
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("n")
@@ -110,6 +113,7 @@ public abstract class EditData {
      * the top 10% probability mass are considered.
      * <p>
      * We generally recommend altering this or temperature but not both.
+     * @return topP
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("top_p")
@@ -125,6 +129,7 @@ public abstract class EditData {
      * output more random, while lower values like 0.2 will make it more focused and deterministic.
      * <p>
      * We generally recommend altering this or top_p but not both.
+     * @return temperature
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("temperature")

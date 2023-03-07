@@ -3,7 +3,6 @@ package io.github.jetkai.openai.api.data.completion;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.github.jetkai.openai.api.impl.completion.CompletionBuilderImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -84,6 +83,7 @@ public abstract class CompletionData {
      * Defaults to false
      * <p>
      * Echo back the prompt in addition to the completion
+     * @return echo
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("echo")
@@ -102,6 +102,7 @@ public abstract class CompletionData {
      * <p>
      * The maximum value for logprobs is 5. If you need more than this, please contact us through our
      * Help center and describe your use case.
+     * @return logprobs
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("logprobs")
@@ -117,6 +118,7 @@ public abstract class CompletionData {
      * <p>
      * The token count of your prompt plus max_tokens cannot exceed the model's context length.
      * Most models have a context length of 2048 tokens (except for the newest models, which support 4096).
+     * @return maxTokens
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("max_tokens")
@@ -129,6 +131,7 @@ public abstract class CompletionData {
      * <p>
      * ID of the model to use. You can use the List models API to see all of your available models,
      * or see our Model overview for descriptions of them.
+     * @return model
      */
     @JsonProperty("model")
     public abstract String getModel();
@@ -143,6 +146,7 @@ public abstract class CompletionData {
      * <p>
      * Note: Because this parameter generates many completions, it can quickly consume your token quota.
      * Use carefully and ensure that you have reasonable settings for max_tokens and stop.
+     * @return n
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("n")
@@ -153,12 +157,13 @@ public abstract class CompletionData {
      * string or array
      * Optional
      * <p>
-     * Defaults to <|endoftext|>
+     * Defaults to {@code <|endoftext|> }
      * The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens,
      * or array of token arrays.
      * <p>
-     * Note that <|endoftext|> is the document separator that the model sees during training, so if a prompt
+     * Note that {@code <|endoftext|> } is the document separator that the model sees during training, so if a prompt
      * is not specified the model will generate as if from the beginning of a new document.
+     * @return prompt
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("prompt")
@@ -172,6 +177,7 @@ public abstract class CompletionData {
      * <p>
      * Up to 4 sequences where the API will stop generating further tokens.
      * The returned text will not contain the stop sequence.
+     * @return stop
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("stop")
@@ -185,6 +191,7 @@ public abstract class CompletionData {
      * <p>
      * Whether to stream back partial progress. If set, tokens will be sent as data-only server-sent
      * events asthey become available, with the stream terminated by a data: [DONE] message.
+     * @return stream
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("stream")
@@ -200,6 +207,7 @@ public abstract class CompletionData {
      * output more random, while lower values like 0.2 will make it more focused and deterministic.
      * <p>
      * We generally recommend altering this or top_p but not both.
+     * @return temperature
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("temperature")
@@ -217,6 +225,7 @@ public abstract class CompletionData {
      * top 10% probability mass are considered.
      * <p>
      * We generally recommend altering this or temperature but not both.
+     * @return topP
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("top_p")
@@ -229,6 +238,7 @@ public abstract class CompletionData {
      * Defaults to null
      * <p>
      * The suffix that comes after a completion of inserted text.
+     * @return suffix
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("suffix")
@@ -244,6 +254,7 @@ public abstract class CompletionData {
      * in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
      * <p>
      * See more information about frequency and presence penalties.
+     * @return frequencyPenalty
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("frequency_penalty")
@@ -260,6 +271,7 @@ public abstract class CompletionData {
      * <p>
      * See more information about frequency and presence penalties.
      * <a href="https://platform.openai.com/docs/api-reference/parameter-details">Learn more.</a>
+     * @return presencePenalty
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("presence_penalty")
@@ -279,6 +291,7 @@ public abstract class CompletionData {
      * <p>
      * Note: Because this parameter generates many completions, it can quickly consume your token quota.
      * Use carefully and ensure that you have reasonable settings for max_tokens and stop.
+     * @return bestOf
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("best_of")
@@ -300,7 +313,8 @@ public abstract class CompletionData {
      * likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection
      * of the relevant token.
      * <p>
-     * As an example, you can pass {"50256": -100} to prevent the <|endoftext|> token from being generated.
+     * As an example, you can pass {"50256": -100} to prevent the {@code <|endoftext|> } token from being generated.
+     * @return logitBias
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("logit_bias")
@@ -313,6 +327,7 @@ public abstract class CompletionData {
      * <p>
      * A unique identifier representing your end-user, which can help OpenAI to monitor
      * and detect abuse. Learn more.
+     * @return user
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("user")

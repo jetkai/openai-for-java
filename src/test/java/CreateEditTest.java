@@ -1,7 +1,7 @@
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateEdit;
 import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
 import io.github.jetkai.openai.api.data.edit.EditData;
+import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

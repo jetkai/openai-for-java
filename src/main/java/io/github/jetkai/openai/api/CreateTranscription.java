@@ -1,8 +1,9 @@
 package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.api.data.audio.AudioData;
-import io.github.jetkai.openai.api.data.audio.AudioResponseData;
+import io.github.jetkai.openai.api.data.audio.response.AudioResponseData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
+import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import java.text.Normalizer;
 
@@ -86,7 +87,7 @@ public class CreateTranscription extends OAPI {
         if (!(this.deserializedData instanceof AudioResponseData)) {
             return null;
         }
-        return ((AudioResponseData) this.deserializedData).toJson();
+        return JacksonJsonDeserializer.valuesAsString((AudioResponseData) this.deserializedData);
     }
 
 }

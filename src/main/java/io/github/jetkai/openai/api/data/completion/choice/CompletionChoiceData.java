@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import io.github.jetkai.openai.api.data.completion.message.CompletionMessageData;
-import io.github.jetkai.openai.api.impl.completion.choice.CompletionChoiceDataBuilderImpl;
 
 import java.util.Optional;
 
@@ -51,12 +50,12 @@ public abstract class CompletionChoiceData {
 
         @JsonCreator
         static Builder create() {
-            return new CompletionChoiceDataBuilderImpl();
+            return new CompletionChoiceBuilderImpl();
         }
     }
 
     public static CompletionChoiceData.Builder builder() {
-        return new CompletionChoiceDataBuilderImpl();
+        return new CompletionChoiceBuilderImpl();
     }
 
     @JsonProperty("id")

@@ -1,9 +1,9 @@
 package examples;
 
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateCompletion;
 import io.github.jetkai.openai.api.CreateTranslation;
 import io.github.jetkai.openai.api.data.completion.CompletionData;
+import io.github.jetkai.openai.openai.OpenAI;
 
 import java.util.Optional;
 

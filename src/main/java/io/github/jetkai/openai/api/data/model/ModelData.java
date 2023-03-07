@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.github.jetkai.openai.api.impl.model.ModelBuilderImpl;
+import io.github.jetkai.openai.api.data.model.permissions.ModelPermissionsData;
 
 import java.util.List;
 import java.util.Optional;

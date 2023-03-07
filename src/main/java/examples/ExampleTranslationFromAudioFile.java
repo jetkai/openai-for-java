@@ -1,9 +1,9 @@
 package examples;
 
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateTranscription;
 import io.github.jetkai.openai.api.CreateTranscriptionTranslation;
 import io.github.jetkai.openai.api.data.audio.AudioData;
+import io.github.jetkai.openai.openai.OpenAI;
 
 import java.net.URISyntaxException;
 import java.net.URL;

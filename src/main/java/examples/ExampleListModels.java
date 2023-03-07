@@ -1,8 +1,8 @@
 package examples;
 
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.ListModels;
 import io.github.jetkai.openai.api.data.model.ModelData;
+import io.github.jetkai.openai.openai.OpenAI;
 
 import java.util.List;
 import java.util.Optional;

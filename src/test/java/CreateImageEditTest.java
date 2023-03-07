@@ -1,7 +1,7 @@
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateImageEdit;
-import io.github.jetkai.openai.api.data.image.ImageResponseData;
 import io.github.jetkai.openai.api.data.image.edit.ImageEditData;
+import io.github.jetkai.openai.api.data.image.response.ImageResponseData;
+import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;

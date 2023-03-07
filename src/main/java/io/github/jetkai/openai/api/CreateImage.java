@@ -1,9 +1,10 @@
 package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.api.data.image.ImageData;
-import io.github.jetkai.openai.api.data.image.ImageResponseData;
-import io.github.jetkai.openai.api.data.image.ImageResponseUrlData;
+import io.github.jetkai.openai.api.data.image.response.ImageResponseData;
+import io.github.jetkai.openai.api.data.image.response.url.ImageResponseUrlData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
+import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -29,7 +30,7 @@ public class CreateImage extends OAPI {
      * @param image - The image data specified
      */
     public CreateImage(ImageData image) {
-        super(image.toJson(), OpenAIEndpoints.CREATE_IMAGE, HttpRequestType.POST);
+        super(JacksonJsonDeserializer.valuesAsString(image), OpenAIEndpoints.CREATE_IMAGE, HttpRequestType.POST);
     }
 
     public CreateImage(Object image, OpenAIEndpoints endpoint, HttpRequestType requestType) {
@@ -167,7 +168,7 @@ public class CreateImage extends OAPI {
         if (!(this.deserializedData instanceof ImageResponseData)) {
             return null;
         }
-        return ((ImageResponseData) this.deserializedData).toJson();
+        return JacksonJsonDeserializer.valuesAsString((ImageResponseData) this.deserializedData);
     }
 
 }

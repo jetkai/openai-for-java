@@ -1,9 +1,10 @@
 package io.github.jetkai.openai.api;
 
 import io.github.jetkai.openai.api.data.embedding.EmbeddingData;
-import io.github.jetkai.openai.api.data.embedding.EmbeddingResponseBlockData;
-import io.github.jetkai.openai.api.data.embedding.EmbeddingResponseData;
+import io.github.jetkai.openai.api.data.embedding.response.EmbeddingResponseData;
+import io.github.jetkai.openai.api.data.embedding.response.block.EmbeddingResponseBlockData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
+import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CreateEmbedding extends OAPI {
      * @param embedding - The embedding data specified
      */
     public CreateEmbedding(EmbeddingData embedding) {
-        super(embedding.toJson(), OpenAIEndpoints.CREATE_EMBEDDING, HttpRequestType.POST);
+        super(JacksonJsonDeserializer.valuesAsString(embedding), OpenAIEndpoints.CREATE_EMBEDDING, HttpRequestType.POST);
     }
 
     /**
@@ -72,7 +73,7 @@ public class CreateEmbedding extends OAPI {
         if (!(this.deserializedData instanceof EmbeddingResponseData)) {
             return null;
         }
-        return ((EmbeddingResponseData) this.deserializedData).toJson();
+        return JacksonJsonDeserializer.valuesAsString((EmbeddingResponseData) this.deserializedData);
     }
 
 }

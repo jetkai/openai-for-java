@@ -3,6 +3,7 @@ package io.github.jetkai.openai.api;
 import io.github.jetkai.openai.api.data.model.ModelData;
 import io.github.jetkai.openai.api.data.models.ModelsResponseData;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
+import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +69,7 @@ public class ListModels extends OAPI {
         if (!(this.deserializedData instanceof ModelsResponseData)) {
             return null;
         }
-        return ((ModelsResponseData) this.deserializedData).toJson();
+        return JacksonJsonDeserializer.valuesAsString((ModelsResponseData) this.deserializedData);
     }
 
 }

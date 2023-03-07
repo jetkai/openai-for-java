@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import io.github.jetkai.openai.api.impl.completion.message.CompletionMessageDataBuilderImpl;
 
 import java.util.Optional;
 
@@ -25,7 +24,7 @@ public abstract class CompletionMessageData {
         return builder().build();
     }
     public static CompletionMessageData.Builder builder() {
-        return new CompletionMessageDataBuilderImpl();
+        return new CompletionMessageBuilderImpl();
     }
 
     public static CompletionMessageData create(String role, String content) {
@@ -52,7 +51,7 @@ public abstract class CompletionMessageData {
 
         @JsonCreator
         static Builder create() {
-            return new CompletionMessageDataBuilderImpl();
+            return new CompletionMessageBuilderImpl();
         }
     }
 

@@ -6,7 +6,6 @@ import io.github.jetkai.openai.api.data.completion.chat.message.ChatCompletionMe
 import io.github.jetkai.openai.api.data.completion.choice.CompletionChoiceData;
 import io.github.jetkai.openai.api.data.completion.message.CompletionMessageData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
-import io.github.jetkai.openai.api.impl.completion.chat.ChatCompletionDataImpl;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 
@@ -29,10 +28,6 @@ public class CreateChatCompletion extends CreateCompletion {
      * @param completion - The completion data specified
      */
     public CreateChatCompletion(ChatCompletionData completion) {
-        super(JacksonJsonDeserializer.valuesAsString(completion), OpenAIEndpoints.CREATE_CHAT_COMPLETION);
-    }
-
-    public CreateChatCompletion(ChatCompletionDataImpl completion) {
         super(JacksonJsonDeserializer.valuesAsString(completion), OpenAIEndpoints.CREATE_CHAT_COMPLETION);
     }
 

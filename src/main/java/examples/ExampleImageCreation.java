@@ -1,8 +1,8 @@
 package examples;
 
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateImage;
 import io.github.jetkai.openai.api.data.image.ImageData;
+import io.github.jetkai.openai.openai.OpenAI;
 
 import java.awt.*;
 import java.io.IOException;
@@ -55,21 +55,23 @@ public class ExampleImageCreation {
 
     private URI[] communicate(String imageDescription, int numberOfImages, String size) {
         //Alternatively can use ImageData.create(imageDescription, numberOfImages, size);
-        ImageData imageData = ImageData.create()
+        ImageData imageData = ImageData.builder()
                 //A text description of the desired image(s). The maximum length is 1000 characters
                 .setPrompt(imageDescription)
                 //The number of images to generate. Must be between 1 and 10.
                 .setN(numberOfImages)
                 //The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024
-                .setSize(size);
-
-        OpenAI openAI = OpenAI.builder()
-                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
-                .createImage(imageData)
+                .setSize(size)
                 .build();
 
-        //Sends the request to OpenAI's endpoint & parses the response data
-        openAI.sendRequest();
+        OpenAI openAI = OpenAI.builder()
+                //Set our OpenAI API key
+                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
+                //Specify the createImage API endpoint
+                .createImage(imageData)
+                .build()
+                //Sends the request to OpenAI's endpoint & parses the response data
+                .sendRequest();
 
         //Call the CreateImage API from OpenAI & create instance
         Optional<CreateImage> createImage = openAI.image();

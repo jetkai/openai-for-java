@@ -1,10 +1,10 @@
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateTranscriptionTranslation;
 import io.github.jetkai.openai.api.CreateTranslation;
 import io.github.jetkai.openai.api.data.audio.AudioData;
-import io.github.jetkai.openai.api.data.audio.AudioResponseData;
+import io.github.jetkai.openai.api.data.audio.response.AudioResponseData;
 import io.github.jetkai.openai.api.data.completion.CompletionData;
 import io.github.jetkai.openai.api.data.completion.response.CompletionResponseData;
+import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;

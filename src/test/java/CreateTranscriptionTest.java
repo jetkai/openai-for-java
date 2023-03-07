@@ -1,7 +1,7 @@
-import io.github.jetkai.openai.OpenAI;
 import io.github.jetkai.openai.api.CreateTranscription;
 import io.github.jetkai.openai.api.data.audio.AudioData;
-import io.github.jetkai.openai.api.data.audio.AudioResponseData;
+import io.github.jetkai.openai.api.data.audio.response.AudioResponseData;
+import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;

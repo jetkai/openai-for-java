@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import io.github.jetkai.openai.api.impl.completion.usage.CompletionUsageDataBuilderImpl;
 
 import java.util.Optional;
 
@@ -34,7 +33,7 @@ public abstract class CompletionUsageData {
 
         @JsonCreator
         static Builder create() {
-            return new CompletionUsageDataBuilderImpl();
+            return new CompletionUsageBuilderImpl();
         }
     }
 

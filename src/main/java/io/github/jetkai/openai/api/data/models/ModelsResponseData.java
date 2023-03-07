@@ -1,10 +1,12 @@
 package io.github.jetkai.openai.api.data.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import io.github.jetkai.openai.api.data.model.ModelData;
-import io.github.jetkai.openai.api.impl.model.ModelImpl;
-import io.github.jetkai.openai.util.JacksonJsonDeserializer;
+
+import java.util.Optional;
 
 /**
  * ModelsResponseData
@@ -15,35 +17,39 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
-@JsonSerialize
-public class ModelsResponseData {
-
-    private String object;
-    private ModelImpl[] data;
+@JsonDeserialize(builder = ModelsResponseData.Builder.class)
+public abstract class ModelsResponseData {
 
     public ModelsResponseData() { }
 
-    public ModelsResponseData setObject(String object) {
-        this.object = object;
-        return this;
+    public static ModelsResponseData.Builder builder() {
+        return new ModelsResponseBuilderImpl();
     }
 
-    public ModelsResponseData setData(ModelImpl[] data) {
-        this.data = data;
-        return this;
+    public static ModelsResponseData create() {
+        return builder().build();
     }
 
-    public String getObject() {
-        return object;
+    @JsonPOJOBuilder(withPrefix = "set")
+    public interface Builder {
+        @JsonProperty("object")
+        Builder setObject(String object);
+        @JsonProperty("data")
+        Builder setData(ModelData[] data);
+        ModelsResponseData build();
+
+        @JsonCreator
+        static ModelsResponseData.Builder create() {
+            return new ModelsResponseBuilderImpl();
+        }
+
     }
 
-    public ModelData[] getData() {
-        return data;
-    }
+    public abstract String getObject();
+    public abstract ModelData[] getData();
 
-    @JsonIgnore
-    public String toJson() {
-        return JacksonJsonDeserializer.valuesAsString(this);
-    }
+    public abstract Optional<String> object();
+    public abstract Optional<ModelData[]> data();
+
 
 }
