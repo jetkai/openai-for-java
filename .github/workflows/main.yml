@@ -6,6 +6,8 @@ on:
 
 env:
   API_KEY: ${{ secrets.OPEN_AI_API_KEY }}
+  JIRA_USERNAME: ""
+  JIRA_PASSWORD: ""
 
 jobs:
   build:
@@ -20,7 +22,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew build -Dapi.key=$API_KEY
+        run: ./gradlew build -Dapi.key=$API_KEY -Djira.username=$JIRA_USERNAME -Djira.password=$JIRA_PASSWORD
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3.1.1
         with:
