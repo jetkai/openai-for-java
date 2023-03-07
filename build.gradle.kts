@@ -6,12 +6,6 @@ plugins {
 group = "io.github.jetkai"
 version = "1.1.0"
 
-val apiKey = property("OPEN_AI_API_KEY") as String
-val organization = property("OPEN_AI_ORGANIZATION") as String
-val jiraUsername = property("JIRA_USERNAME") as String
-val jiraPassword = property("JIRA_PASSWORD") as String
-
-
 java {
     withSourcesJar()
     withJavadocJar()
@@ -42,6 +36,8 @@ publishing {
 
     repositories {
         maven {
+            val jiraUsername = System.getenv("JIRA_USERNAME") ?: ""
+            val jiraPassword = System.getenv("JIRA_PASSWORD") ?: ""
             name = "OSSRH"
             url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
@@ -59,8 +55,10 @@ tasks.getByName<Test>("test") {
 tasks.register("setEnvironmentVariable") {
     doFirst {
         val env = System.getenv().toMutableMap()
-        env["OPEN_AI_API_KEY"] = apiKey
-        env["OPEN_AI_ORGANIZATION"] = organization
+        env["OPEN_AI_API_KEY"] = property("open.ai.api.key") as String
+        env["OPEN_AI_ORGANIZATION"] = property("open.ai.organization") as String
+        env["JIRA_USERNAME"] = property("jira.username") as String
+        env["JIRA_PASSWORD"] = property("jira.password") as String
         val processBuilder = ProcessBuilder()
         processBuilder.environment().putAll(env)
     }
@@ -70,9 +68,6 @@ tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     archiveFileName.set("openai-binary.jar")
-    manifest {
-        attributes["Main-Class"] = "io.github.jetkai.openai.Main"
-    }
 
     from(sourceSets.main.get().output)
 
