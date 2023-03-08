@@ -1,11 +1,40 @@
 # OpenAI For Java
-[![codecov](https://codecov.io/gh/jetkai/openai-for-java/branch/main/graph/badge.svg?token=2E96DBLLN0)](https://codecov.io/gh/jetkai/openai-for-java)
+
+![GitHub last commit](https://img.shields.io/github/last-commit/jetkai/openai-for-java)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/jetkai/openai-for-java/main.yml)
-    
-###### OpenAI API Reference -> https://platform.openai.com/docs/api-reference/
-###### OpenAI API Key -> https://platform.openai.com/account/api-keys
+![GitHub tag checks state](https://img.shields.io/github/checks-status/jetkai/openai-for-java/1.1.0)
+![GitHub deployments](https://img.shields.io/github/deployments/jetkai/openai-for-java/openai-for-java?label=deployment)
+[![codecov](https://codecov.io/gh/jetkai/openai-for-java/branch/main/graph/badge.svg?token=2E96DBLLN0)](https://codecov.io/gh/jetkai/openai-for-java)
+![GitHub issues](https://img.shields.io/github/issues/jetkai/openai-for-java)
+![GitHub all releases](https://img.shields.io/github/downloads/jetkai/openai-for-java/total)
+
+> Note, this project is under active development. If there are any suggestions you may have, feel free to let me know. 😊
+>
+> You can use this library as part of your project & integrate it into your app.
+>
+> OpenAI is **free-to-use**, but you will require an API key. You can get this for free by clicking [**here**](https://platform.openai.com/account/api-keys).
+
+```java
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey("YOUR_API_KEY_HERE") //Required
+                .setOrganization("YOUR_ORGANIZATION_HERE") //Optional
+                .createChatCompletion(chatMessageHistoryHere) //Optional (ChatGPT)
+                .setTimeout(Duration.ofSeconds(10)) //Optional
+                .setProxy(proxy) //Optional
+                .build() //Creates our OpenAI class from our OpenAI.Builder
+                .sendRequest(); //Optional - Sends request to OpenAI
+```
+
+---
+
+## Minimum Requirements
+
+- Java 11 [JDK](https://developers.redhat.com/content-gateway/file/openjdk/11.0.18/java-11-openjdk-11.0.18.10-1.windows.redhat.x86_64.msi)
+- An OpenAI [API Key](https://platform.openai.com/account/api-keys)
 
 ## Release `1.1.0`
+
+> The dependencies I am using for this project are [`jackson-databind`](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind) for JSON parsing, [`junit-jupiter`](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api) for testing and [`jacoco`](https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin) for reporting.
 
 ```xml
 <dependency>
@@ -15,19 +44,26 @@
 </dependency>
 ```
 
-#### Binary:
-- [openai.jar](https://github.com/jetkai/openai-for-java/releases/download/1.1.0/openai.jar) `(with dependencies)` 
-- [openai-excldeps.jar](https://github.com/jetkai/openai-for-java/releases/download/1.1.0/openai-excldeps.jar) `(excluding dependencies)`
-
-#### Other:
-- [openai-sources.jar](https://github.com/jetkai/openai-for-java/releases/download/1.1.0/openai-sources.jar)
-- [openai-javadoc.jar](https://github.com/jetkai/openai-for-java/releases/download/1.1.0/openai-javadoc.jar)
-
-## Minimum Requirements
-- JDK 11
-- An OpenAI [API Key](https://platform.openai.com/account/api-keys)
+| Binary `(Recommended)`                                                                       	| Binary `(Excluding Dependencies)`                                                                     	| JavaDoc                                                                                              	| Sources                                                                                              	|
+|----------------------------------------------------------------------------------------------	|-------------------------------------------------------------------------------------------------------	|------------------------------------------------------------------------------------------------------	|------------------------------------------------------------------------------------------------------	|
+| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.0/openai.jar) < 	| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.0/openai-excldeps.jar) < 	| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.0/openai-javadoc.jar) < 	| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.0/openai-sources.jar) < 	|
 
 ## Available API(s) `March 2023`
+
+✅ ChatGPT 3.5 (Latest) - `using CreateChatCompletion`
+
+✅ Spell Checking - `using CreateCompletion`
+
+✅ Transcriptions (From Audio File) - `using CreateTranscription`
+
+✅ Translations (From Text or Audio File) - `using CreateTranslation` / `CreateTranscriptionTranslation`
+
+✅ AI Image Creation / Editing - `using CreateImage` / `CreateImageEdit` / `CreateImageVariation`
+
+---
+
+###### [OpenAI API Reference](https://platform.openai.com/docs/api-reference/)
+
 - [ListModel](https://platform.openai.com/docs/api-reference/models/retrieve) -> `https://api.openai.com/v1/models`
 - [ListModels](https://platform.openai.com/docs/api-reference/models/list) -> `https://api.openai.com/v1/models/{model}`
 - [CreateCompletion](https://platform.openai.com/docs/api-reference/completions/create) -> `https://api.openai.com/v1/completions`
@@ -38,14 +74,38 @@
 - [CreateImageVariation](https://platform.openai.com/docs/api-reference/images/create-variation) -> `https://api.openai.com/v1/images/variations`
 - [CreateEmbeddings](https://platform.openai.com/docs/api-reference/embeddings/create) -> `https://api.openai.com/v1/embeddings`
 - [CreateTranscription](https://platform.openai.com/docs/api-reference/audio/create) -> `https://api.openai.com/v1/audio/transcriptions`
-- [CreateTranslation](https://platform.openai.com/docs/api-reference/audio/create) -> `https://api.openai.com/v1/audio/translations`
+- [CreateTranscriptionAndTranslation](https://platform.openai.com/docs/api-reference/audio/create) -> `https://api.openai.com/v1/audio/translations`
+- [CreateTranslation](https://platform.openai.com/docs/api-reference/audio/create) -> `https://api.openai.com/v1/completions`
+
+---
 
 # Source Code (Examples)
 
 ## [ChatGPT-3.5 Turbo](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleChatGPT.java)
+
     Scenario: Say "Hello" to the AI and ask the AI to respond back with the last thing I said.
+
 ```java
-       private String exampleBuilders(String message) {
+ public static void main(String[] args) {
+        ExampleChatGPT gpt = new ExampleChatGPT();
+
+        //The first message that we want to send
+        String message1 = "Hello ChatGPT!";
+        //The second message that we want to send
+        String message2 = "What was the first thing I said?";
+
+        //Response 1 from ChatGPT
+        String response1 = gpt.exampleBuilders(message1);
+        System.out.println("Sent: " + message1);
+        System.out.println("Response: " + response1);
+
+        //Response 2 from ChatGPT
+        String response2 = gpt.exampleBuilders(message2);
+        System.out.println("Sent: " + message2);
+        System.out.println("Response: " + response2);
+    }
+
+    private String exampleBuilders(String message) {
         //Create the Message Data object with the message we wish to send
         ChatCompletionMessageData messageData = ChatCompletionMessageData.builder()
                 .setRole("user")
@@ -81,51 +141,12 @@
         //Parse the response back as plain-text & replace \n & ascii characters (Šťŕĭńġ -> String)
         return createChatCompletion.asNormalizedText();
     }
-    
-    private String exampleHttpClientProxy(String message) {
-        ProxySelector proxySelector = ProxySelector.of(new InetSocketAddress("1.0.205.87", 8080));
-
-        HttpClient httpClient = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_2)
-                .followRedirects(HttpClient.Redirect.ALWAYS)
-                .proxy(proxySelector)
-                .connectTimeout(Duration.ofSeconds(10)) //10 seconds timeout
-                .build();
-
-        //Create the Message Data object with the message we wish to send
-        ChatCompletionMessageData messageData = ChatCompletionMessageData.create(message);
-
-        //Store the message that we want to send, to the MessageHistory List
-        messageHistory.add(messageData);
-
-        //Build the data structure which contains the message history and model information
-        ChatCompletionData completionData = ChatCompletionData.create(messageHistory);
-
-        //Sends the request to OpenAI's endpoint & parses the response data
-        //Instead of openAI.sendRequest(); you can initialize the request for the class manually
-        //openAI.createChatCompletion().initialize();
-        OpenAI openAI = OpenAI.builder()
-                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
-                .setHttpClient(httpClient)
-                .build();
-
-        //Create instance which will return as the API class that we specified in the enum or .class
-        //CreateChatCompletion createChatCompletion = openAI.createInstance(CreateChatCompletion.class, completionData);
-        CreateChatCompletion createChatCompletion = openAI.createInstance(
-                OpenAIEndpoints.CREATE_CHAT_COMPLETION, completionData
-        );
-
-        //Store chat response from AI, this allows the AI to see the full history of our chat
-        //Including both our messages and the AI's messages
-        messageHistory.addAll(createChatCompletion.asChatResponseDataList());
-
-        //Parse the response back as plain-text & replace \n & ascii characters (Šťŕĭńġ -> String)
-        return createChatCompletion.asNormalizedText();
-    }
 ```
 
 ## [AI Image Creation](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleImageCreation.java)
+
     Scenario: Have an AI create a red panda with glasses, and have this drawn as a cartoon.
+
 ```java
     public static void main(String[] args) throws IOException {
         //Initialize ExampleImageCreation class
@@ -177,7 +198,9 @@
 ```
 
 ## [Spelling Correction](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleSpellingCorrection.java)
+
     Scenario: Correct the spelling within the sentence "Wha dai of the wek is it?".
+
 ```java
     public static void main(String[] args) {
         //Initialize ExampleSpellingCorrection class
@@ -216,7 +239,9 @@
 ```
 
 ## [Translate Language](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleTranslation.java)
+
     Scenario: Translate "Hello, how are you today?" from English to French.
+
 ```java
     public static void main(String[] args) {
         //Initialize ExampleTranslation class
@@ -255,6 +280,7 @@
 ```
 
 ## [Audio Transcript](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleTranscriptionFromAudioFile.java)
+
     Scenario: Create a transcript from an audio file.
 
 ```java
@@ -296,8 +322,9 @@
 ```
 
 ## [Audio Transcript & Translate](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleTranslationFromAudioFile.java)
+
     Scenario: Create a transcript from an audio file, then translate the transcript from English to French.
-    
+
 ```java
     public static void main(String[] args) throws URISyntaxException {
         //Initialize ExampleTranslationFromAudioFile class
@@ -348,6 +375,7 @@
 ```
 
 ## [List Model Information](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleListModel.java)
+
     Scenario: Get information about a specific model.
 
 ```java
@@ -382,7 +410,9 @@
 ```
 
 ## [List All Models](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleListModels.java)
+
     Scenario: List all the models available from OpenAI.
+
 ```java
     public static void main(String[] args) {
         //Initialize ExampleListModels class
@@ -561,7 +591,7 @@
         assertFalse(json.isEmpty());
     }
 ```
- 
+
 ### CreateImageVariation
 
 ```java
@@ -683,4 +713,4 @@
         assertNotNull(json);
         assertFalse(json.isEmpty());
     }
- ```
+```
