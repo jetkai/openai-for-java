@@ -1,8 +1,6 @@
 # OpenAI For Java
 [![codecov](https://codecov.io/gh/jetkai/openai-for-java/branch/main/graph/badge.svg?token=2E96DBLLN0)](https://codecov.io/gh/jetkai/openai-for-java)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/jetkai/openai-for-java/main.yml)
-
-    ⚠️ This library is currently under development ⚠️
     
 ###### OpenAI API Reference -> https://platform.openai.com/docs/api-reference/
 ###### OpenAI API Key -> https://platform.openai.com/account/api-keys
