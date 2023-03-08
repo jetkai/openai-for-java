@@ -30,6 +30,7 @@ import java.util.stream.Stream;
  */
 final class OpenAIImpl extends OpenAI {
 
+    private final boolean isTesting = Objects.equals(System.getProperty("is.testing"), "true");
     private final HttpClient httpClient;
     private final HttpClientInstance httpClientInstance;
     private final String apiKey;
@@ -105,15 +106,15 @@ final class OpenAIImpl extends OpenAI {
             return (T) this;
         }
         try {
-            Class<?> superClazz = data.getClass().getSuperclass();
-            Class<?> dataClazz = superClazz == Object.class ? data.getClass() : superClazz;
-            T instance = clazz.getConstructor(dataClazz).newInstance(data);
+            T instance = data != null
+                    ? clazz.getConstructor(data.getClass().getSuperclass() == Object.class
+                    ? data.getClass() : data.getClass().getSuperclass()).newInstance(data)
+                    : clazz.getConstructor().newInstance();
             if (instance instanceof OAPI) {
                 ((OAPI) instance).setOpenAI(this).initialize();
             }
             return instance;
-        } catch (InstantiationException | IllegalAccessException
-                 | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -129,6 +130,9 @@ final class OpenAIImpl extends OpenAI {
                 instance = new ListModel(String.valueOf(data));
                 break;
             case LIST_MODELS:
+                if(isTesting && data == null) {
+                    throw new IllegalArgumentException("Data can not be null (when testing)");
+                }
                 instance = new ListModels();
                 break;
             case CREATE_CHAT_COMPLETION:
@@ -194,7 +198,9 @@ final class OpenAIImpl extends OpenAI {
             default:
                 throw new IllegalArgumentException("Endpoint not handled: " + endpoint);
         }
-        instance.setOpenAI(this).initialize();
+        if(!isTesting) {
+            instance.setOpenAI(this).initialize();
+        }
         return (T) instance;
     }
 

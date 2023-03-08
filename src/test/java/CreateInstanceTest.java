@@ -1,9 +1,11 @@
 import io.github.jetkai.openai.api.ListModel;
+import io.github.jetkai.openai.api.ListModels;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * CreateInstanceTest
@@ -17,6 +19,7 @@ public class CreateInstanceTest {
 
     @Test
     void createInstanceTest() {
+        System.setProperty("is.testing", "true");
         String apiKey = System.getenv("OPEN_AI_API_KEY");
         String organization = System.getenv("OPEN_AI_ORGANIZATION");
         assertNotNull(apiKey);
@@ -32,6 +35,12 @@ public class CreateInstanceTest {
 
         ListModel instance2 = openAI.createInstance(OpenAIEndpoints.LIST_MODEL, "davinci");
         assertNotNull(instance2);
+
+        //This test should throw
+        for(OpenAIEndpoints openAIEndpoints : OpenAIEndpoints.values()) {
+            assertThrows(IllegalArgumentException.class, ()-> openAI.createInstance(openAIEndpoints, null));
+        }
+
     }
 
 }

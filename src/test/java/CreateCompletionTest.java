@@ -4,8 +4,6 @@ import io.github.jetkai.openai.api.data.completion.response.CompletionResponseDa
 import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -90,31 +88,28 @@ public class CreateCompletionTest {
                 .build()
                 .sendRequest();
 
-        assertNotNull(openAI);
+        assertNotNull(openAI, "OpenAI not found");
 
         //Call the CreateCompletion API from OpenAI & create instance
-        Optional<CreateCompletion> optionalCreateCompletion = openAI.completion();
-        assertFalse(optionalCreateCompletion.isEmpty());
+        CreateCompletion createCompletion = openAI.completion().orElseThrow(() ->
+                new AssertionError("CreateCompletion object not found"));
 
-        //Additionally check the getter method is not null
-        assertNotNull(openAI.getCompletion());
-
-        CreateCompletion createCompletion = optionalCreateCompletion.get();
-
-        assertNotNull(createCompletion.asStringArray());
-        assertNotNull(createCompletion.asSentences());
-        assertNotNull(createCompletion.asNormalizedSentences(2048));
-        assertNotNull(createCompletion.asNormalizedSentences(1));
-        assertNotNull(createCompletion.asText());
-
-        //Data structure example
+        //Additional checks
+        assertNotNull(openAI.getCompletion(), "CreateCompletion object not found");
         CompletionResponseData responseData = createCompletion.asData();
-        assertNotNull(responseData);
+        assertNotNull(responseData, "CompletionResponseData object not found");
+        assertNotNull(createCompletion.asStringArray(), "String Array not found");
+        assertNotNull(createCompletion.asSentences(), "Sentence List not found");
+        assertNotNull(createCompletion.asNormalizedSentences(2048),
+                "Normalized Sentence List (2048) not found");
+        assertNotNull(createCompletion.asNormalizedSentences(1),
+                "Normalized Sentence List (1) not found");
+        assertNotNull(createCompletion.asText(), "Text not found");
 
         //Json example
         String json = createCompletion.asJson();
-        assertNotNull(json);
-        assertFalse(json.isEmpty());
+        assertNotNull(json, "Json not found");
+        assertFalse(json.isEmpty(), "Json is empty");
     }
 
 }
