@@ -71,6 +71,8 @@ public class CreateTranscriptionTest {
         AudioResponseData responseData = createTranscription.asData();
         assertNotNull(responseData);
 
+        assertNotNull(createTranscription.asNormalizedText());
+
         //Json example
         String json = createTranscription.asJson();
         assertNotNull(json);

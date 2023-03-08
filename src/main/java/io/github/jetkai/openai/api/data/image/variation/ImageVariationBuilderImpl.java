@@ -44,7 +44,6 @@ final class ImageVariationBuilderImpl implements ImageVariationData.Builder {
 
     @Override
     public ImageVariationData.Builder setN(int n) {
-        requireNonNull(n);
         this.n = n;
         return this;
     }

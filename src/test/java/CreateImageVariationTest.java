@@ -76,6 +76,9 @@ public class CreateImageVariationTest {
         assertNotNull(stringList);
         assertFalse(stringList.isEmpty());
 
+        assertNotNull(createImageVariation.asImage());
+        assertNotNull(createImageVariation.asImageArray());
+
         //URI array example (contains all the image urls)
         URI[] uriArray = createImageVariation.asUriArray();
         assertNotNull(uriArray);

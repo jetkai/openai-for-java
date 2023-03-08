@@ -94,6 +94,12 @@ public class CreateCompletionTest {
 
         CreateCompletion createCompletion = optionalCreateCompletion.get();
 
+        assertNotNull(createCompletion.asStringArray());
+        assertNotNull(createCompletion.asSentences());
+        assertNotNull(createCompletion.asNormalizedSentences(2048));
+        assertNotNull(createCompletion.asNormalizedSentences(1));
+        assertNotNull(createCompletion.asText());
+
         //Data structure example
         CompletionResponseData responseData = createCompletion.asData();
         assertNotNull(responseData);

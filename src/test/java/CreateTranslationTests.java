@@ -78,6 +78,12 @@ public class CreateTranslationTests {
         assertNotNull(translatedText);
         assertFalse(translatedText.isEmpty());
 
+        assertNotNull(createTranslation.asStringArray());
+        assertNotNull(createTranslation.asSentences());
+        assertNotNull(createTranslation.asNormalizedSentences(2048));
+        assertNotNull(createTranslation.asNormalizedSentences(1));
+        assertNotNull(createTranslation.asText());
+
         //Json example
         String json = createTranslation.asJson();
         assertNotNull(json);

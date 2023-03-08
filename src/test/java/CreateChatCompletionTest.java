@@ -86,9 +86,13 @@ public class CreateChatCompletionTest {
             }
             assertNotNull(responseData);
 
-            //StringArray example - contains the response in plaintext from ExampleChatGPT
-            String[] stringArray = createChatCompletion.asStringArray();
-            assertNotNull(stringArray);
+            //Test all
+            assertNotNull(createChatCompletion.asStringArray());
+            assertNotNull(createChatCompletion.asChatResponseData());
+            assertNotNull(createChatCompletion.asSentences());
+            assertNotNull(createChatCompletion.asNormalizedSentences(2048));
+            assertNotNull(createChatCompletion.asNormalizedSentences(1));
+            assertNotNull(createChatCompletion.asText());
 
             //Json example
             String json = createChatCompletion.asJson();

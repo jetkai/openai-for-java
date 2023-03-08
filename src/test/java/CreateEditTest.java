@@ -61,9 +61,11 @@ public class CreateEditTest {
         CompletionResponseData responseData = createEdit.asData();
         assertNotNull(responseData);
 
-        //StringArray example
-        String[] stringArray = createEdit.asStringArray();
-        assertNotNull(stringArray);
+        assertNotNull(createEdit.asStringArray());
+        assertNotNull(createEdit.asSentences());
+        assertNotNull(createEdit.asNormalizedSentences(2048));
+        assertNotNull(createEdit.asNormalizedSentences(1));
+        assertNotNull(createEdit.asText());
 
         //Json example
         String json = createEdit.asJson();

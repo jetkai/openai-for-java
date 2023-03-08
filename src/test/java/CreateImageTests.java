@@ -4,12 +4,10 @@ import io.github.jetkai.openai.api.data.image.response.ImageResponseData;
 import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CreateImageTests {
 
@@ -50,21 +48,13 @@ public class CreateImageTests {
         CreateImage createImage = optionalCreateImage.get();
 
         //Grabs the first image in the array, if your "setN" is higher than 1, then use imageArray
-        Image image = createImage.asImage();
-        assertNotNull(image);
-
+        assertNotNull(createImage.asImage());
         //Array of images, size depends on the "setN" value
-        Image[] imageArray = createImage.asImageArray();
-        assertNotNull(imageArray);
-        assertNotEquals(0, imageArray.length);
-
-        //String List example (contains all the image urls)
-        List<String> imageList = createImage.asStringList();
-        assertNotNull(imageList);
-
+        assertNotNull(createImage.asImageArray());
         //URIArray example (contains all the image urls)
-        URI[] uriArray = createImage.asUriArray();
-        assertNotNull(uriArray);
+        assertNotNull(createImage.asUriArray());
+        //String List example (contains all the image urls)
+        assertNotNull(createImage.asStringList());
 
         //Data structure example
         ImageResponseData responseData = createImage.asData();

@@ -5,11 +5,9 @@ import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -102,13 +100,14 @@ public class CreateImageEditTest {
         assertNotNull(imageArray);
         assertNotEquals(0, imageArray.length);
 
-        //String List example (contains all the image urls)
-        List<String> imageList = createImageEdit.asStringList();
-        assertNotNull(imageList);
-
+        //Grabs the first image in the array, if your "setN" is higher than 1, then use imageArray
+        assertNotNull(createImageEdit.asImage());
+        //Array of images, size depends on the "setN" value
+        assertNotNull(createImageEdit.asImageArray());
         //URIArray example (contains all the image urls)
-        URI[] uriArray = createImageEdit.asUriArray();
-        assertNotNull(uriArray);
+        assertNotNull(createImageEdit.asUriArray());
+        //String List example (contains all the image urls)
+        assertNotNull(createImageEdit.asStringList());
 
         //Json example
         String json = createImageEdit.asJson();
