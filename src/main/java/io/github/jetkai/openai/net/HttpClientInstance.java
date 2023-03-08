@@ -24,12 +24,14 @@ import java.util.function.Function;
 public class HttpClientInstance {
 
     public static HttpClient customHttpClient(String proxyIp, int proxyPort, Duration timeout) {
-        ProxySelector proxySelector = ProxySelector.of(new InetSocketAddress(proxyIp, proxyPort));
         return HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
                 .followRedirects(HttpClient.Redirect.ALWAYS)
-                .proxy(proxySelector)
-                .connectTimeout(timeout) //30 seconds timeout
+                .connectTimeout(timeout)
+                .proxy(proxyIp != null
+                        ? ProxySelector.of(new InetSocketAddress(proxyIp, proxyPort))
+                        : ProxySelector.getDefault()
+                )
                 .build();
     }
 

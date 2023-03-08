@@ -5,6 +5,7 @@ import io.github.jetkai.openai.api.data.completion.response.CompletionResponseDa
 import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +59,7 @@ public class CreateChatCompletionTest {
                 .setApiKey(apiKey)
                 .setOrganization(organization)
                 .createChatCompletion(completion)
+                .setTimeout(Duration.ofSeconds(90))
                 .build()
                 .sendRequest();
 
