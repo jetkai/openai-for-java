@@ -51,7 +51,7 @@ final class AudioImpl extends AudioData {
     }
 
     @Override
-    public Double getTemperature() {
+    public double getTemperature() {
         return this.temperature;
     }
 

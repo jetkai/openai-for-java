@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * CreateEditTest
@@ -39,6 +38,11 @@ public class CreateEditTest {
                 //The instruction that tells the model how to edit the prompt.
                 .setInstruction("Fix the spelling mistakes")
                 .build();
+
+        assertAll(
+                () -> assertNotNull(EditData.create(edit.getModel(), edit.getInstruction())),
+                () -> assertNotNull(EditData.create(edit.getModel(), edit.getInput(), edit.getInstruction()))
+        );
 
         //Create OpenAI instance using API key & organization
         //Organization is optional

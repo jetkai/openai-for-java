@@ -84,7 +84,7 @@ public abstract class CompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("echo")
-    public abstract Boolean getEcho();
+    public abstract boolean isEcho();
 
     /**
      * logprobs
@@ -119,7 +119,7 @@ public abstract class CompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("max_tokens")
-    public abstract Integer getMaxTokens();
+    public abstract int getMaxTokens();
 
     /**
      * model
@@ -147,7 +147,7 @@ public abstract class CompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("n")
-    public abstract Integer getN();
+    public abstract int getN();
 
     /**
      * prompt
@@ -192,7 +192,7 @@ public abstract class CompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("stream")
-    public abstract Boolean isStream();
+    public abstract boolean isStream();
 
     /**
      * temperature
@@ -208,7 +208,7 @@ public abstract class CompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("temperature")
-    public abstract Double getTemperature();
+    public abstract double getTemperature();
 
 
     /**
@@ -226,7 +226,7 @@ public abstract class CompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("top_p")
-    public abstract Double getTopP();
+    public abstract double getTopP();
 
     /**
      * suffix
@@ -255,7 +255,7 @@ public abstract class CompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("frequency_penalty")
-    public abstract Double getFrequencyPenalty();
+    public abstract double getFrequencyPenalty();
 
     /**
      * presence_penalty
@@ -272,7 +272,7 @@ public abstract class CompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("presence_penalty")
-    public abstract Double getPresencePenalty();
+    public abstract double getPresencePenalty();
 
     /**
      * best_of
@@ -292,7 +292,7 @@ public abstract class CompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("best_of")
-    public abstract Integer getBestOf();
+    public abstract int getBestOf();
 
     /**
      * logit_bias

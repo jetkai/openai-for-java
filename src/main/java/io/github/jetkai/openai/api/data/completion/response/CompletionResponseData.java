@@ -24,10 +24,6 @@ public abstract class CompletionResponseData {
 
     public CompletionResponseData() { }
 
-    public static CompletionResponseData.Builder builder() {
-        return new CompletionResponseBuilderImpl();
-    }
-
     @JsonPOJOBuilder(withPrefix = "set")
     public interface Builder {
         @JsonProperty("created")

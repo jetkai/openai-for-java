@@ -21,10 +21,6 @@ public abstract class EmbeddingResponseUsageData {
 
     public EmbeddingResponseUsageData() { }
 
-    public static EmbeddingResponseUsageData.Builder builder() {
-        return new EmbeddingResponseUsageBuilderImpl();
-    }
-
     @JsonPOJOBuilder(withPrefix = "set")
     public interface Builder {
         @JsonProperty("total_tokens")

@@ -12,7 +12,7 @@ import java.util.Optional;
  * AudioResponseData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
@@ -21,15 +21,6 @@ import java.util.Optional;
 public abstract class AudioResponseData {
 
     public AudioResponseData() { }
-
-    public static AudioResponseData.Builder builder() {
-        return new AudioResponseBuilderImpl();
-    }
-
-    public static AudioResponseData create() {
-        return builder().build();
-    }
-
 
     @JsonPOJOBuilder(withPrefix = "set")
     public interface Builder {

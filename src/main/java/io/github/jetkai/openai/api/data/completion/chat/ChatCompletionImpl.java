@@ -20,13 +20,13 @@ final class ChatCompletionImpl extends ChatCompletionData {
     private final String model;
     private final List<ChatCompletionMessageData> messages;
     private final double temperature;
-    private final int topP;
+    private final double topP;
     private final int n;
     private final boolean stream;
     private final List<String> stop;
     private final int maxTokens;
-    private final int presencePenalty;
-    private final int frequencyPenalty;
+    private final double presencePenalty;
+    private final double frequencyPenalty;
     private final Map<Object, Object> logitBias;
     private final String user;
 
@@ -60,7 +60,7 @@ final class ChatCompletionImpl extends ChatCompletionData {
     }
 
     @Override
-    public Double getTemperature() {
+    public double getTemperature() {
         return this.temperature;
     }
 
@@ -70,7 +70,7 @@ final class ChatCompletionImpl extends ChatCompletionData {
     }
 
     @Override
-    public Integer getN() {
+    public int getN() {
         return this.n;
     }
 
@@ -80,17 +80,17 @@ final class ChatCompletionImpl extends ChatCompletionData {
     }
 
     @Override
-    public Integer getFrequencyPenalty() {
+    public double getFrequencyPenalty() {
         return this.frequencyPenalty;
     }
 
     @Override
-    public Integer getTopP() {
+    public double getTopP() {
         return this.topP;
     }
 
     @Override
-    public Boolean isStream() {
+    public boolean isStream() {
         return this.stream;
     }
 
@@ -100,12 +100,12 @@ final class ChatCompletionImpl extends ChatCompletionData {
     }
 
     @Override
-    public Integer getMaxTokens() {
+    public int getMaxTokens() {
         return this.maxTokens;
     }
 
     @Override
-    public Integer getPresencePenalty() {
+    public double getPresencePenalty() {
         return this.presencePenalty;
     }
 
@@ -140,12 +140,12 @@ final class ChatCompletionImpl extends ChatCompletionData {
     }
 
     @Override
-    public Optional<Integer> frequencyPenalty() {
+    public Optional<Double> frequencyPenalty() {
         return Optional.of(this.frequencyPenalty);
     }
 
     @Override
-    public Optional<Integer> topP() {
+    public Optional<Double> topP() {
         return Optional.of(this.topP);
     }
 
@@ -165,7 +165,7 @@ final class ChatCompletionImpl extends ChatCompletionData {
     }
 
     @Override
-    public Optional<Integer> presencePenalty() {
+    public Optional<Double> presencePenalty() {
         return Optional.of(this.presencePenalty);
     }
 

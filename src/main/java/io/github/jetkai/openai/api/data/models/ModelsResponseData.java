@@ -22,10 +22,6 @@ public abstract class ModelsResponseData {
 
     public ModelsResponseData() { }
 
-    public static ModelsResponseData.Builder builder() {
-        return new ModelsResponseBuilderImpl();
-    }
-
     @JsonPOJOBuilder(withPrefix = "set")
     public interface Builder {
         @JsonProperty("object")
@@ -35,7 +31,7 @@ public abstract class ModelsResponseData {
         ModelsResponseData build();
 
         @JsonCreator
-        static ModelsResponseData.Builder create() {
+        static Builder create() {
             return new ModelsResponseBuilderImpl();
         }
 

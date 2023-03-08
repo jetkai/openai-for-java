@@ -54,10 +54,6 @@ public abstract class CompletionChoiceData {
         }
     }
 
-    public static CompletionChoiceData.Builder builder() {
-        return new CompletionChoiceBuilderImpl();
-    }
-
     @JsonProperty("id")
     public abstract String getId();
 

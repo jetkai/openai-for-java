@@ -41,6 +41,12 @@ public class CreateChatCompletionTest {
                 .setContent("Hello!")
                 .build();
 
+        assertAll(
+                () -> assertNotNull(ChatCompletionMessageData.create(message.getContent())),
+                () -> assertNotNull(ChatCompletionMessageData.create(message.getRole(), message.getContent()))
+        );
+
+
         //Add message to the messages list
         messages.add(message);
 
@@ -50,7 +56,20 @@ public class CreateChatCompletionTest {
                 .setModel("gpt-3.5-turbo")
                 //The messages to generate chat completions for, in the chat format.
                 .setMessages(messages)
+                .setTemperature(1.0)
+                .setTopP(1.0)
+                .setN(1)
+                .setStream(false)
+                .setMaxTokens(100)
+                .setPresencePenalty(0.1)
+                .setFrequencyPenalty(0.1)
+                .setUser("user")
                 .build();
+
+        assertAll(
+                () -> assertNotNull(ChatCompletionData.create(completion.getModel(), messages)),
+                () -> assertNotNull(ChatCompletionData.create(messages))
+        );
 
         //Create OpenAI instance using API key & organization
         //Organization is optional

@@ -7,7 +7,7 @@ import java.util.Optional;
  * AudioResponseImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -15,7 +15,6 @@ import java.util.Optional;
 final class AudioResponseImpl extends AudioResponseData {
 
     private final String text;
-
 
     private AudioResponseImpl(AudioResponseBuilderImpl builder) {
         this.text = builder.text;

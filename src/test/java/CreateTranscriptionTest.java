@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Locale;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * CreateTranscriptionTest
@@ -43,6 +43,14 @@ public class CreateTranscriptionTest {
                 //Option to specify language of the audio file
                 //audioTranscriptionData.setLanguage("en");
                 .build();
+
+        //Additional tests on creating that data
+        assertAll(
+                () -> assertNotNull(AudioData.create(audioTranscriptionData.getFilePath())),
+                () -> assertNotNull(AudioData.create(audioTranscriptionData.getFilePath(), Locale.FRENCH)),
+                () -> assertNotNull(AudioData.create(audioTranscriptionData.getFilePath(), "fr")),
+                () -> assertNotNull(audioTranscriptionData.getModel())
+        );
 
         //Create OpenAI instance using API key & organization
         //Organization is optional

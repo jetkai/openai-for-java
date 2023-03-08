@@ -23,10 +23,6 @@ public abstract class ImageResponseData {
 
     public ImageResponseData() { }
 
-    public static ImageResponseData.Builder builder() {
-        return new ImageResponseBuilderImpl();
-    }
-
     @JsonPOJOBuilder(withPrefix = "set")
     public interface Builder {
         @JsonProperty("data")

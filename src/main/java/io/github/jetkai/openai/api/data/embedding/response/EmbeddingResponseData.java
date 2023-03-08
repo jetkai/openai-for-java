@@ -14,7 +14,7 @@ import java.util.Optional;
  * EmbeddingResponseData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
@@ -23,14 +23,6 @@ import java.util.Optional;
 public abstract class EmbeddingResponseData {
 
     public EmbeddingResponseData() { }
-
-    public static EmbeddingResponseData.Builder builder() {
-        return new EmbeddingResponseBuilderImpl();
-    }
-
-    public static EmbeddingResponseData create() {
-        return builder().build();
-    }
 
     @JsonPOJOBuilder(withPrefix = "set")
     public interface Builder {

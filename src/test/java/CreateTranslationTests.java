@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * CreateTranslationTests
@@ -52,6 +51,12 @@ public class CreateTranslationTests {
                 //Use the whisper-1 model for translation
                 .setModel("text-davinci-003")
                 .build();
+
+        assertAll(
+                () -> assertNotNull(CompletionData.translation(translation.getPrompt().get(0), "french")),
+                () -> assertNotNull(CompletionData.translation(translation.getPrompt().get(0),
+                        "english", "french"))
+        );
 
         //Create OpenAI instance using API key & organization
         //Organization is optional

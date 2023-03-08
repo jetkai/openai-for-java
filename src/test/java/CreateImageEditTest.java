@@ -27,8 +27,8 @@ public class CreateImageEditTest {
         //Grab OpenAI API key from system environment variables (gradle.properties)
         String apiKey = System.getenv("OPEN_AI_API_KEY");
         String organization = System.getenv("OPEN_AI_ORGANIZATION");
-        assertNotNull(apiKey);
-        assertNotNull(organization);
+        assertNotNull(apiKey, "OPEN_AI_API_KEY not found");
+        assertNotNull(organization, "ORGANIZATION not found");
 
         //Example image file that we are going to upload to OpenAI
         URL imageUrl = CreateImageEditTest.class.getResource("otter.png");
@@ -83,34 +83,30 @@ public class CreateImageEditTest {
 
         //Call the CreateImageEdit API from OpenAI & create instance
         Optional<CreateImageEdit> optionalCreateImageEdit = openAI.imageEdit();
-        assertFalse(optionalCreateImageEdit.isEmpty());
+        assertFalse(optionalCreateImageEdit.isEmpty(), "Optional CreateImageEdit not found");
 
         //Additionally check the getter method is not null
-        assertNotNull(openAI.getImageEdit());
+        assertNotNull(openAI.getImageEdit(), "CreateImageEdit not found");
 
         CreateImageEdit createImageEdit = optionalCreateImageEdit.get();
 
         //Data structure example
         ImageResponseData imageResponse = createImageEdit.asData();
-        assertNotNull(imageResponse);
+        assertNotNull(imageResponse, "ImageResponseData not found");
 
         //Grabs the first image in the array, if your "setN" is higher than 1, then use imageArray
         Image image = createImageEdit.asImage();
-        assertNotNull(image);
+        assertNotNull(image, "Image nto found");
 
         //Array of images, size depends on the "setN" value
         Image[] imageArray = createImageEdit.asImageArray();
-        assertNotNull(imageArray);
+        assertNotNull(imageArray, "ImageArray not found");
         assertNotEquals(0, imageArray.length);
 
-        //Grabs the first image in the array, if your "setN" is higher than 1, then use imageArray
-        assertNotNull(createImageEdit.asImage());
-        //Array of images, size depends on the "setN" value
-        assertNotNull(createImageEdit.asImageArray());
         //URIArray example (contains all the image urls)
-        assertNotNull(createImageEdit.asUriArray());
+        assertNotNull(createImageEdit.asUriArray(), "UriArray not found");
         //String List example (contains all the image urls)
-        assertNotNull(createImageEdit.asStringList());
+        assertNotNull(createImageEdit.asStringList(), "StringList not found");
 
         //Json example
         String json = createImageEdit.asJson();

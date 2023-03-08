@@ -46,13 +46,13 @@ public abstract class ChatCompletionData {
         Builder setUser(String user);
         Builder setN(int n);
         Builder setLogitBias(Map<Object, Object> logitBias);
-        Builder setFrequencyPenalty(int frequencyPenalty);
-        Builder setTopP(int topP);
+        Builder setFrequencyPenalty(double frequencyPenalty);
+        Builder setTopP(double topP);
         Builder setStream(boolean stream);
         Builder setStop(String stop);
         Builder setStop(List<String> stop);
         Builder setMaxTokens(int maxTokens);
-        Builder setPresencePenalty(int presencePenalty);
+        Builder setPresencePenalty(double presencePenalty);
         ChatCompletionData build();
     }
 
@@ -92,7 +92,7 @@ public abstract class ChatCompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("temperature")
-    public abstract Double getTemperature();
+    public abstract double getTemperature();
 
     /**
      * user
@@ -120,7 +120,7 @@ public abstract class ChatCompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("n")
-    public abstract Integer getN();
+    public abstract int getN();
 
     /**
      * logit_bias
@@ -156,7 +156,7 @@ public abstract class ChatCompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("frequency_penalty")
-    public abstract Integer getFrequencyPenalty();
+    public abstract double getFrequencyPenalty();
 
     /**
      * top_p
@@ -171,7 +171,7 @@ public abstract class ChatCompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("top_p")
-    public abstract Integer getTopP();
+    public abstract double getTopP();
 
     /**
      * stream
@@ -189,7 +189,7 @@ public abstract class ChatCompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("stream")
-    public abstract Boolean isStream();
+    public abstract boolean isStream();
 
     /**
      * stop
@@ -216,7 +216,7 @@ public abstract class ChatCompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("max_tokens")
-    public abstract Integer getMaxTokens();
+    public abstract int getMaxTokens();
 
     /**
      * presence_penalty
@@ -233,7 +233,7 @@ public abstract class ChatCompletionData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("presence_penalty")
-    public abstract Integer getPresencePenalty();
+    public abstract double getPresencePenalty();
 
     public abstract Optional<String> model();
     public abstract Optional<List<ChatCompletionMessageData>> messages();
@@ -241,11 +241,11 @@ public abstract class ChatCompletionData {
     public abstract Optional<String> user();
     public abstract Optional<Integer> n();
     public abstract Optional<Map<Object, Object>> logitBias();
-    public abstract Optional<Integer> frequencyPenalty();
-    public abstract Optional<Integer> topP();
+    public abstract Optional<Double> frequencyPenalty();
+    public abstract Optional<Double> topP();
     public abstract Optional<Boolean> stream();
     public abstract Optional<List<String>> stop();
     public abstract Optional<Integer> maxTokens();
-    public abstract Optional<Integer> presencePenalty();
+    public abstract Optional<Double> presencePenalty();
 
 }

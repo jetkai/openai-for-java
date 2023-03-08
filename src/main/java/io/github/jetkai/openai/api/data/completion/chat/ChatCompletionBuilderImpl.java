@@ -60,7 +60,7 @@ final class ChatCompletionBuilderImpl implements ChatCompletionData.Builder {
      * <p>
      * We generally recommend altering this or temperature but not both.
      */
-    int topP;
+    double topP;
 
     /**
      * n
@@ -120,7 +120,7 @@ final class ChatCompletionBuilderImpl implements ChatCompletionData.Builder {
      *     See more information about frequency and presence penalties.
      * </a>
      */
-    int presencePenalty;
+    double presencePenalty;
 
     /**
      * frequency_penalty
@@ -134,7 +134,7 @@ final class ChatCompletionBuilderImpl implements ChatCompletionData.Builder {
      *     See more information about frequency and presence penalties.
      * </a>
      */
-    int frequencyPenalty;
+    double frequencyPenalty;
 
     /**
      * logit_bias
@@ -207,13 +207,13 @@ final class ChatCompletionBuilderImpl implements ChatCompletionData.Builder {
     }
 
     @Override
-    public ChatCompletionData.Builder setFrequencyPenalty(int frequencyPenalty) {
+    public ChatCompletionData.Builder setFrequencyPenalty(double frequencyPenalty) {
         this.frequencyPenalty = frequencyPenalty;
         return this;
     }
 
     @Override
-    public ChatCompletionData.Builder setTopP(int topP) {
+    public ChatCompletionData.Builder setTopP(double topP) {
         this.topP = topP;
         return this;
     }
@@ -245,7 +245,7 @@ final class ChatCompletionBuilderImpl implements ChatCompletionData.Builder {
     }
 
     @Override
-    public ChatCompletionData.Builder setPresencePenalty(int presencePenalty) {
+    public ChatCompletionData.Builder setPresencePenalty(double presencePenalty) {
         this.presencePenalty = presencePenalty;
         return this;
     }

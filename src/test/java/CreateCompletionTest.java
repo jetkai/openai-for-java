@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * CreateCompletionTest
@@ -76,6 +75,11 @@ public class CreateCompletionTest {
                 //The returned text will not contain the stop sequence.
                 .setStop("\n")
                 .build();
+
+        assertAll(
+                () -> assertNotNull(CompletionData.create(completion.getModel(), completion.getPrompt())),
+                () -> assertNotNull(CompletionData.create(completion.getModel(), completion.getPrompt().get(0)))
+        );
 
         //Create OpenAI instance using API key & organization
         //Organization is optional

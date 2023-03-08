@@ -56,7 +56,7 @@ final class CompletionImpl extends CompletionData {
     }
 
     @Override
-    public Boolean getEcho() {
+    public boolean isEcho() {
         return this.echo;
     }
 
@@ -66,7 +66,7 @@ final class CompletionImpl extends CompletionData {
     }
 
     @Override
-    public Integer getMaxTokens() {
+    public int getMaxTokens() {
         return this.maxTokens;
     }
 
@@ -76,7 +76,7 @@ final class CompletionImpl extends CompletionData {
     }
 
     @Override
-    public Integer getN() {
+    public int getN() {
         return this.n;
     }
 
@@ -91,17 +91,17 @@ final class CompletionImpl extends CompletionData {
     }
 
     @Override
-    public Boolean isStream() {
+    public boolean isStream() {
         return this.stream;
     }
 
     @Override
-    public Double getTemperature() {
+    public double getTemperature() {
         return this.temperature;
     }
 
     @Override
-    public Double getTopP() {
+    public double getTopP() {
         return this.topP;
     }
 
@@ -111,17 +111,17 @@ final class CompletionImpl extends CompletionData {
     }
 
     @Override
-    public Double getFrequencyPenalty() {
+    public double getFrequencyPenalty() {
         return this.frequencyPenalty;
     }
 
     @Override
-    public Double getPresencePenalty() {
+    public double getPresencePenalty() {
         return this.presencePenalty;
     }
 
     @Override
-    public Integer getBestOf() {
+    public int getBestOf() {
         return this.bestOf;
     }
 

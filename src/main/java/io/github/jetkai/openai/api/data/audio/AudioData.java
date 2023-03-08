@@ -110,7 +110,7 @@ public abstract class AudioData {
      */
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("temperature")
-    public abstract Double getTemperature();
+    public abstract double getTemperature();
 
     /**
      * language
