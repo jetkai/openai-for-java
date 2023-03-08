@@ -11,7 +11,7 @@ import java.util.Optional;
  * CompletionMessageData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 06/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
@@ -20,9 +20,7 @@ import java.util.Optional;
 public abstract class CompletionMessageData {
 
     public CompletionMessageData() { }
-    public static CompletionMessageData create() {
-        return builder().build();
-    }
+
     public static CompletionMessageData.Builder builder() {
         return new CompletionMessageBuilderImpl();
     }

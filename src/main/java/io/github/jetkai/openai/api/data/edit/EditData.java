@@ -10,7 +10,7 @@ import java.util.Optional;
  * EditData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
@@ -22,10 +22,6 @@ public abstract class EditData {
 
     public static EditData.Builder builder() {
         return new EditBuilderImpl();
-    }
-
-    public static EditData create() {
-        return builder().build();
     }
 
     public static EditData create(String input, String instruction) {

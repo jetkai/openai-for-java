@@ -11,7 +11,7 @@ import java.util.Optional;
  * EmbeddingData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
@@ -23,10 +23,6 @@ public abstract class EmbeddingData {
 
     public static EmbeddingData.Builder builder() {
         return new EmbeddingBuilderImpl();
-    }
-
-    public static EmbeddingData create() {
-        return builder().build();
     }
 
     public interface Builder {

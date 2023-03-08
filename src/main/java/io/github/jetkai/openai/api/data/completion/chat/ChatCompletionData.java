@@ -13,18 +13,15 @@ import java.util.Optional;
  * ChatCompletionData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
  */
 @JsonSerialize
 public abstract class ChatCompletionData {
-    public ChatCompletionData() { }
 
-    public static ChatCompletionData create() {
-        return builder().build();
-    }
+    public ChatCompletionData() { }
 
     public static ChatCompletionData.Builder builder() {
         return new ChatCompletionBuilderImpl();

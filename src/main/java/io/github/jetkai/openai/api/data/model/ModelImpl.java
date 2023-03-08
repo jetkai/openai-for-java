@@ -9,22 +9,20 @@ import java.util.Optional;
  * ModelImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
  */
 final class ModelImpl extends ModelData {
 
-    private String id; //text-babbage:001
-    private String object; //model
-    private int created; //1642018370
-    private String ownedBy; //openai
-    private String root; //text-babbage:001
-    private String parent; //null
-    private List<ModelPermissionsData> permission;
-
-    public ModelImpl() { }
+    private final String id; //text-babbage:001
+    private final String object; //model
+    private final int created; //1642018370
+    private final String ownedBy; //openai
+    private final String root; //text-babbage:001
+    private final String parent; //null
+    private final List<ModelPermissionsData> permission;
 
     static ModelImpl create(ModelBuilderImpl builder) {
         return new ModelImpl(builder);
@@ -37,6 +35,7 @@ final class ModelImpl extends ModelData {
         this.root = builder.root;
         this.object = builder.object;
         this.parent = builder.parent;
+        this.ownedBy = builder.ownedBy;
     }
 
     @Override

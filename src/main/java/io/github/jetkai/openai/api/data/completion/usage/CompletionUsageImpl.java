@@ -1,25 +1,20 @@
 package io.github.jetkai.openai.api.data.completion.usage;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Optional;
 
 /**
  * CompletionUsageImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
  */
 final class CompletionUsageImpl extends CompletionUsageData {
 
-    @JsonProperty("prompt_tokens")
     private final int promptTokens;
-    @JsonProperty("completion_tokens")
     private final int completionTokens;
-    @JsonProperty("total_tokens")
     private final int totalTokens;
 
     static CompletionUsageImpl create(CompletionUsageBuilderImpl builder) {

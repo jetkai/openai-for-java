@@ -9,7 +9,7 @@ import java.util.Optional;
  * ChatCompletionMessageData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
@@ -19,9 +19,6 @@ public abstract class ChatCompletionMessageData {
 
     public ChatCompletionMessageData() { }
 
-    public static ChatCompletionMessageData create() {
-        return builder().build();
-    }
     public static ChatCompletionMessageData.Builder builder() {
         return new ChatCompletionMessageBuilderImpl();
     }

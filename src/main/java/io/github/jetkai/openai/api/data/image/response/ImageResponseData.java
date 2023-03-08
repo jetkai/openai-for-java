@@ -13,7 +13,7 @@ import java.util.Optional;
  * ImageResponseData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.1
  * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 02/03/2023}
@@ -25,10 +25,6 @@ public abstract class ImageResponseData {
 
     public static ImageResponseData.Builder builder() {
         return new ImageResponseBuilderImpl();
-    }
-
-    public static ImageResponseData create() {
-        return builder().build();
     }
 
     @JsonPOJOBuilder(withPrefix = "set")
