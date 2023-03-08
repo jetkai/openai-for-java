@@ -6,9 +6,6 @@ import io.github.jetkai.openai.api.data.completion.chat.message.ChatCompletionMe
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.openai.OpenAI;
 
-import java.net.InetSocketAddress;
-import java.net.ProxySelector;
-import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,15 +123,6 @@ final class ExampleChatGPT {
     }
 
     private String exampleHttpClientProxy(String message) {
-        ProxySelector proxySelector = ProxySelector.of(new InetSocketAddress("1.0.205.87", 8080));
-
-        HttpClient httpClient = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_2)
-                .followRedirects(HttpClient.Redirect.ALWAYS)
-                .proxy(proxySelector)
-                .connectTimeout(Duration.ofSeconds(10)) //10 seconds timeout
-                .build();
-
         //Create the Message Data object with the message we wish to send
         ChatCompletionMessageData messageData = ChatCompletionMessageData.create(message);
 
@@ -149,7 +137,8 @@ final class ExampleChatGPT {
         //openAI.createChatCompletion().initialize();
         OpenAI openAI = OpenAI.builder()
                 .setApiKey(System.getenv("OPEN_AI_API_KEY"))
-                .setHttpClient(httpClient)
+                .setProxy("1.0.205.87", 8080)
+                .setTimeout(Duration.ofSeconds(10))
                 .build();
 
         //Create instance which will return as the API class that we specified in the enum or .class

@@ -57,4 +57,18 @@ final class ExampleListModel {
         return getModels.map(ListModel::asJson).orElse(null);
     }
 
+    private String example2() {
+        String modelName = "davinci";
+
+        OpenAI openAI = OpenAI.builder()
+                .setApiKey(System.getenv("OPEN_AI_API_KEY"))
+                .build();
+
+        //Call the ListModels API from OpenAI & create instance
+        ListModel listModel = openAI.createInstance(ListModel.class, modelName);
+
+        //Return model as a JSON string
+        return listModel.asJson();
+    }
+
 }

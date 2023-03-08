@@ -66,9 +66,11 @@ final class OpenAIImpl extends OpenAI {
         this.translation = builder.translation;
         this.apiKey = builder.apiKey;
         this.organization = Objects.requireNonNullElse(builder.organization, "");
+
         Duration httpClientTimeout = builder.httpClientTimeout;
         String proxyIp = builder.proxyIp;
         int proxyPort = builder.proxyPort;
+
         this.httpClient = builder.httpClientTimeout != null
                 ? HttpClientInstance.customHttpClient(proxyIp, proxyPort, httpClientTimeout)
                 : Objects.requireNonNullElse(builder.httpClient, HttpClientInstance.defaultHttpClient());
@@ -102,17 +104,18 @@ final class OpenAIImpl extends OpenAI {
         if (clazz == null) {
             return (T) this;
         }
-        T instance;
         try {
-            instance = clazz.getConstructor(data.getClass()).newInstance(data);
+            Class<?> superClazz = data.getClass().getSuperclass();
+            Class<?> dataClazz = superClazz == Object.class ? data.getClass() : superClazz;
+            T instance = clazz.getConstructor(dataClazz).newInstance(data);
             if (instance instanceof OAPI) {
                 ((OAPI) instance).setOpenAI(this).initialize();
             }
+            return instance;
         } catch (InstantiationException | IllegalAccessException
                  | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        return instance;
     }
 
     @SuppressWarnings("unchecked")

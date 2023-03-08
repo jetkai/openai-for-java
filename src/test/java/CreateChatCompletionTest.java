@@ -5,7 +5,6 @@ import io.github.jetkai.openai.api.data.completion.response.CompletionResponseDa
 import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
