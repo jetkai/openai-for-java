@@ -1,6 +1,5 @@
 package io.github.jetkai.openai.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jetkai.openai.api.data.completion.chat.ChatCompletionData;
 import io.github.jetkai.openai.api.data.completion.chat.message.ChatCompletionMessageData;
 import io.github.jetkai.openai.api.data.completion.choice.CompletionChoiceData;
@@ -49,7 +48,7 @@ public class CreateChatCompletion extends CreateCompletion {
      */
     public List<ChatCompletionMessageData> asChatResponseDataList() {
         if(this.deserializedData == null) {
-            this.deserializedData = deserialize();
+            this.deserializedData = deserialize(CompletionResponseData.class);
         }
         if (!(this.deserializedData instanceof CompletionResponseData)) {
             return null;
@@ -74,21 +73,6 @@ public class CreateChatCompletion extends CreateCompletion {
             chatDataList.add(messageResponse);
         }
         return chatDataList;
-    }
-
-    private synchronized CompletionResponseData deserialize() {
-        CompletionResponseData data = null;
-        String json = this.getRawJsonResponse();
-        try {
-            if (json.contains("\"error\":")) {
-                throw new Exception(json);
-            }
-            ObjectMapper mapper = new ObjectMapper();
-            data = mapper.readValue(json, CompletionResponseData.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
     }
 
 }
