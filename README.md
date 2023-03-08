@@ -22,8 +22,8 @@
 - An OpenAI [API Key](https://platform.openai.com/account/api-keys)
 
 ## Available API(s) `March 2023`
-- [GetModel](https://platform.openai.com/docs/api-reference/models/retrieve) -> `https://api.openai.com/v1/models`
-- [GetModels](https://platform.openai.com/docs/api-reference/models/list) -> `https://api.openai.com/v1/models/{model}`
+- [ListModel](https://platform.openai.com/docs/api-reference/models/retrieve) -> `https://api.openai.com/v1/models`
+- [ListModels](https://platform.openai.com/docs/api-reference/models/list) -> `https://api.openai.com/v1/models/{model}`
 - [CreateCompletion](https://platform.openai.com/docs/api-reference/completions/create) -> `https://api.openai.com/v1/completions`
 - [CreateChatCompletion](https://platform.openai.com/docs/api-reference/chat/create) -> `https://api.openai.com/v1/chat/completions`
 - [CreateEdit](https://platform.openai.com/docs/api-reference/edits/create) -> `https://api.openai.com/v1/edits`
@@ -175,13 +175,13 @@
 ```java
     public static void main(String[] args) {
         //Initialize ExampleSpellingCorrection class
-        ExampleSpellingCorrection getModel = new ExampleSpellingCorrection();
+        ExampleSpellingCorrection spelling = new ExampleSpellingCorrection();
 
         String spellingMistake = "Wha dai of the wek is it?";
         String instruction = "Fix the spelling mistakes";
 
         //Send request to API - response as string
-        String spellingCorrection = getModel.communicate(spellingMistake, instruction);
+        String spellingCorrection = spelling.communicate(spellingMistake, instruction);
 
         //Print out the mistake & correction
         System.out.println("Mistake: " + spellingMistake);
@@ -341,7 +341,7 @@
     }
 ```
 
-## [Get Model Information](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleGetModel.java)
+## [List Model Information](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleListModel.java)
     Scenario: Get information about a specific model.
 
 ```java
@@ -375,7 +375,7 @@
     }
 ```
 
-## [List All Models](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleGetModels.java)
+## [List All Models](https://github.com/jetkai/openai-for-java/blob/main/src/main/java/examples/ExampleListModels.java)
     Scenario: List all the models available from OpenAI.
 ```java
     public static void main(String[] args) {
