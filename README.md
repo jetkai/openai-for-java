@@ -7,6 +7,14 @@
 
 ## Release `1.1.0`
 
+```xml
+<dependency>
+  <groupId>io.github.jetkai</groupId>
+  <artifactId>openai</artifactId>
+  <version>1.1.0</version>
+</dependency>
+```
+
 #### Binary:
 - [openai.jar](https://github.com/jetkai/openai-for-java/releases/download/1.1.0/openai.jar) `(with dependencies)` 
 - [openai-excldeps.jar](https://github.com/jetkai/openai-for-java/releases/download/1.1.0/openai-excldeps.jar) `(excluding dependencies)`
