@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * CreateEmbeddingTest
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.1.1
  * @created 02/03/2023
  * @last-update 03/03/2023
  */
@@ -49,6 +49,9 @@ public class CreateEmbeddingTest {
 
         Optional<CreateEmbedding> optionalEmbedding = openAI.embedding();
         assertFalse(optionalEmbedding.isEmpty());
+
+        //Additionally check the getter method is not null
+        assertNotNull(openAI.getEmbedding());
 
         CreateEmbedding createEmbedding = optionalEmbedding.get();
 

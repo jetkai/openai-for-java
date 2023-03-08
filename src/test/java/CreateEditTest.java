@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * CreateEditTest
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.1.1
  * @created 02/03/2023
  * @last-update 03/03/2023
  */
@@ -54,6 +54,9 @@ public class CreateEditTest {
         //Call the CreateEdit API from OpenAI & create instance
         Optional<CreateEdit> optionalCreateEdit = openAI.edit(); //You can call "data" to see the response
         assertFalse(optionalCreateEdit.isEmpty());
+
+        //Additionally check the getter method is not null
+        assertNotNull(openAI.getEdit());
 
         CreateEdit createEdit = optionalCreateEdit.get();
 

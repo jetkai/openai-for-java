@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * CreateTranscriptionTest
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.1
+ * @version 1.1.1
  * @created 02/03/2023
  * @last-update 05/03/2023
  */
@@ -59,6 +59,9 @@ public class CreateTranscriptionTest {
         //Call the CreateTranscription API from OpenAI & create instance
         Optional<CreateTranscription> optionalCreateTranscription = openAI.transcription();
         assertFalse(optionalCreateTranscription.isEmpty());
+
+        //Additionally check the getter method is not null
+        assertNotNull(openAI.getTranscription());
 
         CreateTranscription createTranscription = optionalCreateTranscription.get();
 

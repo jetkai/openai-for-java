@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * CreateImageEditTest
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.1.1
  * @created 02/03/2023
  * @last-update 03/03/2023
  */
@@ -84,6 +84,9 @@ public class CreateImageEditTest {
         //Call the CreateImageEdit API from OpenAI & create instance
         Optional<CreateImageEdit> optionalCreateImageEdit = openAI.imageEdit();
         assertFalse(optionalCreateImageEdit.isEmpty());
+
+        //Additionally check the getter method is not null
+        assertNotNull(openAI.getImageEdit());
 
         CreateImageEdit createImageEdit = optionalCreateImageEdit.get();
 

@@ -9,6 +9,14 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * CreateImageTests
+ *
+ * @author <a href="https://github.com/jetkai">Kai</a>
+ * @version 1.1.1
+ * @created 02/03/2023
+ * @last-update 03/03/2023
+ */
 public class CreateImageTests {
 
     @Test
@@ -44,6 +52,9 @@ public class CreateImageTests {
         //Call the CreateImage API from OpenAI & create instance
         Optional<CreateImage> optionalCreateImage = openAI.image();
         assertFalse(optionalCreateImage.isEmpty());
+
+        //Additionally check the getter method is not null
+        assertNotNull(openAI.getImage());
 
         CreateImage createImage = optionalCreateImage.get();
 

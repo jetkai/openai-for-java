@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * CreateCompletionTest
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.1.1
  * @created 02/03/2023
  * @last-update 03/03/2023
  */
@@ -91,6 +91,9 @@ public class CreateCompletionTest {
         //Call the CreateCompletion API from OpenAI & create instance
         Optional<CreateCompletion> optionalCreateCompletion = openAI.completion();
         assertFalse(optionalCreateCompletion.isEmpty());
+
+        //Additionally check the getter method is not null
+        assertNotNull(openAI.getCompletion());
 
         CreateCompletion createCompletion = optionalCreateCompletion.get();
 

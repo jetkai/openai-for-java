@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * CreateTranslationTests
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.1.1
  * @created 02/03/2023
  * @last-update 03/03/2023
  */
@@ -66,6 +66,9 @@ public class CreateTranslationTests {
         //Call the CreateTranslation API response from OpenAI instance
         Optional<CreateTranslation> optionalCreateTranslation = openAI.translation();
         assertFalse(optionalCreateTranslation.isEmpty());
+
+        //Additionally check the getter method is not null
+        assertNotNull(openAI.getTranslation());
 
         CreateTranslation createTranslation = optionalCreateTranslation.get();
 
@@ -135,6 +138,9 @@ public class CreateTranslationTests {
         //Call the CreateTranslation API from OpenAI & create instance
         Optional<CreateTranscriptionTranslation> optionalTranscriptionTranslation = openAI.transcriptionTranslation();
         assertFalse(optionalTranscriptionTranslation.isEmpty());
+
+        //Additionally check the getter method is not null
+        assertNotNull(openAI.getTranscriptionTranslation());
 
         CreateTranscriptionTranslation transcriptionTranslation = optionalTranscriptionTranslation.get();
 

@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * CreateChatCompletionTest
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.1.1
  * @created 02/03/2023
  * @last-update 03/03/2023
  */
@@ -68,6 +68,9 @@ public class CreateChatCompletionTest {
             //Call the CreateChatCompletion API from OpenAI & create instance
             Optional<CreateChatCompletion> optionalChatCompletion = openAI.chatCompletion();
             assertFalse(optionalChatCompletion.isEmpty());
+
+            //Additionally check the getter method is not null
+            assertNotNull(openAI.getChatCompletion());
 
             CreateChatCompletion createChatCompletion = optionalChatCompletion.get();
 

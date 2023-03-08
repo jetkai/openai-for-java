@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * ListModelTest
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.0.0
+ * @version 1.1.1
  * @created 02/03/2023
  * @last-update 03/03/2023
  */
@@ -44,6 +44,9 @@ public class ListModelTest {
         //Call the ListModel API from OpenAI & create instance
         Optional<ListModel> optionalGetModel = openAI.model();
         assertFalse(optionalGetModel.isEmpty());
+
+        //Additionally check the getter method is not null
+        assertNotNull(openAI.getModel());
 
         ListModel listModel = optionalGetModel.get();
 
