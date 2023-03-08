@@ -1,5 +1,6 @@
 .gradle
 gradle.properties
+maven-publish.gradle.kts
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/

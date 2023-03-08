@@ -1,6 +1,5 @@
 plugins {
     id("java")
-    id("maven-publish")
     id("jacoco")
 }
 
@@ -8,8 +7,8 @@ group = "io.github.jetkai"
 version = "1.1.0"
 
 java {
-    withSourcesJar()
-    withJavadocJar()
+    //withSourcesJar()
+    //withJavadocJar()
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
@@ -27,31 +26,10 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
 
-publishing {
-
-    publications {
-        create<MavenPublication>("openai") {
-            from(components["java"])
-        }
-    }
-
-    repositories {
-        maven {
-            val jiraUsername = System.getenv("JIRA_USERNAME") ?: ""
-            val jiraPassword = System.getenv("JIRA_PASSWORD") ?: ""
-            name = "OSSRH"
-            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = jiraUsername
-                password = jiraPassword
-            }
-        }
-    }
-}
-
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
-}
+/**
+ * Set Environmental Variables for the OPEN_AI_API_KEY
+ * Called by System.getenv("OPEN_AI_API_KEY"); in source-code
+ */
 
 tasks.register("setEnvironmentVariable") {
     doFirst {
@@ -63,16 +41,6 @@ tasks.register("setEnvironmentVariable") {
         val processBuilder = ProcessBuilder()
         processBuilder.environment().putAll(env)
     }
-}
-
-tasks.test {
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-}
-tasks.jacocoTestReport {
-    reports {
-        xml.required.set(true)
-    }
-    dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
 tasks.withType<Jar> {
@@ -87,3 +55,28 @@ tasks.withType<Jar> {
         configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
     })
 }
+
+tasks.getByName<Test>("test") {
+    useJUnitPlatform()
+}
+
+/**
+ * Jacoco Testing Plugin
+ * --- START ---
+ */
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+    }
+    dependsOn(tasks.test)
+}
+
+/**
+ * Jacoco Testing Plugin
+ * --- END ---
+ */

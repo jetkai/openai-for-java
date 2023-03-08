@@ -1,1 +1,1 @@
-rootProject.name = "openai-for-java"
+rootProject.name = "openai"
