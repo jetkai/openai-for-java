@@ -5,13 +5,13 @@ import io.github.jetkai.openai.api.data.completion.response.CompletionResponseDa
 import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * CreateChatCompletionTest
@@ -63,27 +63,39 @@ public class CreateChatCompletionTest {
                 .build()
                 .sendRequest();
 
-        assertNotNull(openAI);
+        assertAll("Create Chat Completion Test", () -> {
+            assertNotNull(openAI);
 
+            //Call the CreateChatCompletion API from OpenAI & create instance
+            Optional<CreateChatCompletion> optionalChatCompletion = openAI.chatCompletion();
+            assertFalse(optionalChatCompletion.isEmpty());
 
-        //Call the CreateChatCompletion API from OpenAI & create instance
-        Optional<CreateChatCompletion> optionalChatCompletion = openAI.chatCompletion();
-        assertFalse(optionalChatCompletion.isEmpty());
+            CreateChatCompletion createChatCompletion = optionalChatCompletion.get();
 
-        CreateChatCompletion createChatCompletion = optionalChatCompletion.get();
+            //Data structure example
+            boolean skipTestApiDown = false;
+            CompletionResponseData responseData = null;
+            try {
+                responseData = createChatCompletion.asData();
+            } catch (IllegalStateException e) {
+                if(e.getMessage().contains("That model is currently overloaded with other requests.")) {
+                    skipTestApiDown = true;
+                }
+            }
+            if(skipTestApiDown) {
+                return;
+            }
+            assertNotNull(responseData);
 
-        //Data structure example
-        CompletionResponseData responseData = createChatCompletion.asData();
-        assertNotNull(responseData);
+            //StringArray example - contains the response in plaintext from ExampleChatGPT
+            String[] stringArray = createChatCompletion.asStringArray();
+            assertNotNull(stringArray);
 
-        //StringArray example - contains the response in plaintext from ExampleChatGPT
-        String[] stringArray = createChatCompletion.asStringArray();
-        assertNotNull(stringArray);
-
-        //Json example
-        String json = createChatCompletion.asJson();
-        assertNotNull(json);
-        assertFalse(json.isEmpty());
+            //Json example
+            String json = createChatCompletion.asJson();
+            assertNotNull(json);
+            assertFalse(json.isEmpty());
+        });
     }
 
 }
