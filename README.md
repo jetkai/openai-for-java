@@ -2,7 +2,6 @@
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/jetkai/openai-for-java)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/jetkai/openai-for-java/main.yml)
-![GitHub tag checks state](https://img.shields.io/github/checks-status/jetkai/openai-for-java/1.1.1)
 ![GitHub deployments](https://img.shields.io/github/deployments/jetkai/openai-for-java/openai-for-java?label=deployment)
 [![codecov](https://codecov.io/gh/jetkai/openai-for-java/branch/main/graph/badge.svg?token=2E96DBLLN0)](https://codecov.io/gh/jetkai/openai-for-java)
 ![GitHub issues](https://img.shields.io/github/issues/jetkai/openai-for-java)
@@ -32,7 +31,7 @@
 - Java 11 [JDK](https://developers.redhat.com/content-gateway/file/openjdk/11.0.18/java-11-openjdk-11.0.18.10-1.windows.redhat.x86_64.msi)
 - An OpenAI [API Key](https://platform.openai.com/account/api-keys)
 
-## Release `1.1.1`
+## Release `1.1.2`
 
 > The dependencies I am using for this project are [`jackson-databind`](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind) for JSON parsing, [`junit-jupiter`](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api) for testing and [`jacoco`](https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin) for reporting.
 
@@ -40,13 +39,13 @@
 <dependency>
   <groupId>io.github.jetkai</groupId>
   <artifactId>openai</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
 </dependency>
 ```
 
 | Binary `(Recommended)`                                                                       	| Binary `(Excluding Dependencies)`                                                                     	| JavaDoc                                                                                              	| Sources                                                                                              	|
 |----------------------------------------------------------------------------------------------	|-------------------------------------------------------------------------------------------------------	|------------------------------------------------------------------------------------------------------	|------------------------------------------------------------------------------------------------------	|
-| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.1/openai.jar) < 	| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.1/openai-excldeps.jar) < 	| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.1/openai-javadoc.jar) < 	| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.1/openai-sources.jar) < 	|
+| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.2/openai.jar) < 	| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.2/openai-excldeps.jar) < 	| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.2/openai-javadoc.jar) < 	| > [Download](https://github.com/jetkai/openai-for-java/releases/download/1.1.2/openai-sources.jar) < 	|
 
 ## Available API(s) `March 2023`
 
