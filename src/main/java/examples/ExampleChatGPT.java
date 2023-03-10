@@ -35,7 +35,7 @@ final class ExampleChatGPT {
         System.setProperty("console.encoding", "UTF-8");
 
         //The first message that we want to send
-        String message1 = "こんにちは";
+        String message1 = "Hello ChatGPT!";
         //The second message that we want to send
         String message2 = "What was the first thing I said?";
 

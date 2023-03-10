@@ -34,6 +34,10 @@ tasks.withType<JavaExec> {
     jvmArgs = listOf("-Dfile.encoding=UTF-8", "-Dconsole.encoding=UTF-8")
 }
 
+tasks.withType<Javadoc> {
+    options.encoding = "UTF-8"
+}
+
 tasks.compileJava {
     options.encoding = "UTF-8"
 }
