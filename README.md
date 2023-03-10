@@ -35,6 +35,7 @@
 
 > The dependencies I am using for this project are [`jackson-databind`](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind) for JSON parsing, [`junit-jupiter`](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api) for testing and [`jacoco`](https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin) for reporting.
 
+### Maven
 ```xml
 <dependency>
   <groupId>io.github.jetkai</groupId>
@@ -42,6 +43,17 @@
   <version>1.1.2</version>
 </dependency>
 ```
+
+### Gradle
+```kotlin
+//Groovy (build.gradle)
+implementation group: 'io.github.jetkai', name: 'openai', version: '1.1.2'
+
+//Kotlin (build.gradle.kts)
+implementation("io.github.jetkai:openai:1.1.2")
+```
+
+### Download
 
 | Binary `(Recommended)`                                                                       	| Binary `(Excluding Dependencies)`                                                                     	| JavaDoc                                                                                              	| Sources                                                                                              	|
 |----------------------------------------------------------------------------------------------	|-------------------------------------------------------------------------------------------------------	|------------------------------------------------------------------------------------------------------	|------------------------------------------------------------------------------------------------------	|
