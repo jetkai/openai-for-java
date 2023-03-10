@@ -1,5 +1,4 @@
 import io.github.jetkai.openai.api.ListModel;
-import io.github.jetkai.openai.api.ListModels;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 import io.github.jetkai.openai.openai.OpenAI;
 import org.junit.jupiter.api.Test;

@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "io.github.jetkai"
-version = "1.1.1"
+version = "1.1.2"
 
 java {
     //withSourcesJar()
@@ -27,10 +27,25 @@ dependencies {
 }
 
 /**
+ * Character Encoding
+ * --- START ---
+ */
+tasks.withType<JavaExec> {
+    jvmArgs = listOf("-Dfile.encoding=UTF-8", "-Dconsole.encoding=UTF-8")
+}
+
+tasks.compileJava {
+    options.encoding = "UTF-8"
+}
+/**
+ * Character Encoding
+ * --- END ---
+ */
+
+/**
  * Set Environmental Variables for the OPEN_AI_API_KEY
  * Called by System.getenv("OPEN_AI_API_KEY"); in source-code
  */
-
 tasks.register("setEnvironmentVariable") {
     doFirst {
         val env = System.getenv().toMutableMap()
@@ -45,11 +60,8 @@ tasks.register("setEnvironmentVariable") {
 
 tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
     archiveFileName.set("openai-binary.jar")
-
     from(sourceSets.main.get().output)
-
     dependsOn(configurations.runtimeClasspath)
     from({
         configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
@@ -64,7 +76,6 @@ tasks.getByName<Test>("test") {
  * Jacoco Testing Plugin
  * --- START ---
  */
-
 tasks.test {
     finalizedBy(tasks.jacocoTestReport)
 }
@@ -75,7 +86,6 @@ tasks.jacocoTestReport {
     }
     dependsOn(tasks.test)
 }
-
 /**
  * Jacoco Testing Plugin
  * --- END ---

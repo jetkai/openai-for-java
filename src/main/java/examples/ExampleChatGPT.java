@@ -14,7 +14,7 @@ import java.util.List;
  * ExampleChatGPT
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.2
  * {@code - 07/03/2023}
  * @since 1.0.0
  * {@code - 05/03/2023}
@@ -32,8 +32,10 @@ final class ExampleChatGPT {
     public static void main(String[] args) {
         ExampleChatGPT gpt = new ExampleChatGPT();
 
+        System.setProperty("console.encoding", "UTF-8");
+
         //The first message that we want to send
-        String message1 = "Hello ChatGPT!";
+        String message1 = "こんにちは";
         //The second message that we want to send
         String message2 = "What was the first thing I said?";
 
@@ -81,8 +83,8 @@ final class ExampleChatGPT {
         //Including both our messages and the AI's messages
         messageHistory.addAll(createChatCompletion.asChatResponseDataList());
 
-        //Parse the response back as plain-text & replace \n & ascii characters (Šťŕĭńġ -> String)
-        return createChatCompletion.asNormalizedText();
+        //Parse the response back as plain-text
+        return createChatCompletion.asText();
     }
 
     private String exampleInstanceOrEnum(String message) {
@@ -110,8 +112,8 @@ final class ExampleChatGPT {
         //Including both our messages and the AI's messages
         messageHistory.addAll(createChatCompletion.asChatResponseDataList());
 
-        //Parse the response back as plain-text & replace \n & ascii characters (Šťŕĭńġ -> String)
-        return createChatCompletion.asNormalizedText();
+        //Parse the response back as plain-text
+        return createChatCompletion.asText();
     }
 
     private String exampleHttpClientProxy(String message) {
@@ -143,8 +145,8 @@ final class ExampleChatGPT {
         //Including both our messages and the AI's messages
         messageHistory.addAll(createChatCompletion.asChatResponseDataList());
 
-        //Parse the response back as plain-text & replace \n & ascii characters (Šťŕĭńġ -> String)
-        return createChatCompletion.asNormalizedText();
+        //Parse the response back as plain-text
+        return createChatCompletion.asText();
     }
 
 }

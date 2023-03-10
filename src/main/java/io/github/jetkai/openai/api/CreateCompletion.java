@@ -10,6 +10,7 @@ import io.github.jetkai.openai.util.JacksonJsonDeserializer;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * CreateCompletion
@@ -41,12 +42,9 @@ public class CreateCompletion extends OAPI {
      */
     public List<String> asSentences() {
         List<String> sentences = new ArrayList<>();
-        StringBuilder sentenceBuilder = new StringBuilder();
         String text = asText();
+        Objects.requireNonNull(text, "asText() can not be null");
 
-        if(text == null) {
-            return null;
-        }
         if(text.contains("\n")) {
             String[] words = text.split("\n");
             sentences.addAll(List.of(words));

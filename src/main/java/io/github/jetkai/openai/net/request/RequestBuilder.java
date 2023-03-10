@@ -40,7 +40,7 @@ public abstract class RequestBuilder {
 
     public HttpRequest createGetRequest(URI uri, String apiKey, String organization) {
         return HttpRequest.newBuilder()
-                .headers("Content-Type", "application/json")
+                .headers("Content-Type", "application/json; charset=utf-8")
                 .uri(uri)
                 .header("User-Agent", USER_AGENT)
                 .header("Authorization", "Bearer " + apiKey)
@@ -53,13 +53,13 @@ public abstract class RequestBuilder {
     public HttpRequest createPostRequest(URI uri, Object data, String apiKey, String organization) {
         Object postData = data == null ? "" : data;
         return HttpRequest.newBuilder()
-                .headers("Content-Type", "application/json")
+                .headers("Content-Type", "application/json; charset=utf-8")
                 .uri(uri)
                 .header("User-Agent", USER_AGENT)
                 .header("Authorization", "Bearer " + apiKey)
                 .header("OpenAI-Organization", organization)
                 .version(HttpClient.Version.HTTP_2)
-                .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(postData)))
+                .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(postData), StandardCharsets.UTF_8))
                 .build();
     }
 
