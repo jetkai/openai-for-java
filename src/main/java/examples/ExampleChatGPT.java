@@ -32,8 +32,6 @@ final class ExampleChatGPT {
     public static void main(String[] args) {
         ExampleChatGPT gpt = new ExampleChatGPT();
 
-        System.setProperty("console.encoding", "UTF-8");
-
         //The first message that we want to send
         String message1 = "Hello ChatGPT!";
         //The second message that we want to send

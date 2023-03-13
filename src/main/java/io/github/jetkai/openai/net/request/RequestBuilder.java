@@ -12,6 +12,7 @@ import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.SecureRandom;
 import java.util.*;
 
 /**
@@ -40,8 +41,8 @@ public abstract class RequestBuilder {
 
     public HttpRequest createGetRequest(URI uri, String apiKey, String organization) {
         return HttpRequest.newBuilder()
-                .headers("Content-Type", "application/json; charset=utf-8")
                 .uri(uri)
+                .header("Content-Type", "application/json; charset=utf-8")
                 .header("User-Agent", USER_AGENT)
                 .header("Authorization", "Bearer " + apiKey)
                 .header("OpenAI-Organization", organization)
@@ -53,8 +54,8 @@ public abstract class RequestBuilder {
     public HttpRequest createPostRequest(URI uri, Object data, String apiKey, String organization) {
         Object postData = data == null ? "" : data;
         return HttpRequest.newBuilder()
-                .headers("Content-Type", "application/json; charset=utf-8")
                 .uri(uri)
+                .header("Content-Type", "application/json; charset=utf-8")
                 .header("User-Agent", USER_AGENT)
                 .header("Authorization", "Bearer " + apiKey)
                 .header("OpenAI-Organization", organization)
@@ -66,15 +67,14 @@ public abstract class RequestBuilder {
     public HttpRequest createMultiDataPost(URI uri, Object data, String apiKey, String organization) {
         Map<Object, Object> map = new LinkedHashMap<>();
         RequestDataHandler handler = handlers.get(data.getClass().getSuperclass());
-        if (handler == null) {
-            throw new IllegalArgumentException("Unhandled data type: " + data.getClass().getName());
-        }
+        Objects.requireNonNull(handler, "Unhandled data type: " + data.getClass().getName());
+
         handler.populateMap(data, map);
 
-        String boundary = new BigInteger(256, new Random()).toString();
+        String boundary = new BigInteger(256, new SecureRandom()).toString();
         return HttpRequest.newBuilder()
-                .headers("Content-Type", "multipart/form-data; boundary=" + boundary)
                 .uri(uri)
+                .header("Content-Type", "multipart/form-data; boundary=" + boundary)
                 .header("User-Agent", USER_AGENT)
                 .header("Authorization", "Bearer " + apiKey)
                 .header("OpenAI-Organization", organization)

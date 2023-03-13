@@ -12,7 +12,7 @@ import static java.util.Objects.requireNonNull;
  * ChatCompletionBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -168,14 +168,14 @@ final class ChatCompletionBuilderImpl implements ChatCompletionData.Builder {
 
     @Override
     public ChatCompletionData.Builder setModel(String model) {
-        requireNonNull(model);
+        requireNonNull(model, "\"model\" can not be null");
         this.model = model;
         return this;
     }
 
     @Override
     public ChatCompletionData.Builder setMessages(List<ChatCompletionMessageData> messages) {
-        requireNonNull(messages);
+        requireNonNull(messages, "\"messages\" can not be null");
         this.messages = messages;
         return this;
     }
@@ -188,7 +188,7 @@ final class ChatCompletionBuilderImpl implements ChatCompletionData.Builder {
 
     @Override
     public ChatCompletionData.Builder setUser(String user) {
-        requireNonNull(user);
+        requireNonNull(user, "\"user\" can not be null");
         this.user = user;
         return this;
     }
@@ -201,7 +201,7 @@ final class ChatCompletionBuilderImpl implements ChatCompletionData.Builder {
 
     @Override
     public ChatCompletionData.Builder setLogitBias(Map<Object, Object> logitBias) {
-        requireNonNull(logitBias);
+        requireNonNull(logitBias, "\"logitBias\" can not be null");
         this.logitBias = logitBias;
         return this;
     }
@@ -226,14 +226,14 @@ final class ChatCompletionBuilderImpl implements ChatCompletionData.Builder {
 
     @Override
     public ChatCompletionData.Builder setStop(String stop) {
-        requireNonNull(stop);
+        requireNonNull(stop, "\"stop\" can not be null");
         this.stop = Collections.singletonList(stop);
         return this;
     }
 
     @Override
     public ChatCompletionData.Builder setStop(List<String> stop) {
-        requireNonNull(stop);
+        requireNonNull(stop, "\"stop\" can not be null");
         this.stop = stop;
         return this;
     }

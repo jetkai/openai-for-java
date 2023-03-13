@@ -11,7 +11,7 @@ import static java.util.Objects.requireNonNull;
  * EmbeddingResponseBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -25,28 +25,28 @@ final class EmbeddingResponseBuilderImpl implements EmbeddingResponseData.Builde
 
     @Override
     public EmbeddingResponseData.Builder setModel(String model) {
-        requireNonNull(model);
+        requireNonNull(model, "\"model\" can not be null");
         this.model = model;
         return this;
     }
 
     @Override
     public EmbeddingResponseData.Builder setData(List<EmbeddingResponseBlockData> data) {
-        requireNonNull(data);
+        requireNonNull(data, "\"data\" can not be null");
         this.data = data;
         return this;
     }
 
     @Override
     public EmbeddingResponseData.Builder setObject(String object) {
-        requireNonNull(object);
+        requireNonNull(object, "\"object\" can not be null");
         this.object = object;
         return this;
     }
 
     @Override
     public EmbeddingResponseData.Builder setUsage(EmbeddingResponseUsageData usage) {
-        requireNonNull(usage);
+        requireNonNull(usage, "\"usage\" can not be null");
         this.usage = usage;
         return this;
     }

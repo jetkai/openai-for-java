@@ -6,7 +6,7 @@ import static java.util.Objects.requireNonNull;
  * ImageResponseUrlBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -17,7 +17,7 @@ final class ImageResponseUrlBuilderImpl implements ImageResponseUrlData.Builder 
 
     @Override
     public ImageResponseUrlData.Builder setUrl(String url) {
-        requireNonNull(url);
+        requireNonNull(url, "\"url\" can not be null");
         this.url = url;
         return this;
     }

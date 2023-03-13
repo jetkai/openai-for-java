@@ -8,7 +8,7 @@ import static java.util.Objects.requireNonNull;
  * EmbeddingResponseBlockData
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -21,7 +21,7 @@ final class EmbeddingResponseBlockBuilderImpl implements EmbeddingResponseBlockD
 
     @Override
     public EmbeddingResponseBlockData.Builder setObject(String object) {
-        requireNonNull(object);
+        requireNonNull(object, "\"object\" can not be null");
         this.object = object;
         return this;
     }
@@ -34,7 +34,7 @@ final class EmbeddingResponseBlockBuilderImpl implements EmbeddingResponseBlockD
 
     @Override
     public EmbeddingResponseBlockData.Builder setEmbedding(List<Float> embedding) {
-        requireNonNull(embedding);
+        requireNonNull(embedding, "\"embedding\" can not be null");
         this.embedding = embedding;
         return this;
     }

@@ -9,6 +9,7 @@ import io.github.jetkai.openai.api.data.embedding.EmbeddingData;
 import io.github.jetkai.openai.api.data.image.ImageData;
 import io.github.jetkai.openai.api.data.image.edit.ImageEditData;
 import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
+import io.github.jetkai.openai.api.data.moderation.ModerationData;
 import io.github.jetkai.openai.net.HttpClientInstance;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 
@@ -46,6 +47,7 @@ public abstract class OpenAI {
         Builder createTranscriptionTranslation(AudioData transcriptionTranslation);
         Builder createTranscription(AudioData transcription);
         Builder createImageVariation(ImageVariationData imageVariation);
+        Builder createModeration(ModerationData moderationData);
         Builder setApiKey(String apiKey);
         Builder setOrganization(String organization);
         Builder setHttpClient(HttpClient httpClient);
@@ -55,14 +57,17 @@ public abstract class OpenAI {
     }
 
     public abstract OpenAI sendRequest();
-    public abstract <T> T createInstance(Class<T> clazz, Object data);
 
+    public abstract <T> T createInstance(Class<T> clazz, Object data);
     public abstract <T> T createInstance(OpenAIEndpoints endpoint, Object data);
 
     public abstract ListModels getModels();
+
     public abstract ListModel getModel();
 
     public abstract CreateImageVariation getImageVariation();
+
+    public abstract CreateModeration getModeration();
 
     public abstract CreateTranscription getTranscription();
 
@@ -95,6 +100,8 @@ public abstract class OpenAI {
     public abstract Optional<ListModel> model();
 
     public abstract Optional<CreateImageVariation> imageVariation();
+
+    public abstract Optional<CreateModeration> moderation();
 
     public abstract Optional<CreateTranscription> transcription();
 

@@ -26,7 +26,8 @@ public enum OpenAIEndpoints {
     CREATE_TRANSLATION(URI.create("https://api.openai.com/v1/completions")),
     //OpenAI's https://api.openai.com/v1/audio/translations endpoint does not work correctly for audio translations
     //Using transcriptions API as this has been tested to work
-    CREATE_TRANSCRIPTION_TRANSLATION(URI.create("https://api.openai.com/v1/audio/transcriptions"));
+    CREATE_TRANSCRIPTION_TRANSLATION(URI.create("https://api.openai.com/v1/audio/transcriptions")),
+    CREATE_MODERATION(URI.create("https://api.openai.com/v1/moderations"));
 
     private final URI uri;
 

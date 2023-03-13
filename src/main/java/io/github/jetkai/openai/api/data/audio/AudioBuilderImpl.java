@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
  * AudioBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -26,28 +26,28 @@ final class AudioBuilderImpl implements AudioData.Builder {
 
     @Override
     public AudioBuilderImpl setModel(String model) {
-        requireNonNull(model);
+        requireNonNull(model, "\"model\" can not be null");
         this.model = model;
         return this;
     }
 
     @Override
     public AudioBuilderImpl setPrompt(List<String> prompt) {
-        requireNonNull(prompt);
+        requireNonNull(prompt, "\"prompt\" can not be null");
         this.prompt = prompt;
         return this;
     }
 
     @Override
     public AudioBuilderImpl setPrompt(String prompt) {
-        requireNonNull(prompt);
+        requireNonNull(prompt, "\"prompt\" can not be null");
         this.prompt = Collections.singletonList(prompt);
         return this;
     }
 
     @Override
     public AudioBuilderImpl setResponseFormat(String responseFormat) {
-        requireNonNull(responseFormat);
+        requireNonNull(responseFormat, "\"responseFormat\" can not be null");
         this.responseFormat = responseFormat;
         return this;
     }
@@ -60,21 +60,21 @@ final class AudioBuilderImpl implements AudioData.Builder {
 
     @Override
     public AudioBuilderImpl setLanguage(String language) {
-        requireNonNull(language);
+        requireNonNull(language, "\"language\" can not be null");
         this.language = language;
         return this;
     }
 
     @Override
     public AudioBuilderImpl setFilePath(String filePath) {
-        requireNonNull(filePath);
+        requireNonNull(filePath, "\"filePath\" can not be null");
         this.file = Path.of(filePath);
         return this;
     }
 
     @Override
     public AudioBuilderImpl setFilePath(Path filePath) {
-        requireNonNull(filePath);
+        requireNonNull(filePath, "\"filePath\" can not be null");
         this.file = filePath;
         return this;
     }

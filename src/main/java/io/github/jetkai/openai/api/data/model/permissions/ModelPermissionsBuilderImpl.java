@@ -6,7 +6,7 @@ import static java.util.Objects.requireNonNull;
  * ModelPermissionsBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -30,14 +30,14 @@ final class ModelPermissionsBuilderImpl implements ModelPermissionsData.Builder 
 
     @Override
     public ModelPermissionsData.Builder setObject(String object) {
-        requireNonNull(object);
+        requireNonNull(object, "\"object\" can not be null");
         this.object = object;
         return this;
     }
 
     @Override
     public ModelPermissionsData.Builder setId(String id) {
-        requireNonNull(id);
+        requireNonNull(id, "\"id\" can not be null");
         this.id = id;
         return this;
     }
@@ -92,14 +92,14 @@ final class ModelPermissionsBuilderImpl implements ModelPermissionsData.Builder 
 
     @Override
     public ModelPermissionsData.Builder setGroup(String group) {
-        requireNonNull(group);
+        requireNonNull(group, "\"group\" can not be null");
         this.group = group;
         return this;
     }
 
     @Override
     public ModelPermissionsData.Builder setOrganization(String organization) {
-        requireNonNull(organization);
+        requireNonNull(organization, "\"organization\" can not be null");
         this.organization = organization;
         return this;
     }

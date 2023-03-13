@@ -22,7 +22,7 @@ final class EditBuilderImpl implements EditData.Builder {
 
     @Override
     public EditData.Builder setModel(String model) {
-        requireNonNull(model);
+        requireNonNull(model, "\"model\" can not be null");
         this.model = model;
         return this;
     }
@@ -47,14 +47,14 @@ final class EditBuilderImpl implements EditData.Builder {
 
     @Override
     public EditData.Builder setInput(String input) {
-        requireNonNull(input);
+        requireNonNull(input, "\"input\" can not be null");
         this.input = input;
         return this;
     }
 
     @Override
     public EditData.Builder setInstruction(String instruction) {
-        requireNonNull(instruction);
+        requireNonNull(instruction, "\"instruction\" can not be null");
         this.instruction = instruction;
         return this;
     }

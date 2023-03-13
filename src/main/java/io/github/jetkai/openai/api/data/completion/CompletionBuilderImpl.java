@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
  * CompletionBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -235,7 +235,7 @@ final class CompletionBuilderImpl implements CompletionData.Builder {
 
     @Override
     public CompletionData.Builder setLogprobs(String logprobs) {
-        requireNonNull(logprobs);
+        requireNonNull(logprobs, "\"logprobs\" can not be null");
         this.logprobs = logprobs;
         return this;
     }
@@ -248,7 +248,7 @@ final class CompletionBuilderImpl implements CompletionData.Builder {
 
     @Override
     public CompletionData.Builder setModel(String model) {
-        requireNonNull(model);
+        requireNonNull(model, "\"model\" can not be null");
         this.model = model;
         return this;
     }
@@ -261,28 +261,28 @@ final class CompletionBuilderImpl implements CompletionData.Builder {
 
     @Override
     public CompletionData.Builder setPrompt(List<String> prompt) {
-        requireNonNull(prompt);
+        requireNonNull(prompt, "\"prompt\" can not be null");
         this.prompt = prompt;
         return this;
     }
 
     @Override
     public CompletionData.Builder setPrompt(String prompt) {
-        requireNonNull(prompt);
+        requireNonNull(prompt, "\"prompt\" can not be null");
         this.prompt = Collections.singletonList(prompt);
         return this;
     }
 
     @Override
     public CompletionData.Builder setStop(String stop) {
-        requireNonNull(stop);
+        requireNonNull(stop, "\"stop\" can not be null");
         this.stop = Collections.singletonList(stop);
         return this;
     }
 
     @Override
     public CompletionData.Builder setStop(List<String> stop) {
-        requireNonNull(stop);
+        requireNonNull(stop, "\"stop\" can not be null");
         this.stop = stop;
         return this;
     }
@@ -307,7 +307,7 @@ final class CompletionBuilderImpl implements CompletionData.Builder {
 
     @Override
     public CompletionData.Builder setSuffix(String suffix) {
-        requireNonNull(suffix);
+        requireNonNull(suffix, "\"suffix\" can not be null");
         this.suffix = suffix;
         return this;
     }
@@ -332,14 +332,14 @@ final class CompletionBuilderImpl implements CompletionData.Builder {
 
     @Override
     public CompletionData.Builder setLogitBias(Map<Object, Object> logitBias) {
-        requireNonNull(logitBias);
+        requireNonNull(logitBias, "\"logitBias\" can not be null");
         this.logitBias = logitBias;
         return this;
     }
 
     @Override
     public CompletionData.Builder setUser(String user) {
-        requireNonNull(user);
+        requireNonNull(user, "\"user\" can not be null");
         this.user = user;
         return this;
     }

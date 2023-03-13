@@ -6,7 +6,7 @@ import static java.util.Objects.requireNonNull;
  * ChatCompletionMessageBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -18,14 +18,14 @@ final class ChatCompletionMessageBuilderImpl implements ChatCompletionMessageDat
 
     @Override
     public ChatCompletionMessageData.Builder setContent(String content) {
-        requireNonNull(content);
+        requireNonNull(content, "\"content\" can not be null");
         this.content = content;
         return this;
     }
 
     @Override
     public ChatCompletionMessageData.Builder setRole(String role) {
-        requireNonNull(role);
+        requireNonNull(role, "\"role\" can not be null");
         this.role = role;
         return this;
     }

@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
  * ModelBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -27,7 +27,7 @@ final class ModelBuilderImpl implements ModelData.Builder {
 
     @Override
     public ModelBuilderImpl setId(String id) {
-        requireNonNull(id);
+        requireNonNull(id, "\"id\" can not be null");
         this.id = id;
         return this;
     }
@@ -40,35 +40,35 @@ final class ModelBuilderImpl implements ModelData.Builder {
 
     @Override
     public ModelBuilderImpl setObject(String object) {
-        requireNonNull(object);
+        requireNonNull(object, "\"object\" can not be null");
         this.object = object;
         return this;
     }
 
     @Override
     public ModelBuilderImpl setParent(String parent) {
-        requireNonNull(parent);
+        requireNonNull(parent, "\"parent\" can not be null");
         this.parent = parent;
         return this;
     }
 
     @Override
     public ModelBuilderImpl setOwnedBy(String ownedBy) {
-        requireNonNull(ownedBy);
+        requireNonNull(ownedBy, "\"ownedBy\" can not be null");
         this.ownedBy = ownedBy;
         return this;
     }
 
     @Override
     public ModelBuilderImpl setRoot(String root) {
-        requireNonNull(root);
+        requireNonNull(root, "\"root\" can not be null");
         this.root = root;
         return this;
     }
 
     @Override
     public ModelBuilderImpl setPermissions(List<ModelPermissionsData> permission) {
-        requireNonNull(permission);
+        requireNonNull(permission, "\"permission\" can not be null");
         this.permission = permission;
         return this;
     }

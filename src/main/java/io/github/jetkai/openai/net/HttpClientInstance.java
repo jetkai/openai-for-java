@@ -8,6 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
@@ -22,6 +23,26 @@ import java.util.function.Function;
  * {@code - 02/03/2023}
  */
 public class HttpClientInstance {
+
+    private final HttpClient httpClient;
+
+    public HttpClientInstance(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
+    public CompletionStage<HttpResponse<String>> sendAsync(Object data, RequestBuilder requestBuilder) {
+        HttpRequest request = requestBuilder.request(data);
+        Objects.requireNonNull(request, "Request cannot be null");
+        Objects.requireNonNull(httpClient, "HttpClient cannot be null");
+
+        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString(), pushPromiseHandler());
+    }
+
+    private HttpResponse.PushPromiseHandler<String> pushPromiseHandler() {
+        return (HttpRequest initiatingRequest, HttpRequest pushPromiseRequest,
+                Function<HttpResponse.BodyHandler<String>, CompletableFuture<HttpResponse<String>>> acceptor)
+                -> acceptor.apply(HttpResponse.BodyHandlers.ofString());
+    }
 
     public static HttpClient customHttpClient(String proxyIp, int proxyPort, Duration timeout) {
         return HttpClient.newBuilder()
@@ -41,29 +62,6 @@ public class HttpClientInstance {
                 .followRedirects(HttpClient.Redirect.ALWAYS)
                 .connectTimeout(Duration.ofSeconds(30)) //30 seconds timeout
                 .build();
-    }
-
-    private final HttpClient httpClient;
-
-    public HttpClientInstance(HttpClient httpClient) {
-        this.httpClient = httpClient;
-    }
-
-    public CompletionStage<HttpResponse<String>> sendAsync(Object data, RequestBuilder requestBuilder) {
-        HttpRequest request = requestBuilder.request(data);
-        if (request == null) {
-            throw new IllegalArgumentException("Request cannot be null");
-        }
-        if (httpClient == null) {
-            throw new IllegalArgumentException("HttpClient cannot be null");
-        }
-        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString(), pushPromiseHandler());
-    }
-
-    private HttpResponse.PushPromiseHandler<String> pushPromiseHandler() {
-        return (HttpRequest initiatingRequest, HttpRequest pushPromiseRequest,
-                Function<HttpResponse.BodyHandler<String>, CompletableFuture<HttpResponse<String>>> acceptor)
-                -> acceptor.apply(HttpResponse.BodyHandlers.ofString());
     }
 
     public HttpClient getHttpClient() {

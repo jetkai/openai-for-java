@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
  * ImageResponseBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -22,7 +22,7 @@ final class ImageResponseBuilderImpl implements ImageResponseData.Builder {
 
     @Override
     public ImageResponseData.Builder setData(List<ImageResponseUrlData> data) {
-        requireNonNull(data);
+        requireNonNull(data, "\"data\" can not be null");
         this.data = data;
         return this;
     }

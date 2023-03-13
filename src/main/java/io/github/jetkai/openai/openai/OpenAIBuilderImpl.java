@@ -9,6 +9,7 @@ import io.github.jetkai.openai.api.data.embedding.EmbeddingData;
 import io.github.jetkai.openai.api.data.image.ImageData;
 import io.github.jetkai.openai.api.data.image.edit.ImageEditData;
 import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
+import io.github.jetkai.openai.api.data.moderation.ModerationData;
 import io.github.jetkai.openai.net.HttpClientInstance;
 
 import java.net.http.HttpClient;
@@ -33,6 +34,7 @@ final class OpenAIBuilderImpl implements OpenAI.Builder {
     ListModel model;
     ListModels models;
     CreateImageVariation imageVariation;
+    CreateModeration moderation;
     CreateImageEdit imageEdit;
     CreateImage image;
     CreateEmbedding embedding;
@@ -55,105 +57,112 @@ final class OpenAIBuilderImpl implements OpenAI.Builder {
 
     @Override
     public OpenAIBuilderImpl listModel(String model) {
-        requireNonNull(model);
+        requireNonNull(model, "\"model\" can not be null");
         this.model = new ListModel(model);
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl createImageVariation(ImageVariationData imageVariation) {
-        requireNonNull(imageVariation);
+        requireNonNull(imageVariation, "\"imageVariation\" can not be null");
         this.imageVariation = new CreateImageVariation(imageVariation);
         return this;
     }
 
     @Override
+    public OpenAI.Builder createModeration(ModerationData moderation) {
+        requireNonNull(moderation, "\"moderationData\" can not be null");
+        this.moderation = new CreateModeration(moderation);
+        return this;
+    }
+
+    @Override
     public OpenAIBuilderImpl createTranscription(AudioData transcription) {
-        requireNonNull(transcription);
+        requireNonNull(transcription, "\"transcription\" can not be null");
         this.transcription = new CreateTranscription(transcription);
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl createTranscriptionTranslation(AudioData transcriptionTranslation) {
-        requireNonNull(transcriptionTranslation);
+        requireNonNull(transcriptionTranslation, "\"transcriptionTranslation\" can not be null");
         this.transcriptionTranslation = new CreateTranscriptionTranslation(transcriptionTranslation);
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl createTranslation(CompletionData translation) {
-        requireNonNull(translation);
+        requireNonNull(translation, "\"translation\" can not be null");
         this.translation = new CreateTranslation(translation);
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl createCompletion(CompletionData completion) {
-        requireNonNull(completion);
+        requireNonNull(completion, "\"completion\" can not be null");
         this.completion = new CreateCompletion(completion);
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl createChatCompletion(ChatCompletionData chatCompletion) {
-        requireNonNull(chatCompletion);
+        requireNonNull(chatCompletion, "\"chatCompletion\" can not be null");
         this.chatCompletion = new CreateChatCompletion(chatCompletion);
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl createEdit(EditData edit) {
-        requireNonNull(edit);
+        requireNonNull(edit, "\"edit\" can not be null");
         this.edit = new CreateEdit(edit);
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl createImage(ImageData image) {
-        requireNonNull(image);
+        requireNonNull(image, "\"image\" can not be null");
         this.image = new CreateImage(image);
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl createImageEdit(ImageEditData imageEdit) {
-        requireNonNull(imageEdit);
+        requireNonNull(imageEdit, "\"imageEdit\" can not be null");
         this.imageEdit = new CreateImageEdit(imageEdit);
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl createEmbedding(EmbeddingData embedding) {
-        requireNonNull(embedding);
+        requireNonNull(embedding, "\"embedding\" can not be null");
         this.embedding = new CreateEmbedding(embedding);
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl setApiKey(String apiKey) {
-        requireNonNull(apiKey);
+        requireNonNull(apiKey, "\"apiKey\" can not be null");
         this.apiKey = apiKey;
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl setOrganization(String organization) {
-        requireNonNull(organization);
+        requireNonNull(organization, "\"setOrganization\" can not be null");
         this.organization = organization;
         return this;
     }
 
     @Override
     public OpenAIBuilderImpl setHttpClient(HttpClient httpClient) {
-        requireNonNull(httpClient);
+        requireNonNull(httpClient, "\"httpClient\" can not be null");
         this.httpClient = httpClient;
         return this;
     }
 
     @Override
     public OpenAI.Builder setProxy(String ip, int port) {
-        requireNonNull(ip);
+        requireNonNull(ip, "\"ip\" can not be null");
         this.proxyIp = ip;
         this.proxyPort = port;
         return this;
@@ -161,7 +170,7 @@ final class OpenAIBuilderImpl implements OpenAI.Builder {
 
     @Override
     public OpenAI.Builder setTimeout(Duration duration) {
-        requireNonNull(duration);
+        requireNonNull(duration, "\"duration\" can not be null");
         this.httpClientTimeout = duration;
         return this;
     }

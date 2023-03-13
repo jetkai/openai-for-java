@@ -9,6 +9,7 @@ import io.github.jetkai.openai.api.data.embedding.EmbeddingData;
 import io.github.jetkai.openai.api.data.image.ImageData;
 import io.github.jetkai.openai.api.data.image.edit.ImageEditData;
 import io.github.jetkai.openai.api.data.image.variation.ImageVariationData;
+import io.github.jetkai.openai.api.data.moderation.ModerationData;
 import io.github.jetkai.openai.net.HttpClientInstance;
 import io.github.jetkai.openai.net.OpenAIEndpoints;
 
@@ -38,6 +39,7 @@ final class OpenAIImpl extends OpenAI {
     private final ListModel model;
     private final ListModels models;
     private final CreateImageVariation imageVariation;
+    private final CreateModeration moderation;
     private final CreateImageEdit imageEdit;
     private final CreateImage image;
     private final CreateEmbedding embedding;
@@ -60,6 +62,7 @@ final class OpenAIImpl extends OpenAI {
         this.image = builder.image;
         this.imageEdit = builder.imageEdit;
         this.imageVariation = builder.imageVariation;
+        this.moderation = builder.moderation;
         this.chatCompletion = builder.chatCompletion;
         this.completion = builder.completion;
         this.transcription = builder.transcription;
@@ -93,7 +96,8 @@ final class OpenAIImpl extends OpenAI {
                         embedding,
                         edit,
                         completion,
-                        chatCompletion
+                        chatCompletion,
+                        moderation
                 )
                 .filter(Objects::nonNull)
                 .forEach(request -> request.setOpenAI(this).initialize());
@@ -165,6 +169,12 @@ final class OpenAIImpl extends OpenAI {
                 }
                 instance = new CreateImageEdit((ImageEditData) data);
                 break;
+            case CREATE_MODERATION:
+                if (!(data instanceof ModerationData)) {
+                    throw new IllegalArgumentException("Data provided is not instance of ModerationData");
+                }
+                instance = new CreateModeration((ModerationData) data);
+                break;
             case CREATE_IMAGE_VARIATION:
                 if (!(data instanceof ImageVariationData)) {
                     throw new IllegalArgumentException("Data provided is not instance of ImageVariationData");
@@ -217,6 +227,11 @@ final class OpenAIImpl extends OpenAI {
     @Override
     public CreateImageVariation getImageVariation() {
         return this.imageVariation;
+    }
+
+    @Override
+    public CreateModeration getModeration() {
+        return this.moderation;
     }
 
     @Override
@@ -297,6 +312,11 @@ final class OpenAIImpl extends OpenAI {
     @Override
     public Optional<CreateImageVariation> imageVariation() {
         return Optional.ofNullable(this.imageVariation);
+    }
+
+    @Override
+    public Optional<CreateModeration> moderation() {
+        return Optional.ofNullable(this.moderation);
     }
 
     @Override

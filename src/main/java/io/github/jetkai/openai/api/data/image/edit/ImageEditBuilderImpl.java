@@ -8,7 +8,7 @@ import static java.util.Objects.requireNonNull;
  * ImageEditBuilderImpl
  *
  * @author <a href="https://github.com/jetkai">Kai</a>
- * @version 1.1.0
+ * @version 1.1.3
  * {@code - 07/03/2023}
  * @since 1.1.0
  * {@code - 07/03/2023}
@@ -25,21 +25,21 @@ final class ImageEditBuilderImpl implements ImageEditData.Builder {
 
     @Override
     public ImageEditData.Builder setResponseFormat(String responseFormat) {
-        requireNonNull(responseFormat);
+        requireNonNull(responseFormat, "\"responseFormat\" can not be null");
         this.responseFormat = responseFormat;
         return this;
     }
 
     @Override
     public ImageEditData.Builder setSize(String size) {
-        requireNonNull(size);
+        requireNonNull(size, "\"size\" can not be null");
         this.size = size;
         return this;
     }
 
     @Override
     public ImageEditData.Builder setPrompt(String prompt) {
-        requireNonNull(prompt);
+        requireNonNull(prompt, "\"prompt\" can not be null");
         this.prompt = prompt;
         return this;
     }
@@ -52,35 +52,35 @@ final class ImageEditBuilderImpl implements ImageEditData.Builder {
 
     @Override
     public ImageEditData.Builder setUser(String user) {
-        requireNonNull(user);
+        requireNonNull(user, "\"user\" can not be null");
         this.user = user;
         return this;
     }
 
     @Override
     public ImageEditData.Builder setImage(String image) {
-        requireNonNull(image);
+        requireNonNull(image, "\"image\" can not be null");
         this.image = Path.of(image);
         return this;
     }
 
     @Override
     public ImageEditData.Builder setImage(Path image) {
-        requireNonNull(image);
+        requireNonNull(image, "\"image\" can not be null");
         this.image = image;
         return this;
     }
 
     @Override
     public ImageEditData.Builder setMask(String mask) {
-        requireNonNull(mask);
+        requireNonNull(mask, "\"mask\" can not be null");
         this.mask = Path.of(mask);
         return this;
     }
 
     @Override
     public ImageEditData.Builder setMask(Path mask) {
-        requireNonNull(mask);
+        requireNonNull(mask, "\"mask\" can not be null");
         this.mask = mask;
         return this;
     }

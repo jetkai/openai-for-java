@@ -34,7 +34,7 @@ public abstract class OAPI {
     /**
      * The OpenAI instance
      */
-    protected  OpenAI openAI;
+    protected OpenAI openAI;
 
     /**
      * The endpoint that handleHttpResponse calls
@@ -124,7 +124,7 @@ public abstract class OAPI {
             return (T) this.deserializedData;
         }
         String jsonResponse = this.getRawJsonResponse();
-        Objects.requireNonNull(jsonResponse);
+        Objects.requireNonNull(jsonResponse, "\"jsonResponse\" can not be null");
 
         this.deserializedData = JacksonJsonDeserializer.parseData(clazz, jsonResponse);
         return (T) this.deserializedData;
